@@ -1,8 +1,9 @@
-# Minimal Dashboard Free - Installation Guide
+
+# 📊 Minimal Dashboard Free - Guide d'Installation
 
 Bienvenue !  
 Ce projet est basé sur **React.js** et **Material-UI (MUI)**.  
-Il s'agit d'un tableau de bord moderne, réactif et prêt à l'emploi pour démarrer vos projets rapidement.
+C'est un tableau de bord moderne, réactif et prêt à l'emploi pour démarrer vos projets rapidement.
 
 ---
 
@@ -49,9 +50,13 @@ yarn dev
 
 # Ouvrir dans le navigateur
 http://localhost:3039
+```
 
-2. React Admin Dashboard (Ashik045)
- 
+---
+
+### 2. React Admin Dashboard (Ashik045)
+
+```bash
 # Cloner le dépôt
 git clone https://github.com/Ashik045/react-admin-dashboard.git
 
@@ -70,8 +75,13 @@ yarn dev
 
 # Ouvrir dans le navigateur
 http://localhost:3000
-3. Argon Admin Dashboard (Ayoub Hayda)
- 
+```
+
+---
+
+### 3. Argon Admin Dashboard (Ayoub Hayda)
+
+```bash
 # Cloner le dépôt
 git clone https://github.com/ayoubhayda/react-admin-dashboard.git
 
@@ -90,19 +100,28 @@ yarn dev
 
 # Ouvrir dans le navigateur
 http://localhost:3000
-📚 Guide Git & GitHub
-🛠️ Configuration initiale de Git
-bash
-Copy
-Edit
+```
+
+---
+
+## 📚 Guide Git & GitHub
+
+### 🛠️ Configuration Initiale de Git
+
+```bash
 # Vérifier que Git est installé
 git --version
 
 # Configurer votre identité (à faire une seule fois)
 git config --global user.name "Votre Nom"
 git config --global user.email "votre.email@example.com"
-🌿 Créer et Travailler sur une Branche
- 
+```
+
+---
+
+### 🌿 Travailler avec les Branches
+
+```bash
 # Créer une nouvelle branche
 git checkout -b nom-de-la-branche
 
@@ -111,36 +130,44 @@ git branch
 
 # Changer de branche
 git checkout nom-de-la-branche
-📦 Sauvegarder ses modifications (Commit)
- 
+```
+
+---
+
+### 📦 Sauvegarder ses Modifications (Commit)
+
+```bash
 # Vérifier les changements
 git status
 
 # Ajouter tous les fichiers modifiés
 git add .
 
-# OU ajouter un seul fichier spécifique
+# OU ajouter un fichier spécifique
 git add chemin/vers/le/fichier
 
-# Créer un commit avec un message
+# Créer un commit avec un message clair
 git commit -m "Votre message de commit clair et précis"
-🔄 Envoyer son travail sur GitHub (Push)
- 
+```
+
+---
+
+### 🔄 Envoyer son Travail sur GitHub (Push)
+
+```bash
 # Pousser votre branche vers le dépôt distant
 git push origin nom-de-la-branche
 
 # Si c'est une nouvelle branche
 git push --set-upstream origin nom-de-la-branche
-🚀 Créer une Pull Request (PR)
-Aller sur GitHub.
+```
 
-Sélectionner votre dépôt.
+---
 
-Cliquez sur "Compare & Pull Request".
+### 🚀 Créer une Pull Request (PR)
 
-Remplir un titre et une description claire de vos modifications.
-
-Cliquez sur "Create Pull Request".
-
- 
- 
+1. Aller sur GitHub.
+2. Sélectionner votre dépôt.
+3. Cliquez sur **"Compare & Pull Request"**.
+4. Remplir un titre et une description claire de vos modifications.
+5. Cliquez sur **"Create Pull Request"**.
