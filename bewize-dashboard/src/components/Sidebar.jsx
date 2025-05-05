@@ -1,8 +1,13 @@
 import { faBox, faCreditCard, faDashboard, faDollarSign, faPercent, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useNavigate } from "react-router" ;
+
 
 export default function Sidebar({ isOpen }) {
+
+  let navigate = useNavigate();
+
   return (
     <aside
       className={`fixed sm:relative top-0 left-0 z-40 w-64 h-full bg-white border-r dark:bg-gray-800 transition-transform duration-300 transform ${
@@ -13,7 +18,7 @@ export default function Sidebar({ isOpen }) {
       <ul className="space-y-2 font-medium">
             <li>
               <a
-                href="#"
+                onClick={() => { navigate("/dashboard"); }}
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <FontAwesomeIcon
@@ -26,7 +31,7 @@ export default function Sidebar({ isOpen }) {
 
             <li>
               <a
-                href="#"
+                onClick={() => { navigate("/users"); }}
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <FontAwesomeIcon
