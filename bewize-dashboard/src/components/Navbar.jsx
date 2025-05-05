@@ -28,10 +28,6 @@ export default function Navbar({ onToggleSidebar }) {
       <div className="flex items-center">
         <div className="flex items-center ms-3 relative">
           <div className="flex flex-row items-center justify-start gap-4">
-            <FontAwesomeIcon
-              className="text-2xl text-gray-300 bg-gray-800 rounded-full cursor-pointer"
-              icon={faMoon}
-            />
             <button
               type="button"
               onClick={() => setDropdownOpen(!dropdownOpen)}
