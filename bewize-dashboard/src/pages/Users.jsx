@@ -485,14 +485,14 @@ export default function Users() {
   const totalPages = Math.ceil(totalUsers / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedUsers = mockUsers.slice(startIndex, endIndex);
 
   const filteredUsers = mockUsers.filter(
     (user) =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.phone.includes(searchTerm)
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) 
   );
+
+  const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
 
   const handleViewDetails = (user) => {
     navigate('/user', { state: { user } });
