@@ -8,6 +8,8 @@ import { faMagnifyingGlass, faEye, faHistory, faCreditCard } from "@fortawesome/
 import FilterByButton from "../components/FilterByButton";
 import Pagination from "../components/Pagination";
 import { useNavigate } from "react-router-dom";
+import OrderRow from "../components/OrderRow";
+import SubscriptionRow from "../components/SubscriptionRow";
 
 const orderHistory = [
   {
@@ -86,22 +88,7 @@ const subscriptions = [
 ];
 
 export default function User() {
-  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const totalUsers = orderHistory.length;
-  const totalPages = Math.ceil(totalUsers / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedUsers = orderHistory.slice(startIndex, endIndex);
-
-  const handleViewDetails = (user) => {
-    navigate("/user", { state: { user } });
-  };
-
   const location = useLocation();
   const userData = location.state?.user;
 
@@ -155,59 +142,9 @@ export default function User() {
     }
   };
 
-  const OrderRow = ({ order }) => (
-    <tr className="bg-white border-b hover:bg-gray-50 transition-colors">
-      <td className="py-4 px-4 text-gray-900 font-medium">{order.id}</td>
-      <td className="py-4">
-        <span
-          className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
-          ${
-            order.status === "paid"
-              ? "bg-green-100 text-green-800"
-              : "bg-orange-100 text-orange-800"
-          }`}
-        >
-          {order.status}
-        </span>
-      </td>
-      <td className="py-4 text-gray-900">${order.amount.toFixed(2)}</td>
-      <td className="py-4 text-gray-600">
-        {new Date(order.date).toLocaleDateString()}
-      </td>
-      <td className="py-4 text-gray-600 font-mono text-sm">
-        {order.transactionId}
-      </td>
-      <td className="py-4">
-        <span
-          className={`px-2 py-1 text-xs font-medium rounded
-          ${
-            order.planType === "Premium"
-              ? "bg-purple-100 text-purple-800"
-              : order.planType === "Enterprise"
-              ? "bg-blue-100 text-blue-800"
-              : "bg-gray-100 text-gray-800"
-          }`}
-        >
-          {order.planType}
-        </span>
-      </td>
-    </tr>
-  );
 
-  const SubscriptionRow = ({ subscription }) => (
-    <tr className="bg-white border-b hover:bg-gray-50 transition-colors">
-      <td className="py-4 px-4 text-gray-900 font-medium">{subscription.id}</td>
-      <td className="py-4 text-gray-600">
-        {new Date(subscription.startDate).toLocaleDateString()}
-      </td>
-      <td className="py-4 text-gray-600">
-        {new Date(subscription.endDate).toLocaleDateString()}
-      </td>
-      <td className="py-4 text-gray-900 font-mono text-sm">
-        {subscription.orderId}
-      </td>
-    </tr>
-  );
+
+
 
   return (
     <div className="flex flex-col h-screen">

@@ -517,6 +517,27 @@ export default function Users() {
     },
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+
   const UserRow = ({ user }) => (
     <tr className="bg-white border-b hover:bg-gray-50 transition-colors">
       <td className="py-4 px-4">
@@ -568,8 +589,13 @@ export default function Users() {
 
         {/* Main content */}
         <main className="flex-1 p-4 overflow-y-auto bg-gray-100">
-          <div className="users flex flex-col w-full">
-            <div className="header flex flex-col justify-start gap-4">
+          <motion.div 
+            className="users flex flex-col w-full"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div variants={itemVariants} className="header flex flex-col justify-start gap-4">
               <h1 className="font-semibold text-2xl">All Users</h1>
               <div className="relative w-full flex gap-2">
                 <div className="relative w-full md:w-2/5">
@@ -588,9 +614,9 @@ export default function Users() {
                 </div>
                 <FilterByButton />
               </div>
-            </div>
+            </motion.div>
 
-            <div className="users-table my-4 overflow-x-auto">
+            <motion.div variants={itemVariants} className="users-table my-4 overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
                 <thead className="bg-gray-50">
                   <tr>
@@ -664,8 +690,8 @@ export default function Users() {
                   </tr>
                 </tfoot>
               </table>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </main>
       </div>
     </div>
