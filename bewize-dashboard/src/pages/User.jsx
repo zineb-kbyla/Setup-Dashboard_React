@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faEye, faHistory, faCreditCard } from "@fortawesome/free-solid-svg-icons";
 import FilterByButton from "../components/FilterByButton";
 import Pagination from "../components/Pagination";
 import { useNavigate } from "react-router-dom";
@@ -50,6 +50,39 @@ const orderHistory = [
     transactionId: "TXN-654321",
     planType: "Standard",
   },
+];
+
+const subscriptions = [
+  {
+    id: "SUB-001",
+    startDate: "2023-11-15",
+    endDate: "2024-11-15",
+    orderId: "ORD-001"
+  },
+  {
+    id: "SUB-002",
+    startDate: "2023-11-16",
+    endDate: "2024-11-16",
+    orderId: "ORD-002"
+  },
+  {
+    id: "SUB-003",
+    startDate: "2023-11-17",
+    endDate: "2024-11-17",
+    orderId: "ORD-003"
+  },
+  {
+    id: "SUB-004",
+    startDate: "2023-11-18",
+    endDate: "2024-11-18",
+    orderId: "ORD-004"
+  },
+  {
+    id: "SUB-005",
+    startDate: "2023-11-19",
+    endDate: "2024-11-19",
+    orderId: "ORD-005"
+  }
 ];
 
 export default function User() {
@@ -139,6 +172,22 @@ export default function User() {
       </td>
     </tr>
   );
+
+  const SubscriptionRow = ({ subscription }) => (
+    <tr className="bg-white border-b hover:bg-gray-50 transition-colors">
+      <td className="py-4 px-4 text-gray-900 font-medium">{subscription.id}</td>
+      <td className="py-4 text-gray-600">
+        {new Date(subscription.startDate).toLocaleDateString()}
+      </td>
+      <td className="py-4 text-gray-600">
+        {new Date(subscription.endDate).toLocaleDateString()}
+      </td>
+      <td className="py-4 text-gray-900 font-mono text-sm">
+        {subscription.orderId}
+      </td>
+    </tr>
+  );
+
   return (
     <div className="flex flex-col h-screen">
       {/* Top navbar */}
@@ -277,6 +326,10 @@ export default function User() {
                 </div>
               </div>
             </div>
+            <h2 className="font-semibold text-lg flex items-center gap-2">
+              <FontAwesomeIcon icon={faHistory} className="text-gray-600" />
+              Order History
+            </h2>
             <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
               <thead className="bg-gray-50">
                 <tr>
@@ -319,8 +372,8 @@ export default function User() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {paginatedUsers.length > 0 ? (
-                  paginatedUsers.map((order) => (
+                {orderHistory.length > 0 ? (
+                  orderHistory.map((order) => (
                     <OrderRow key={orderHistory.id} order={order} />
                   ))
                 ) : (
@@ -334,13 +387,56 @@ export default function User() {
                   </tr>
                 )}
               </tbody>
-              <tfoot>
+            </table>
+            <h2 className="font-semibold text-lg flex items-center gap-2">
+              <FontAwesomeIcon icon={faCreditCard} className="text-gray-600" />
+              Subscriptions
+            </h2>
+            <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+              <thead className="bg-gray-50">
                 <tr>
-                  <td colSpan="6" className="px-4 py-4">
-                    <div className="flex justify-center"></div>
-                  </td>
+                  <th
+                    scope="col"
+                    className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    id
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    start date
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    end date
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    order id
+                  </th>
                 </tr>
-              </tfoot>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {subscriptions.length > 0 ? (
+                  subscriptions.map((subscription) => (
+                    <SubscriptionRow key={subscription.id} subscription={subscription} />
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="4"
+                      className="px-4 py-4 text-left text-gray-500"
+                    >
+                      No subscriptions found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
             </table>
           </div>
         </main>
