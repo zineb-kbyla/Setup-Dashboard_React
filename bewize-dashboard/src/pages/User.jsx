@@ -124,6 +124,27 @@ export default function User() {
     },
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     try {
@@ -207,9 +228,14 @@ export default function User() {
 
         {/* Main content */}
         <main className="flex-1 p-4 overflow-y-auto bg-gray-100">
-          <div className="main flex flex-col gap-4">
-            <h1 className="text-xl font-semibold">User Details</h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <motion.div 
+            className="main flex flex-col gap-4"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.h1 variants={itemVariants} className="text-xl font-semibold">User Details</motion.h1>
+            <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="md:col-span-1">
                 <div className="card border rounded-lg shadow-sm bg-white p-4 h-full">
                   <img
@@ -325,120 +351,126 @@ export default function User() {
                   </div>
                 </div>
               </div>
-            </div>
-            <h2 className="font-semibold text-lg flex items-center gap-2">
-              <FontAwesomeIcon icon={faHistory} className="text-gray-600" />
-              Order History
-            </h2>
-            <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    scope="col"
-                    className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    id
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    status
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    amount
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    date
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    transaction id
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    plan type
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {orderHistory.length > 0 ? (
-                  orderHistory.map((order) => (
-                    <OrderRow key={orderHistory.id} order={order} />
-                  ))
-                ) : (
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <h2 className="font-semibold text-lg flex items-center gap-2 pb-3">
+                <FontAwesomeIcon icon={faHistory} className="text-gray-600" />
+                Order History
+              </h2>
+              <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+                <thead className="bg-gray-50">
                   <tr>
-                    <td
-                      colSpan="6"
-                      className="px-4 py-4 text-left text-gray-500"
+                    <th
+                      scope="col"
+                      className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      No users found
-                    </td>
+                      id
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      status
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      amount
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      date
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      transaction id
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      plan type
+                    </th>
                   </tr>
-                )}
-              </tbody>
-            </table>
-            <h2 className="font-semibold text-lg flex items-center gap-2">
-              <FontAwesomeIcon icon={faCreditCard} className="text-gray-600" />
-              Subscriptions
-            </h2>
-            <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    scope="col"
-                    className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    id
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    start date
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    end date
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    order id
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {subscriptions.length > 0 ? (
-                  subscriptions.map((subscription) => (
-                    <SubscriptionRow key={subscription.id} subscription={subscription} />
-                  ))
-                ) : (
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {orderHistory.length > 0 ? (
+                    orderHistory.map((order) => (
+                      <OrderRow key={orderHistory.id} order={order} />
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="6"
+                        className="px-4 py-4 text-left text-gray-500"
+                      >
+                        No users found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <h2 className="font-semibold text-lg flex items-center gap-2 pb-3">
+                <FontAwesomeIcon icon={faCreditCard} className="text-gray-600" />
+                Subscriptions
+              </h2>
+              <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+                <thead className="bg-gray-50">
                   <tr>
-                    <td
-                      colSpan="4"
-                      className="px-4 py-4 text-left text-gray-500"
+                    <th
+                      scope="col"
+                      className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      No subscriptions found
-                    </td>
+                      id
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      start date
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      end date
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      order id
+                    </th>
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {subscriptions.length > 0 ? (
+                    subscriptions.map((subscription) => (
+                      <SubscriptionRow key={subscription.id} subscription={subscription} />
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="4"
+                        className="px-4 py-4 text-left text-gray-500"
+                      >
+                        No subscriptions found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </motion.div>
+          </motion.div>
         </main>
       </div>
     </div>
