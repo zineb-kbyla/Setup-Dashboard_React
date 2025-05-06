@@ -3,12 +3,74 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass, faEye } from "@fortawesome/free-solid-svg-icons";
+import FilterByButton from "../components/FilterByButton";
+import Pagination from "../components/Pagination";
+import { useNavigate } from "react-router-dom";
+
+const orderHistory = [
+  {
+    id: "ORD-001",
+    status: "paid",
+    amount: 99.99,
+    date: "2023-11-15",
+    transactionId: "TXN-789456",
+    planType: "Premium",
+  },
+  {
+    id: "ORD-002",
+    status: "unpaid",
+    amount: 29.99,
+    date: "2023-11-16",
+    transactionId: "TXN-123456",
+    planType: "Basic",
+  },
+  {
+    id: "ORD-003",
+    status: "paid",
+    amount: 149.99,
+    date: "2023-11-17",
+    transactionId: "TXN-456789",
+    planType: "Enterprise",
+  },
+  {
+    id: "ORD-004",
+    status: "unpaid",
+    amount: 19.99,
+    date: "2023-11-18",
+    transactionId: "TXN-987654",
+    planType: "Starter",
+  },
+  {
+    id: "ORD-005",
+    status: "paid",
+    amount: 59.99,
+    date: "2023-11-19",
+    transactionId: "TXN-654321",
+    planType: "Standard",
+  },
+];
 
 export default function User() {
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalUsers = orderHistory.length;
+  const totalPages = Math.ceil(totalUsers / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedUsers = orderHistory.slice(startIndex, endIndex);
+
+  const handleViewDetails = (user) => {
+    navigate("/user", { state: { user } });
+  };
+
   const location = useLocation();
   const userData = location.state?.user;
-
 
   // Animation variants
   const navbarVariants = {
@@ -39,8 +101,44 @@ export default function User() {
     }
   };
 
-
-
+  const OrderRow = ({ order }) => (
+    <tr className="bg-white border-b hover:bg-gray-50 transition-colors">
+      <td className="py-4 px-4 text-gray-900 font-medium">{order.id}</td>
+      <td className="py-4">
+        <span
+          className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
+          ${
+            order.status === "paid"
+              ? "bg-green-100 text-green-800"
+              : "bg-orange-100 text-orange-800"
+          }`}
+        >
+          {order.status}
+        </span>
+      </td>
+      <td className="py-4 text-gray-900">${order.amount.toFixed(2)}</td>
+      <td className="py-4 text-gray-600">
+        {new Date(order.date).toLocaleDateString()}
+      </td>
+      <td className="py-4 text-gray-600 font-mono text-sm">
+        {order.transactionId}
+      </td>
+      <td className="py-4">
+        <span
+          className={`px-2 py-1 text-xs font-medium rounded
+          ${
+            order.planType === "Premium"
+              ? "bg-purple-100 text-purple-800"
+              : order.planType === "Enterprise"
+              ? "bg-blue-100 text-blue-800"
+              : "bg-gray-100 text-gray-800"
+          }`}
+        >
+          {order.planType}
+        </span>
+      </td>
+    </tr>
+  );
   return (
     <div className="flex flex-col h-screen">
       {/* Top navbar */}
@@ -61,11 +159,10 @@ export default function User() {
         {/* Main content */}
         <main className="flex-1 p-4 overflow-y-auto bg-gray-100">
           <div className="main flex flex-col gap-4">
-            <h1 className="text-xl font-semibold">Student Details</h1>
-            <div className="flex flex-col md:flex-row justify-start gap-4">
-              {/* Student Avatar Card */}
-              <div className="w-full md:w-1/3">
-                <div className="card border rounded-lg shadow-sm bg-white p-4">
+            <h1 className="text-xl font-semibold">User Details</h1>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="md:col-span-1">
+                <div className="card border rounded-lg shadow-sm bg-white p-4 h-full">
                   <img
                     src={userData.avatar}
                     className="w-full rounded-lg border shadow-sm"
@@ -75,22 +172,13 @@ export default function User() {
                     {userData.name}
                   </h2>
                   <p className="text-center text-gray-500">{userData.email}</p>
-                  <div className="mt-4 p-2 bg-blue-50 rounded-lg">
-                    <p className="text-sm py-1" >
-                      <span className="font-semibold">CNE:</span> {userData.cne}
-                    </p>
-                    <p className="text-sm py-1">
-                      <span className="font-semibold">Completed Courses:</span>{" "}
-                      {userData.finished_courses_count || "0"}
-                    </p>
-                  </div>
                 </div>
               </div>
-
-              {/* Student Details Card */}
-              <div className="w-full md:w-2/3">
-                <div className="card flex flex-col p-4 border rounded-lg gap-4 bg-white">
-                  <h2 className="font-semibold text-lg">Student Information</h2>
+              <div className="md:col-span-2">
+                <div className="card border rounded-lg shadow-sm bg-white p-4 h-full">
+                  <h2 className="font-semibold text-lg pb-4">
+                    User Information
+                  </h2>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Personal Information */}
@@ -161,74 +249,6 @@ export default function User() {
                       />
                     </div>
 
-                    {/* Academic Information */}
-                    <div className="form-input flex flex-col gap-1">
-                      <label className="font-semibold text-sm">Level ID</label>
-                      <input
-                        type="text"
-                        className="w-full border shadow-sm rounded-lg py-2 px-3 outline-blue-500 text-sm disabled:bg-gray-50 text-gray-700"
-                        disabled
-                        value={userData.level_id || "N/A"}
-                      />
-                    </div>
-
-                    <div className="form-input flex flex-col gap-1">
-                      <label className="font-semibold text-sm">School ID</label>
-                      <input
-                        type="text"
-                        className="w-full border shadow-sm rounded-lg py-2 px-3 outline-blue-500 text-sm disabled:bg-gray-50 text-gray-700"
-                        disabled
-                        value={userData.school_id || "N/A"}
-                      />
-                    </div>
-
-                    <div className="form-input flex flex-col gap-1">
-                      <label className="font-semibold text-sm">
-                        Classroom ID
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full border shadow-sm rounded-lg py-2 px-3 outline-blue-500 text-sm disabled:bg-gray-50 text-gray-700"
-                        disabled
-                        value={userData.classroom_id || "N/A"}
-                      />
-                    </div>
-
-                    <div className="form-input flex flex-col gap-1">
-                      <label className="font-semibold text-sm">Parent ID</label>
-                      <input
-                        type="text"
-                        className="w-full border shadow-sm rounded-lg py-2 px-3 outline-blue-500 text-sm disabled:bg-gray-50 text-gray-700"
-                        disabled
-                        value={userData.parent_id || "N/A"}
-                      />
-                    </div>
-
-                    {/* Activity Information */}
-                    <div className="form-input flex flex-col gap-1">
-                      <label className="font-semibold text-sm">
-                        Last Login
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full border shadow-sm rounded-lg py-2 px-3 outline-blue-500 text-sm disabled:bg-gray-50 text-gray-700"
-                        disabled
-                        value={formatDate(userData.last_login)}
-                      />
-                    </div>
-
-                    <div className="form-input flex flex-col gap-1">
-                      <label className="font-semibold text-sm">
-                        Last Visit
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full border shadow-sm rounded-lg py-2 px-3 outline-blue-500 text-sm disabled:bg-gray-50 text-gray-700"
-                        disabled
-                        value={formatDate(userData.last_visit)}
-                      />
-                    </div>
-
                     {/* Location Information */}
                     <div className="form-input flex flex-col gap-1">
                       <label className="font-semibold text-sm">Country</label>
@@ -257,6 +277,71 @@ export default function User() {
                 </div>
               </div>
             </div>
+            <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th
+                    scope="col"
+                    className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    id
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    status
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    amount
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    date
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    transaction id
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    plan type
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {paginatedUsers.length > 0 ? (
+                  paginatedUsers.map((order) => (
+                    <OrderRow key={orderHistory.id} order={order} />
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="6"
+                      className="px-4 py-4 text-left text-gray-500"
+                    >
+                      No users found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan="6" className="px-4 py-4">
+                    <div className="flex justify-center"></div>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
         </main>
       </div>
