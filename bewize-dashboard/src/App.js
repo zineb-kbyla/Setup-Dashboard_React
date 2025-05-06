@@ -1,5 +1,6 @@
 import "./App.css";
 import Login from "./pages/Login";
+import Orders from "./pages/Orders";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import User from "./pages/User";
@@ -14,6 +15,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/users" element={<Users />} />
           <Route path="/user" element={<User />} />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
       </Router>
     </div>
