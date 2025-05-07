@@ -509,6 +509,14 @@ export default function Users() {
   // Side Bar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   // Searching
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -562,24 +570,6 @@ export default function Users() {
   const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
 
   // Animations
-  const navbarVariants = {
-    hidden: { y: -20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.3 },
-    },
-  };
-
-  const sidebarVariants = {
-    hidden: { x: -20, opacity: 0 },
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: { duration: 0.3 },
-    },
-  };
-
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -604,19 +594,13 @@ export default function Users() {
   return (
     <div className="flex flex-col h-screen">
       {/* Top navbar */}
-      <motion.div initial="hidden" animate="visible" variants={navbarVariants}>
-        <Navbar onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
-      </motion.div>
-
+      <Navbar onToggleSidebar={toggleSidebar} />
       <div className="flex flex-1">
         {/* Sidebar */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={sidebarVariants}
-        >
-          <Sidebar isOpen={isSidebarOpen} />
-        </motion.div>
+        <Sidebar 
+          isOpen={isSidebarOpen} 
+          onClose={closeSidebar}
+        />
 
         {/* Main content */}
         <main className="flex-1 p-4 overflow-y-auto bg-gray-100">
