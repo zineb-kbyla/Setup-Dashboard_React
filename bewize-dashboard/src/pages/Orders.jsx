@@ -4,9 +4,20 @@ import Sidebar from "../components/Sidebar";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faEye, faHistory } from "@fortawesome/free-solid-svg-icons";
-import FilterByButton from "../components/FilterByButton";
 import Pagination from "../components/Pagination";
 import { useNavigate } from "react-router-dom";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  Select,
+} from "@mui/material";
+import Box from "@mui/material/Box";
 
 const mockOrders = [
   {
@@ -52,20 +63,66 @@ const mockOrders = [
 
 export default function Orders() {
   const navigate = useNavigate();
+  
+  // Side Bar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  // Searching
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const totalOrders = mockOrders.length;
   const totalPages = Math.ceil(totalOrders / itemsPerPage);
 
-  const filteredOrders = mockOrders.filter(
-    (order) =>
-      order.customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter By State
+  const [open, setOpen] = React.useState(false);
 
+  // Filter Options
+  const [filters, setFilters] = useState({
+    status: "",
+  });
+
+  // Handle Filter Change
+  const handleFilterChange = (filterName, value) => {
+    setFilters((prev) => ({ ...prev, [filterName]: value }));
+  };
+
+  // Handle Open Filter Button
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  // Handle Close Filter Button
+  const handleClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+  };
+
+  // Filter & Search Algorithm
+  const filteredOrders = mockOrders
+    .filter(
+      (order) =>
+        order.customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.id.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter(
+      (order) =>
+        (!filters.status || order.status === filters.status)
+    );
+
+  // Pagination calculations
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
@@ -164,7 +221,7 @@ export default function Orders() {
     <div className="flex flex-col h-screen">
       {/* Top navbar */}
       <motion.div initial="hidden" animate="visible" variants={navbarVariants}>
-        <Navbar onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+        <Navbar onToggleSidebar={toggleSidebar} />
       </motion.div>
 
       <div className="flex flex-1">
@@ -174,7 +231,7 @@ export default function Orders() {
           animate="visible"
           variants={sidebarVariants}
         >
-          <Sidebar isOpen={isSidebarOpen} />
+          <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
         </motion.div>
 
         {/* Main content */}
@@ -205,7 +262,51 @@ export default function Orders() {
                     size="sm"
                   />
                 </div>
-                <FilterByButton />
+                <div>
+                  <Button onClick={handleClickOpen} className="">
+                    Filter By
+                  </Button>
+                  <Dialog
+                    disableEscapeKeyDown
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    <DialogTitle>Fill the form</DialogTitle>
+                    <DialogContent>
+                      <Box
+                        component="form"
+                        sx={{ display: "flex", flexWrap: "wrap" }}
+                      >
+                        <FormControl sx={{ m: 1, minWidth: 160 }}>
+                          <InputLabel htmlFor="demo-dialog-native">
+                            Status
+                          </InputLabel>
+                          <Select
+                            native
+                            value={filters.status}
+                            onChange={(e) =>
+                              handleFilterChange("status", e.target.value)
+                            }
+                            input={
+                              <OutlinedInput
+                                label="Status"
+                                id="demo-dialog-native"
+                              />
+                            }
+                          >
+                            <option aria-label="None" value="" />
+                            <option value={"paid"}>Paid</option>
+                            <option value={"unpaid"}>Unpaid</option>
+                          </Select>
+                        </FormControl>
+                      </Box>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose}>Cancel</Button>
+                      <Button onClick={handleClose}>Ok</Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
               </div>
             </motion.div>
 
