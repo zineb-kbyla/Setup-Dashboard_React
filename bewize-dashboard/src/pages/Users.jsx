@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import UserRow from "../components/UserRow";
+import Pagination from "../components/Pagination";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faEye } from "@fortawesome/free-solid-svg-icons";
-import FilterByButton from "../components/FilterByButton";
-import Pagination from "../components/Pagination";
-import { useNavigate } from "react-router-dom";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  Select,
+} from "@mui/material";
+import Box from "@mui/material/Box";
 
+// Users Data
 const mockUsers = [
   {
     id: 1,
@@ -20,7 +32,8 @@ const mockUsers = [
     cne: "J130040565",
     gender: "Male",
     registrationDate: "10, Sep, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-young-student-smiling_23-2148586534.jpg?ga=GA1.1.1153541554.1745938474&w=740",
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-young-student-smiling_23-2148586534.jpg?ga=GA1.1.1153541554.1745938474&w=740",
     birthday: "2000-05-15",
     last_login: "2025-10-05T14:30:00Z",
     parent_id: 101,
@@ -31,7 +44,7 @@ const mockUsers = [
     classroom_id: 7,
     location_country: "Morocco",
     location_city: "Casablanca",
-    last_visit: "2025-10-03T09:15:00Z"
+    last_visit: "2025-10-03T09:15:00Z",
   },
   {
     id: 2,
@@ -43,7 +56,8 @@ const mockUsers = [
     cne: "J130040566",
     gender: "Female",
     registrationDate: "12, Sep, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-teenager-happy-be-back-university_23-2148586575.jpg?t=st=1746466528~exp=1746470128~hmac=b53e06093fc5dc5a51fd197d040d25b88be701f2846e21fc108bfe49aad0250c&w=900",
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-teenager-happy-be-back-university_23-2148586575.jpg?t=st=1746466528~exp=1746470128~hmac=b53e06093fc5dc5a51fd197d040d25b88be701f2846e21fc108bfe49aad0250c&w=900",
     birthday: "2001-07-22",
     last_login: "2025-10-04T11:20:00Z",
     parent_id: 102,
@@ -54,7 +68,7 @@ const mockUsers = [
     classroom_id: 4,
     location_country: "Morocco",
     location_city: "Rabat",
-    last_visit: "2025-10-02T10:45:00Z"
+    last_visit: "2025-10-02T10:45:00Z",
   },
   {
     id: 3,
@@ -66,7 +80,8 @@ const mockUsers = [
     cne: "J130040567",
     gender: "Male",
     registrationDate: "15, Aug, 2025",
-    avatar: "https://img.freepik.com/free-photo/side-view-smiley-man-carrying-books_23-2149659095.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
+    avatar:
+      "https://img.freepik.com/free-photo/side-view-smiley-man-carrying-books_23-2149659095.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
     birthday: "1999-11-30",
     last_login: "2025-10-06T08:15:00Z",
     parent_id: 103,
@@ -77,7 +92,7 @@ const mockUsers = [
     classroom_id: 9,
     location_country: "Morocco",
     location_city: "Marrakech",
-    last_visit: "2025-10-04T16:30:00Z"
+    last_visit: "2025-10-04T16:30:00Z",
   },
   {
     id: 4,
@@ -89,7 +104,8 @@ const mockUsers = [
     cne: "J130040568",
     gender: "Female",
     registrationDate: "20, Jul, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-young-student-happy-be-back-university_23-2148586553.jpg?ga=GA1.1.1153541554.1745938474&w=740",
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-young-student-happy-be-back-university_23-2148586553.jpg?ga=GA1.1.1153541554.1745938474&w=740",
     birthday: "2002-02-14",
     last_login: "2025-10-05T13:45:00Z",
     parent_id: 104,
@@ -100,7 +116,7 @@ const mockUsers = [
     classroom_id: 2,
     location_country: "Morocco",
     location_city: "Tangier",
-    last_visit: "2025-10-03T14:20:00Z"
+    last_visit: "2025-10-03T14:20:00Z",
   },
   {
     id: 5,
@@ -112,7 +128,8 @@ const mockUsers = [
     cne: "J130040569",
     gender: "Male",
     registrationDate: "05, Sep, 2025",
-    avatar: "https://img.freepik.com/premium-photo/student-with-backpack-book-back_1165863-38251.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
+    avatar:
+      "https://img.freepik.com/premium-photo/student-with-backpack-book-back_1165863-38251.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
     birthday: "2000-09-05",
     last_login: "2025-10-07T10:10:00Z",
     parent_id: 105,
@@ -123,7 +140,7 @@ const mockUsers = [
     classroom_id: 5,
     location_country: "Morocco",
     location_city: "Fes",
-    last_visit: "2025-10-05T11:45:00Z"
+    last_visit: "2025-10-05T11:45:00Z",
   },
   {
     id: 6,
@@ -135,7 +152,8 @@ const mockUsers = [
     cne: "J130040570",
     gender: "Female",
     registrationDate: "18, Aug, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-school-girl-with-books-park_23-2148199228.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-school-girl-with-books-park_23-2148199228.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
     birthday: "2001-04-18",
     last_login: "2025-10-06T09:30:00Z",
     parent_id: 106,
@@ -146,7 +164,7 @@ const mockUsers = [
     classroom_id: 3,
     location_country: "Morocco",
     location_city: "Agadir",
-    last_visit: "2025-10-04T15:10:00Z"
+    last_visit: "2025-10-04T15:10:00Z",
   },
   {
     id: 7,
@@ -158,7 +176,8 @@ const mockUsers = [
     cne: "J130040571",
     gender: "Male",
     registrationDate: "22, Jul, 2025",
-    avatar: "https://img.freepik.com/premium-photo/student-with-backpack-book_1165863-38162.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
+    avatar:
+      "https://img.freepik.com/premium-photo/student-with-backpack-book_1165863-38162.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
     birthday: "1999-12-25",
     last_login: "2025-10-07T14:20:00Z",
     parent_id: 107,
@@ -169,7 +188,7 @@ const mockUsers = [
     classroom_id: 8,
     location_country: "Morocco",
     location_city: "Meknes",
-    last_visit: "2025-10-05T17:30:00Z"
+    last_visit: "2025-10-05T17:30:00Z",
   },
   {
     id: 8,
@@ -181,7 +200,8 @@ const mockUsers = [
     cne: "J130040572",
     gender: "Female",
     registrationDate: "30, Aug, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-young-student-smiling_23-2148586534.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats first image
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-young-student-smiling_23-2148586534.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats first image
     birthday: "2002-03-08",
     last_login: "2025-10-04T12:45:00Z",
     parent_id: 108,
@@ -192,7 +212,7 @@ const mockUsers = [
     classroom_id: 1,
     location_country: "Morocco",
     location_city: "Oujda",
-    last_visit: "2025-10-02T10:15:00Z"
+    last_visit: "2025-10-02T10:15:00Z",
   },
   {
     id: 9,
@@ -204,7 +224,8 @@ const mockUsers = [
     cne: "J130040573",
     gender: "Male",
     registrationDate: "14, Sep, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-teenager-happy-be-back-university_23-2148586575.jpg?t=st=1746466528~exp=1746470128~hmac=b53e06093fc5dc5a51fd197d040d25b88be701f2846e21fc108bfe49aad0250c&w=900", // Repeats second image
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-teenager-happy-be-back-university_23-2148586575.jpg?t=st=1746466528~exp=1746470128~hmac=b53e06093fc5dc5a51fd197d040d25b88be701f2846e21fc108bfe49aad0250c&w=900", // Repeats second image
     birthday: "2000-08-12",
     last_login: "2025-10-06T16:40:00Z",
     parent_id: 109,
@@ -215,7 +236,7 @@ const mockUsers = [
     classroom_id: 6,
     location_country: "Morocco",
     location_city: "Kenitra",
-    last_visit: "2025-10-04T18:20:00Z"
+    last_visit: "2025-10-04T18:20:00Z",
   },
   {
     id: 10,
@@ -227,7 +248,8 @@ const mockUsers = [
     cne: "J130040574",
     gender: "Female",
     registrationDate: "25, Jul, 2025",
-    avatar: "https://img.freepik.com/free-photo/side-view-smiley-man-carrying-books_23-2149659095.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats third image
+    avatar:
+      "https://img.freepik.com/free-photo/side-view-smiley-man-carrying-books_23-2149659095.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats third image
     birthday: "2001-01-30",
     last_login: "2025-10-05T15:55:00Z",
     parent_id: 110,
@@ -238,7 +260,7 @@ const mockUsers = [
     classroom_id: 4,
     location_country: "Morocco",
     location_city: "Tetouan",
-    last_visit: "2025-10-03T13:40:00Z"
+    last_visit: "2025-10-03T13:40:00Z",
   },
   {
     id: 11,
@@ -250,7 +272,8 @@ const mockUsers = [
     cne: "J130040575",
     gender: "Male",
     registrationDate: "08, Aug, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-young-student-happy-be-back-university_23-2148586553.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats fourth image
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-young-student-happy-be-back-university_23-2148586553.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats fourth image
     birthday: "1999-10-17",
     last_login: "2025-10-07T11:25:00Z",
     parent_id: 111,
@@ -261,7 +284,7 @@ const mockUsers = [
     classroom_id: 7,
     location_country: "Morocco",
     location_city: "Safi",
-    last_visit: "2025-10-05T14:15:00Z"
+    last_visit: "2025-10-05T14:15:00Z",
   },
   {
     id: 12,
@@ -273,7 +296,8 @@ const mockUsers = [
     cne: "J130040576",
     gender: "Female",
     registrationDate: "17, Sep, 2025",
-    avatar: "https://img.freepik.com/premium-photo/student-with-backpack-book-back_1165863-38251.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats fifth image
+    avatar:
+      "https://img.freepik.com/premium-photo/student-with-backpack-book-back_1165863-38251.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats fifth image
     birthday: "2002-05-22",
     last_login: "2025-10-04T10:05:00Z",
     parent_id: 112,
@@ -284,7 +308,7 @@ const mockUsers = [
     classroom_id: 2,
     location_country: "Morocco",
     location_city: "El Jadida",
-    last_visit: "2025-10-02T09:30:00Z"
+    last_visit: "2025-10-02T09:30:00Z",
   },
   {
     id: 13,
@@ -296,7 +320,8 @@ const mockUsers = [
     cne: "J130040577",
     gender: "Male",
     registrationDate: "03, Oct, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-school-girl-with-books-park_23-2148199228.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats sixth image
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-school-girl-with-books-park_23-2148199228.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats sixth image
     birthday: "2000-07-07",
     last_login: "2025-10-08T13:15:00Z",
     parent_id: 113,
@@ -307,7 +332,7 @@ const mockUsers = [
     classroom_id: 5,
     location_country: "Morocco",
     location_city: "Nador",
-    last_visit: "2025-10-06T16:45:00Z"
+    last_visit: "2025-10-06T16:45:00Z",
   },
   {
     id: 14,
@@ -319,7 +344,8 @@ const mockUsers = [
     cne: "J130040578",
     gender: "Female",
     registrationDate: "19, Aug, 2025",
-    avatar: "https://img.freepik.com/premium-photo/student-with-backpack-book_1165863-38162.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats seventh image
+    avatar:
+      "https://img.freepik.com/premium-photo/student-with-backpack-book_1165863-38162.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats seventh image
     birthday: "2001-09-14",
     last_login: "2025-10-05T09:40:00Z",
     parent_id: 114,
@@ -330,7 +356,7 @@ const mockUsers = [
     classroom_id: 3,
     location_country: "Morocco",
     location_city: "Larache",
-    last_visit: "2025-10-03T11:20:00Z"
+    last_visit: "2025-10-03T11:20:00Z",
   },
   // Continuing the pattern (cycle through first 7 images)
   {
@@ -343,7 +369,8 @@ const mockUsers = [
     cne: "J130040579",
     gender: "Male",
     registrationDate: "11, Jul, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-young-student-smiling_23-2148586534.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats first image again
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-young-student-smiling_23-2148586534.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats first image again
     birthday: "1999-04-01",
     last_login: "2025-10-07T17:30:00Z",
     parent_id: 115,
@@ -354,7 +381,7 @@ const mockUsers = [
     classroom_id: 9,
     location_country: "Morocco",
     location_city: "Khouribga",
-    last_visit: "2025-10-05T19:10:00Z"
+    last_visit: "2025-10-05T19:10:00Z",
   },
   {
     id: 16,
@@ -366,7 +393,8 @@ const mockUsers = [
     cne: "J130040580",
     gender: "Female",
     registrationDate: "28, Sep, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-teenager-happy-be-back-university_23-2148586575.jpg?t=st=1746466528~exp=1746470128~hmac=b53e06093fc5dc5a51fd197d040d25b88be701f2846e21fc108bfe49aad0250c&w=900", // Repeats second image again
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-teenager-happy-be-back-university_23-2148586575.jpg?t=st=1746466528~exp=1746470128~hmac=b53e06093fc5dc5a51fd197d040d25b88be701f2846e21fc108bfe49aad0250c&w=900", // Repeats second image again
     birthday: "2002-06-09",
     last_login: "2025-10-04T08:20:00Z",
     parent_id: 116,
@@ -377,7 +405,7 @@ const mockUsers = [
     classroom_id: 1,
     location_country: "Morocco",
     location_city: "Beni Mellal",
-    last_visit: "2025-10-02T08:45:00Z"
+    last_visit: "2025-10-02T08:45:00Z",
   },
   {
     id: 17,
@@ -389,7 +417,8 @@ const mockUsers = [
     cne: "J130040581",
     gender: "Male",
     registrationDate: "07, Oct, 2025",
-    avatar: "https://img.freepik.com/free-photo/side-view-smiley-man-carrying-books_23-2149659095.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats third image again
+    avatar:
+      "https://img.freepik.com/free-photo/side-view-smiley-man-carrying-books_23-2149659095.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats third image again
     birthday: "2000-03-12",
     last_login: "2025-10-08T15:45:00Z",
     parent_id: 117,
@@ -400,7 +429,7 @@ const mockUsers = [
     classroom_id: 4,
     location_country: "Morocco",
     location_city: "Taza",
-    last_visit: "2025-10-06T17:30:00Z"
+    last_visit: "2025-10-06T17:30:00Z",
   },
   {
     id: 18,
@@ -412,7 +441,8 @@ const mockUsers = [
     cne: "J130040582",
     gender: "Female",
     registrationDate: "23, Aug, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-young-student-happy-be-back-university_23-2148586553.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats fourth image again
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-young-student-happy-be-back-university_23-2148586553.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats fourth image again
     birthday: "2001-08-28",
     last_login: "2025-10-05T12:10:00Z",
     parent_id: 118,
@@ -423,7 +453,7 @@ const mockUsers = [
     classroom_id: 3,
     location_country: "Morocco",
     location_city: "Settat",
-    last_visit: "2025-10-03T14:50:00Z"
+    last_visit: "2025-10-03T14:50:00Z",
   },
   {
     id: 19,
@@ -435,7 +465,8 @@ const mockUsers = [
     cne: "J130040583",
     gender: "Male",
     registrationDate: "01, Sep, 2025",
-    avatar: "https://img.freepik.com/premium-photo/student-with-backpack-book-back_1165863-38251.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats fifth image again
+    avatar:
+      "https://img.freepik.com/premium-photo/student-with-backpack-book-back_1165863-38251.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats fifth image again
     birthday: "1999-05-19",
     last_login: "2025-10-07T10:35:00Z",
     parent_id: 119,
@@ -446,7 +477,7 @@ const mockUsers = [
     classroom_id: 8,
     location_country: "Morocco",
     location_city: "Guelmim",
-    last_visit: "2025-10-05T12:25:00Z"
+    last_visit: "2025-10-05T12:25:00Z",
   },
   {
     id: 20,
@@ -458,7 +489,8 @@ const mockUsers = [
     cne: "J130040584",
     gender: "Female",
     registrationDate: "16, Oct, 2025",
-    avatar: "https://img.freepik.com/free-photo/portrait-school-girl-with-books-park_23-2148199228.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats sixth image again
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-school-girl-with-books-park_23-2148199228.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats sixth image again
     birthday: "2002-10-05",
     last_login: "2025-10-04T11:55:00Z",
     parent_id: 120,
@@ -469,16 +501,18 @@ const mockUsers = [
     classroom_id: 1,
     location_country: "Morocco",
     location_city: "Dakhla",
-    last_visit: "2025-10-02T10:30:00Z"
-  }
+    last_visit: "2025-10-02T10:30:00Z",
+  },
 ];
 
-
 export default function Users() {
-  const navigate = useNavigate();
+  // Side Bar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Searching
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedUser, setSelectedUser] = useState(null);
+
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const totalUsers = mockUsers.length;
@@ -486,19 +520,48 @@ export default function Users() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  const filteredUsers = mockUsers.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) 
-  );
+  // Filter By State
+  const [open, setOpen] = React.useState(false);
 
-  const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+  // Filter Options
+  const [filters, setFilters] = useState({
+    gender: "",
+  });
 
-  const handleViewDetails = (user) => {
-    navigate('/user', { state: { user } });
+  // Handle Filter Change
+  const handleFilterChange = (filterName, value) => {
+    setFilters((prev) => ({ ...prev, [filterName]: value }));
   };
 
+  // Handle Open Filter Button
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
+  // Handle Close Filter Button
+  const handleClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+  };
+
+  // Filter & Search Algorithm
+  const filteredUsers = mockUsers
+    .filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter(
+      (user) =>
+        (!filters.gender || user.gender === filters.gender) &&
+        (!filters.level || user.level_id.toString() === filters.level) &&
+        (!filters.city || user.location_city === filters.city)
+    );
+  // Users that will be displayed on the page
+  const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+
+  // Animations
   const navbarVariants = {
     hidden: { y: -20, opacity: 0 },
     visible: {
@@ -524,9 +587,9 @@ export default function Users() {
       y: 0,
       transition: {
         duration: 0.5,
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
@@ -534,41 +597,9 @@ export default function Users() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5 }
-    }
+      transition: { duration: 0.5 },
+    },
   };
-
-  const UserRow = ({ user }) => (
-    <tr className="bg-white border-b hover:bg-gray-50 transition-colors">
-      <td className="py-4 px-4">
-        <div className="flex items-center gap-2">
-          <img
-            className="rounded-full w-10 h-10"
-            src={user.avatar}
-            alt={`${user.name}'s avatar`}
-          />
-          <div>
-            <h2 className="font-semibold text-md">{user.name}</h2>
-            <p className="text-gray-600 text-sm">{user.email}</p>
-          </div>
-        </div>
-      </td>
-      <td className="py-4">{user.phone}</td>
-      <td className="py-4">{user.cne}</td>
-      <td className="py-4">{user.gender}</td>
-      <td className="py-4">{user.registrationDate}</td>
-      <td className="py-4">
-        <button
-          onClick={() => handleViewDetails(user)}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
-          aria-label={`View details for ${user.name}`}
-        >
-          <FontAwesomeIcon icon={faEye} size="sm" />
-          <span>View</span>
-        </button>
-      </td>
-    </tr>
-  );
 
   return (
     <div className="flex flex-col h-screen">
@@ -589,13 +620,16 @@ export default function Users() {
 
         {/* Main content */}
         <main className="flex-1 p-4 overflow-y-auto bg-gray-100">
-          <motion.div 
+          <motion.div
             className="users flex flex-col w-full"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            <motion.div variants={itemVariants} className="header flex flex-col justify-start gap-4">
+            <motion.div
+              variants={itemVariants}
+              className="header flex flex-col justify-start gap-4"
+            >
               <h1 className="font-semibold text-2xl">All Users</h1>
               <div className="relative w-full flex gap-2">
                 <div className="relative w-full md:w-2/5">
@@ -612,11 +646,58 @@ export default function Users() {
                     size="sm"
                   />
                 </div>
-                <FilterByButton />
+                <div>
+                  <Button onClick={handleClickOpen} className="">
+                    Filter By
+                  </Button>
+                  <Dialog
+                    disableEscapeKeyDown
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    <DialogTitle>Fill the form</DialogTitle>
+                    <DialogContent>
+                      <Box
+                        component="form"
+                        sx={{ display: "flex", flexWrap: "wrap" }}
+                      >
+                        <FormControl sx={{ m: 1, minWidth: 160 }}>
+                          <InputLabel htmlFor="demo-dialog-native">
+                            Gender
+                          </InputLabel>
+                          <Select
+                            native
+                            value={filters.gender}
+                            onChange={(e) =>
+                              handleFilterChange("gender", e.target.value)
+                            }
+                            input={
+                              <OutlinedInput
+                                label="Gender"
+                                id="demo-dialog-native"
+                              />
+                            }
+                          >
+                            <option aria-label="None" value="" />
+                            <option value={"Male"}>Male</option>
+                            <option value={"Female"}>Female</option>
+                          </Select>
+                        </FormControl>
+                      </Box>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose}>Cancel</Button>
+                      <Button onClick={handleClose}>Ok</Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
               </div>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="users-table my-4 overflow-x-auto">
+            <motion.div
+              variants={itemVariants}
+              className="users-table my-4 overflow-x-auto"
+            >
               <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
                 <thead className="bg-gray-50">
                   <tr>
@@ -680,9 +761,7 @@ export default function Users() {
                       <div className="flex justify-center">
                         <Pagination
                           currentPage={currentPage}
-                          totalPages={Math.ceil(
-                            mockUsers.length / itemsPerPage
-                          )}
+                          totalPages={totalPages}
                           setCurrentPage={setCurrentPage}
                         />
                       </div>
