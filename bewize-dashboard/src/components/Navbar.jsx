@@ -1,23 +1,10 @@
-import { motion } from "framer-motion";
 import React, { useState } from "react";
 
 export default function Navbar({ onToggleSidebar }) {
-
   // User Profile DropDown
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // Animations
-  const navbarVariants = {
-    hidden: { y: -20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.3 },
-    },
-  };
-
   return (
-    <motion.div initial="hidden" animate="visible" variants={navbarVariants}>
     <header className="w-full shadow px-4 py-3 flex justify-between items-center bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       <button
         onClick={onToggleSidebar}
@@ -83,6 +70,5 @@ export default function Navbar({ onToggleSidebar }) {
         </div>
       </div>
     </header>
-    </motion.div>
   );
 }
