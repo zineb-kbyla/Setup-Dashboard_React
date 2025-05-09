@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Pagination from "../components/Pagination";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   faMagnifyingGlass,
   faEye,
   faHistory,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   Button,
@@ -117,24 +118,6 @@ export default function Subscriptions() {
   );
 
   // Animations
-  const navbarVariants = {
-    hidden: { y: -20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.3 },
-    },
-  };
-
-  const sidebarVariants = {
-    hidden: { x: -20, opacity: 0 },
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: { duration: 0.3 },
-    },
-  };
-
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -142,9 +125,9 @@ export default function Subscriptions() {
       y: 0,
       transition: {
         duration: 0.5,
-        staggerChildren: 0.2,
-      },
-    },
+        staggerChildren: 0.2
+      }
+    }
   };
 
   const itemVariants = {
@@ -152,26 +135,18 @@ export default function Subscriptions() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5 },
-    },
+      transition: { duration: 0.5 }
+    }
   };
 
   return (
     <div className="flex flex-col h-screen">
       {/* Top navbar */}
-      <motion.div initial="hidden" animate="visible" variants={navbarVariants}>
-        <Navbar onToggleSidebar={toggleSidebar} />
-      </motion.div>
+      <Navbar onToggleSidebar={toggleSidebar} />
 
       <div className="flex flex-1">
         {/* Sidebar */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={sidebarVariants}
-        >
-          <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
-        </motion.div>
+        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
         {/* Main content */}
         <main className="flex-1 p-4 overflow-y-auto bg-gray-100">
@@ -190,7 +165,7 @@ export default function Subscriptions() {
                 All Subscriptions
               </h1>
               <div className="flex-row justify-between gap-2">
-                <div className="w-full flex flex-row justify-start items-center gap-2">
+                <div className="flex flex-row justify-start gap-2">
                   <div className="relative w-full md:w-2/5">
                     <input
                       type="text"
@@ -250,12 +225,14 @@ export default function Subscriptions() {
                       </DialogActions>
                     </Dialog>
                   </div>
-                  <div className="ml-auto">
-                    <button className="mx-2 border rounded-md shadow-sm hover:bg-blue-400 p-2 bg-blue-600 text-white font-semibold text-sm">
-                      Create Subscription +
-                    </button>
-                  </div>
+                  <div className="flex justify-end ms-auto">
+                  <button className="mx-2 border rounded-md shadow-sm hover:bg-blue-400 p-2 bg-blue-600 text-white font-semibold text-sm flex items-center gap-2">
+                    <FontAwesomeIcon icon={faPlus} />
+                    Create Subscription
+                  </button>
                 </div>
+                </div>
+
               </div>
             </motion.div>
 
