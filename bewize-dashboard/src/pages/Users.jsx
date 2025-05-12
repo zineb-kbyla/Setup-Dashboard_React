@@ -6,7 +6,6 @@ import Pagination from "../components/Pagination";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-
 import {
   Button,
   Dialog,

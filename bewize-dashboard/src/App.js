@@ -7,6 +7,7 @@ import User from "./pages/User";
 import Subscriptions from "./pages/Subscriptions";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+
 function App() {
   return (
     <div>
