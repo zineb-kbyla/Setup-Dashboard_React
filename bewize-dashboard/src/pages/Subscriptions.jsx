@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Pagination from "../components/Pagination";
-import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import {
   faMagnifyingGlass,
-  faEye,
   faHistory,
+  faEdit,
+  faTrash,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -23,7 +23,6 @@ import {
   Select,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import SubscriptionRow from "../components/SubscriptionRow";
 
 const mockSubscriptions = [
   {
@@ -59,8 +58,6 @@ const mockSubscriptions = [
 ];
 
 export default function Subscriptions() {
-  const navigate = useNavigate();
-
   // Side Bar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -82,7 +79,7 @@ export default function Subscriptions() {
   const totalPages = Math.ceil(totalSubscriptions / itemsPerPage);
 
   // Filter By State
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   // Filter Options
   const [filters, setFilters] = useState({
@@ -106,8 +103,69 @@ export default function Subscriptions() {
     }
   };
 
+  // Edit Subscription Form
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [selectedSubscription, setSelectedSubscription] = useState(null);
+
+  // Create Subscription Form
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [createdSubscription, setCreatedSubscription] = useState({
+    id: 'SUB-000',
+    orderId: 'ORD-000',
+    startDate: new Date().toISOString().slice(0, 10),
+    endDate: new Date(new Date().setMonth(new Date().getMonth() + 1))
+      .toISOString()
+      .slice(0, 10),
+  });
+
+  // Handle Create Form Button
+  const handleCreateClick = () => {
+    setShowCreateForm(true);
+  };
+
+  const handleCreateSubmit = (e) => {
+    e.preventDefault();
+    mockSubscriptions.push(createdSubscription);
+    setShowCreateForm(false);
+  };
+
+  // Handle Edit Form Open
+  const handleEditClick = (subscription) => {
+    setSelectedSubscription(subscription);
+    setShowEditForm(true);
+  };
+
+  // Handle Create Form Change
+  const handleCreateChange = (e) => {
+    const { name, value } = e.target;
+    setCreatedSubscription((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handle Submit
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission
+    setShowEditForm(false);
+  };
+
+  // Handle Edit Form Change
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setSelectedSubscription((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   // Filter & Search Algorithm
-  const filteredSubscriptions = mockSubscriptions;
+  const filteredSubscriptions = mockSubscriptions.filter(
+    (subscription) =>
+      subscription.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      subscription.orderId.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Pagination calculations
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -125,9 +183,9 @@ export default function Subscriptions() {
       y: 0,
       transition: {
         duration: 0.5,
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
@@ -135,8 +193,8 @@ export default function Subscriptions() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5 }
-    }
+      transition: { duration: 0.5 },
+    },
   };
 
   return (
@@ -165,8 +223,8 @@ export default function Subscriptions() {
                 All Subscriptions
               </h1>
               <div className="flex-row justify-between gap-2">
-                <div className="flex flex-row justify-start gap-2">
-                  <div className="relative w-full md:w-2/5">
+                <div className="flex flex-row justify-start gap-2 items-start">
+                  <div className="relative w-full md:w-2/5 my-auto">
                     <input
                       type="text"
                       placeholder="Search for Subscriptions"
@@ -226,13 +284,93 @@ export default function Subscriptions() {
                     </Dialog>
                   </div>
                   <div className="flex justify-end ms-auto">
-                  <button className="mx-2 border rounded-md shadow-sm hover:bg-blue-400 p-2 bg-blue-600 text-white font-semibold text-sm flex items-center gap-2">
-                    <FontAwesomeIcon icon={faPlus} />
-                    Create Subscription
-                  </button>
+                    <button
+                      className="mx-2 border rounded-md shadow-sm hover:bg-blue-400 p-2 bg-blue-600 text-white font-semibold text-sm flex items-center gap-2"
+                      onClick={handleCreateClick}
+                    >
+                      <FontAwesomeIcon icon={faPlus} />
+                      Create Subscription
+                    </button>
+                    {showCreateForm && (
+                      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                          <h3 className="text-xl font-semibold mb-4 text-gray-800 flex items-center gap-2">
+                            <FontAwesomeIcon
+                              icon={faEdit}
+                              className="text-gray-600"
+                            />
+                            Create Subscription
+                          </h3>
+                          <form onSubmit={handleCreateSubmit}>
+                          <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Id 
+                              </label>
+                              <input
+                                type="text"
+                                name="id"
+                                value={createdSubscription.id}
+                                onChange={handleCreateChange}
+                                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                              />
+                            </div>
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Start Date
+                              </label>
+                              <input
+                                type="date"
+                                name="startDate"
+                                value={createdSubscription.startDate}
+                                onChange={handleCreateChange}
+                                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                              />
+                            </div>
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                End Date
+                              </label>
+                              <input
+                                type="date"
+                                name="endDate"
+                                value={createdSubscription.endDate}
+                                onChange={handleCreateChange}
+                                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                              />
+                            </div>
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Order Id
+                              </label>
+                              <input
+                                type="text"
+                                name="orderId"
+                                value={createdSubscription.orderId}
+                                onChange={handleCreateChange}
+                                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                              />
+                            </div>
+                            <div className="flex justify-end gap-2 mt-6">
+                              <button
+                                type="button"
+                                onClick={() => setShowCreateForm(false)}
+                                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                type="submit"
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                              >
+                                Save Changes
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                </div>
-
               </div>
             </motion.div>
 
@@ -278,10 +416,94 @@ export default function Subscriptions() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {paginatedSubscriptions.length > 0 ? (
                     paginatedSubscriptions.map((subscription) => (
-                      <SubscriptionRow
+                      <tr
                         key={subscription.id}
-                        subscription={subscription}
-                      />
+                        className="bg-white border-b hover:bg-gray-50 transition-colors"
+                      >
+                        <td className="py-4 px-4 text-gray-900 font-medium">
+                          {subscription.id}
+                        </td>
+                        <td className="py-4 text-gray-600">
+                          {new Date(
+                            subscription.startDate
+                          ).toLocaleDateString()}
+                        </td>
+                        <td className="py-4 text-gray-600">
+                          {new Date(subscription.endDate).toLocaleDateString()}
+                        </td>
+                        <td className="py-4 text-gray-900 font-mono text-sm">
+                          {subscription.orderId}
+                        </td>
+                        <td className="py-4 text-gray-900 font-mono text-sm">
+                          <div className="flex flex-row justify-center gap-2">
+                            <button
+                              className="border rounded-md shadow-sm hover:bg-blue-400 p-2 bg-blue-600 text-white font-semibold text-sm flex items-center gap-2"
+                              onClick={() => handleEditClick(subscription)}
+                            >
+                              <FontAwesomeIcon icon={faEdit} />
+                              Edit
+                            </button>
+                            {showEditForm && selectedSubscription && (
+                              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                                <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                                  <h3 className="text-xl font-semibold mb-4 text-gray-800 flex items-center gap-2">
+                                    <FontAwesomeIcon
+                                      icon={faEdit}
+                                      className="text-gray-600"
+                                    />
+                                    Edit Subscription
+                                  </h3>
+                                  <form onSubmit={handleEditSubmit}>
+                                    <div className="mb-4">
+                                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Start Date
+                                      </label>
+                                      <input
+                                        type="date"
+                                        name="startDate"
+                                        value={selectedSubscription.startDate}
+                                        onChange={handleEditChange}
+                                        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                                      />
+                                    </div>
+                                    <div className="mb-4">
+                                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        End Date
+                                      </label>
+                                      <input
+                                        type="date"
+                                        name="endDate"
+                                        value={selectedSubscription.endDate}
+                                        onChange={handleEditChange}
+                                        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                                      />
+                                    </div>
+                                    <div className="flex justify-end gap-2 mt-6">
+                                      <button
+                                        type="button"
+                                        onClick={() => setShowEditForm(false)}
+                                        className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                                      >
+                                        Cancel
+                                      </button>
+                                      <button
+                                        type="submit"
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                      >
+                                        Save Changes
+                                      </button>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            )}
+                            <button className="border rounded-md shadow-sm hover:bg-red-400 p-2 bg-red-600 text-white font-semibold text-sm flex items-center gap-2">
+                              <FontAwesomeIcon icon={faTrash} />
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
                     ))
                   ) : (
                     <tr>
