@@ -69,6 +69,13 @@ export default function Subscriptions() {
     setIsSidebarOpen(false);
   };
 
+  // Is Subscription Expired
+  const isDateExpired = (endDate) => {
+    const today = new Date();
+    const expiry = new Date(endDate);
+    return expiry < today;
+  };
+
   // Searching
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -84,6 +91,7 @@ export default function Subscriptions() {
   // Filter Options
   const [filters, setFilters] = useState({
     startDate: "",
+    endDate: "",
   });
 
   // Handle Filter Change
@@ -110,8 +118,8 @@ export default function Subscriptions() {
   // Create Subscription Form
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [createdSubscription, setCreatedSubscription] = useState({
-    id: 'SUB-000',
-    orderId: 'ORD-000',
+    id: "SUB-000",
+    orderId: "ORD-000",
     startDate: new Date().toISOString().slice(0, 10),
     endDate: new Date(new Date().setMonth(new Date().getMonth() + 1))
       .toISOString()
@@ -147,7 +155,14 @@ export default function Subscriptions() {
   // Handle Submit
   const handleEditSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission
+    // Find the index of the subscription to update
+    const index = mockSubscriptions.findIndex(
+      (sub) => sub.id === selectedSubscription.id
+    );
+    if (index !== -1) {
+      // Update the subscription at the found index
+      mockSubscriptions[index] = selectedSubscription;
+    }
     setShowEditForm(false);
   };
 
@@ -160,12 +175,30 @@ export default function Subscriptions() {
     }));
   };
 
+  // Add state for subscriptions
+  const [subscriptions, setSubscriptions] = useState(mockSubscriptions);
+
+  // Delete Subscription
+  const deleteSubscription = (id) => {
+    setSubscriptions((prevSubscriptions) =>
+      prevSubscriptions.filter((sub) => sub.id !== id)
+    );
+  };
+
   // Filter & Search Algorithm
-  const filteredSubscriptions = mockSubscriptions.filter(
-    (subscription) =>
+  const filteredSubscriptions = subscriptions.filter((subscription) => {
+    const matchesSearch =
       subscription.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      subscription.orderId.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+      subscription.orderId.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesDateFilter =
+      (!filters.startDate ||
+        new Date(subscription.startDate) >= new Date(filters.startDate)) &&
+      (!filters.endDate ||
+        new Date(subscription.endDate) <= new Date(filters.endDate));
+
+    return matchesSearch && matchesDateFilter;
+  });
 
   // Pagination calculations
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -247,34 +280,43 @@ export default function Subscriptions() {
                       open={open}
                       onClose={handleClose}
                     >
-                      <DialogTitle>Fill the form</DialogTitle>
+                      <DialogTitle>Filter Subscriptions</DialogTitle>
                       <DialogContent>
                         <Box
                           component="form"
-                          sx={{ display: "flex", flexWrap: "wrap" }}
+                          sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}
                         >
-                          <FormControl sx={{ m: 1, minWidth: 160 }}>
-                            <InputLabel htmlFor="demo-dialog-native">
-                              Status
-                            </InputLabel>
-                            <Select
-                              native
-                              value={filters.status}
-                              onChange={(e) =>
-                                handleFilterChange("status", e.target.value)
-                              }
-                              input={
-                                <OutlinedInput
-                                  label="Status"
-                                  id="demo-dialog-native"
-                                />
-                              }
-                            >
-                              <option aria-label="None" value="" />
-                              <option value={"paid"}>Paid</option>
-                              <option value={"unpaid"}>Unpaid</option>
-                            </Select>
-                          </FormControl>
+                          <div className="flex flex-col gap-1">
+                            <label className="text-sm font-medium text-gray-700">
+                              Start Date
+                            </label>
+                            <FormControl>
+                              <OutlinedInput
+                                type="date"
+                                value={filters.startDate}
+                                onChange={(e) =>
+                                  handleFilterChange(
+                                    "startDate",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </FormControl>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <label className="text-sm font-medium text-gray-700">
+                              End Date
+                            </label>
+                            <FormControl>
+                              <OutlinedInput
+                                type="date"
+                                value={filters.endDate}
+                                onChange={(e) =>
+                                  handleFilterChange("endDate", e.target.value)
+                                }
+                              />
+                            </FormControl>
+                          </div>
                         </Box>
                       </DialogContent>
                       <DialogActions>
@@ -292,8 +334,19 @@ export default function Subscriptions() {
                       Create Subscription
                     </button>
                     {showCreateForm && (
-                      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                        <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+                      >
+                        <motion.div
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ type: "spring", duration: 0.5 }}
+                          className="bg-white p-6 rounded-lg shadow-lg w-96"
+                        >
                           <h3 className="text-xl font-semibold mb-4 text-gray-800 flex items-center gap-2">
                             <FontAwesomeIcon
                               icon={faEdit}
@@ -302,9 +355,9 @@ export default function Subscriptions() {
                             Create Subscription
                           </h3>
                           <form onSubmit={handleCreateSubmit}>
-                          <div className="mb-4">
+                            <div className="mb-4">
                               <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Id 
+                                Id
                               </label>
                               <input
                                 type="text"
@@ -366,8 +419,8 @@ export default function Subscriptions() {
                               </button>
                             </div>
                           </form>
-                        </div>
-                      </div>
+                        </motion.div>
+                      </motion.div>
                     )}
                   </div>
                 </div>
@@ -407,6 +460,12 @@ export default function Subscriptions() {
                     </th>
                     <th
                       scope="col"
+                      className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      status
+                    </th>
+                    <th
+                      scope="col"
                       className="py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Action
@@ -434,6 +493,17 @@ export default function Subscriptions() {
                         <td className="py-4 text-gray-900 font-mono text-sm">
                           {subscription.orderId}
                         </td>
+                        <td>
+                          {isDateExpired(subscription.endDate) ? (
+                            <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">
+                              Expired
+                            </span>
+                          ) : (
+                            <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+                              Active
+                            </span>
+                          )}
+                        </td>
                         <td className="py-4 text-gray-900 font-mono text-sm">
                           <div className="flex flex-row justify-center gap-2">
                             <button
@@ -444,8 +514,19 @@ export default function Subscriptions() {
                               Edit
                             </button>
                             {showEditForm && selectedSubscription && (
-                              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                                <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                              <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+                              >
+                                <motion.div
+                                  initial={{ scale: 0.8, opacity: 0 }}
+                                  animate={{ scale: 1, opacity: 1 }}
+                                  exit={{ scale: 0.8, opacity: 0 }}
+                                  transition={{ type: "spring", duration: 0.5 }}
+                                  className="bg-white p-6 rounded-lg shadow-lg w-96"
+                                >
                                   <h3 className="text-xl font-semibold mb-4 text-gray-800 flex items-center gap-2">
                                     <FontAwesomeIcon
                                       icon={faEdit}
@@ -494,10 +575,15 @@ export default function Subscriptions() {
                                       </button>
                                     </div>
                                   </form>
-                                </div>
-                              </div>
+                                </motion.div>
+                              </motion.div>
                             )}
-                            <button className="border rounded-md shadow-sm hover:bg-red-400 p-2 bg-red-600 text-white font-semibold text-sm flex items-center gap-2">
+                            <button
+                              className="border rounded-md shadow-sm hover:bg-red-400 p-2 bg-red-600 text-white font-semibold text-sm flex items-center gap-2"
+                              onClick={() =>
+                                deleteSubscription(subscription.id)
+                              }
+                            >
                               <FontAwesomeIcon icon={faTrash} />
                               Delete
                             </button>

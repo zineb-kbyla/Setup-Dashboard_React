@@ -31,7 +31,7 @@ export default function UsersStates() {
       <div className="bg-gray-50 py-4 rounded-xl">
         <div className="title flex flex-row justify-around items-center">
           <h2 className="text-lg align-middle font-semibold mb-2 text-gray-800 ms-5 ">
-            Nouveaux utilisateurs par Mois 📈
+            New Users By Month 📈
           </h2>
           <select
             name="month"
