@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import User from "./pages/User";
 import Subscriptions from "./pages/Subscriptions";
+import Discounts from "./pages/Discounts";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/user" element={<User />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
+          <Route path="/discounts" element={<Discounts />} />
         </Routes>
       </Router>
     </div>

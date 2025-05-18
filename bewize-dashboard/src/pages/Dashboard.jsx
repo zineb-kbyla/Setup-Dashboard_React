@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import Metric from "../components/charts_states/Metric";
+import Metric from "../components/Charts/Metric";
 import {
   faClipboardList,
   faShoppingCart,
@@ -10,12 +10,12 @@ import {
   faUser,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
-import UsersStates from "../components/charts_states/UsersStates";
-import SubscriptionStates from "../components/charts_states/SubscriptionStates";
+import UsersStates from "../components/Charts/UsersStates";
+import SubscriptionStates from "../components/Charts/SubscriptionStates";
 import { motion } from "framer-motion";
-import TopCustomers from "../components/charts_states/TopCustomers";
-import CategoriesStates from "../components/charts_states/CategoriesStates";
-import OrderTrends from "../components/charts_states/OrderTrends";
+import TopCustomers from "../components/Charts/TopCustomers";
+import CategoriesStates from "../components/Charts/CategoriesStates";
+import OrderTrends from "../components/Charts/OrderTrends";
 
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
