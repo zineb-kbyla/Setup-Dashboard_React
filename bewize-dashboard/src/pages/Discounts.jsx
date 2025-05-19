@@ -3,13 +3,19 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Pagination from "../components/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   faMagnifyingGlass,
   faHistory,
   faEdit,
   faTrash,
   faPlus,
+  faTimes,
+  faPercent,
+  faCalendarAlt,
+  faTag,
+  faIdCard,
+  faToggleOn,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   Button,
@@ -154,6 +160,12 @@ export default function Discounts() {
 
   const handleMenuClose = () => {
     setAnchorEl(null); // Close the menu
+  };
+
+  const handleDeleteDiscount = (id) => {
+    setDiscounts((prevDiscounts) =>
+      prevDiscounts.filter((dis) => dis.id !== id)
+    );
   };
 
   // Edit Discount Form
@@ -301,152 +313,188 @@ export default function Discounts() {
                 <FontAwesomeIcon icon={faHistory} className="text-gray-600" />
                 All Discounts
               </h1>
-              <div className="flex-row justify-between gap-2">
-                <div className="flex flex-row justify-start gap-2 items-start">
-                  <div className="relative w-full md:w-2/5 my-auto">
-                    <input
-                      type="text"
-                      placeholder="Search for Discounts"
-                      className="pl-10 p-2 w-full rounded-lg border border-gray-300 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200 transition-all"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <FontAwesomeIcon
-                      icon={faMagnifyingGlass}
-                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                      size="sm"
-                    />
-                  </div>
-                  <div>
-                    <Button onClick={handleClickOpen} className="">
-                      Filter By
-                    </Button>
-                    <Dialog
-                      disableEscapeKeyDown
-                      open={open}
-                      onClose={handleClose}
+
+              <div className="flex flex-row items-center w-full gap-2">
+                {/* Search Input */}
+                <div className="relative w-full md:w-2/5">
+                  <input
+                    type="text"
+                    placeholder="Search for Discounts"
+                    className="pl-10 p-2 w-full rounded-lg border border-gray-300 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200 transition-all"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                  <FontAwesomeIcon
+                    icon={faMagnifyingGlass}
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    size="sm"
+                  />
+                </div>
+
+                <Button onClick={handleClickOpen}>Filter By</Button>
+
+                <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+                  <DialogTitle>Filter Discounts</DialogTitle>
+                  <DialogContent>
+                    <Box
+                      component="form"
+                      sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}
                     >
-                      <DialogTitle>Filter Discounts</DialogTitle>
-                      <DialogContent>
-                        <Box
-                          component="form"
-                          sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}
-                        >
-                          <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-gray-700">
-                              Start Date
-                            </label>
-                            <FormControl>
-                              <OutlinedInput
-                                type="date"
-                                value={filters.startDate}
-                                onChange={(e) =>
-                                  handleFilterChange(
-                                    "startDate",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </FormControl>
-                          </div>
-                          <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-gray-700">
-                              End Date
-                            </label>
-                            <FormControl>
-                              <OutlinedInput
-                                type="date"
-                                value={filters.endDate}
-                                onChange={(e) =>
-                                  handleFilterChange("endDate", e.target.value)
-                                }
-                              />
-                            </FormControl>
-                          </div>
-                          <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-gray-700">
-                              Status
-                            </label>
-                            <FormControl>
-                              <Select
-                                native
-                                value={filters.status}
-                                onChange={(e) =>
-                                  handleFilterChange("status", e.target.value)
-                                }
-                              >
-                                <option value="">All</option>
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                              </Select>
-                            </FormControl>
-                          </div>
-                        </Box>
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handleClose}>Ok</Button>
-                      </DialogActions>
-                    </Dialog>
-                  </div>
-                  <div className="flex justify-end ms-auto">
-                    <button
-                      className="mx-2 border rounded-md shadow-sm hover:bg-blue-400 p-2 bg-blue-600 text-white font-semibold text-sm flex items-center gap-2"
-                      onClick={handleCreateClick}
+                      <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-gray-700">
+                          Start Date
+                        </label>
+                        <FormControl>
+                          <OutlinedInput
+                            type="date"
+                            value={filters.startDate}
+                            onChange={(e) =>
+                              handleFilterChange("startDate", e.target.value)
+                            }
+                          />
+                        </FormControl>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-gray-700">
+                          End Date
+                        </label>
+                        <FormControl>
+                          <OutlinedInput
+                            type="date"
+                            value={filters.endDate}
+                            onChange={(e) =>
+                              handleFilterChange("endDate", e.target.value)
+                            }
+                          />
+                        </FormControl>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-sm font-medium text-gray-700">
+                          Status
+                        </label>
+                        <FormControl>
+                          <Select
+                            native
+                            value={filters.status}
+                            onChange={(e) =>
+                              handleFilterChange("status", e.target.value)
+                            }
+                          >
+                            <option value="">All</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                          </Select>
+                        </FormControl>
+                      </div>
+                    </Box>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleClose}>Ok</Button>
+                  </DialogActions>
+                </Dialog>
+
+                {/* Create Button (aligned right) */}
+                <div className="ms-auto">
+                  <button
+                    className="border rounded-md shadow-sm hover:bg-blue-500 p-2 bg-blue-600 text-white font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+                    onClick={handleCreateClick}
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                    Create Discount
+                  </button>
+                </div>
+                <AnimatePresence>
+                  {showCreateForm && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4"
+                      onClick={(e) => {
+                        if (e.target === e.currentTarget)
+                          setShowCreateForm(false);
+                      }}
                     >
-                      <FontAwesomeIcon icon={faPlus} />
-                      Create Discount
-                    </button>
-                    {showCreateForm && (
+                      {/* Modal Card */}
                       <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ type: "spring", duration: 0.5 }}
+                        className="bg-white p-5 sm:p-6 rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto"
+                        onClick={(e) => e.stopPropagation()}
                       >
-                        <motion.div
-                          initial={{ scale: 0.8, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          exit={{ scale: 0.8, opacity: 0 }}
-                          transition={{ type: "spring", duration: 0.5 }}
-                          className="bg-white p-6 rounded-lg shadow-lg w-96"
-                        >
-                          <h3 className="text-xl font-semibold mb-4 text-gray-800 flex items-center gap-2">
+                        {/* Modal Header */}
+                        <div className="flex justify-between items-center mb-6">
+                          <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
                             <FontAwesomeIcon
                               icon={faEdit}
-                              className="text-gray-600"
+                              className="text-blue-600"
                             />
                             Create Discount
                           </h3>
-                          <form onSubmit={handleCreateSubmit}>
-                            <div className="mb-4">
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Id
-                              </label>
-                              <input
-                                type="text"
-                                name="id"
-                                value={createdDiscount.id}
-                                onChange={handleCreateChange}
-                                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                          <button
+                            onClick={() => setShowCreateForm(false)}
+                            className="text-gray-500 hover:text-gray-800 transition-colors"
+                            aria-label="Close"
+                          >
+                            <FontAwesomeIcon icon={faTimes} size="lg" />
+                          </button>
+                        </div>
+
+                        {/* Form Content */}
+                        <form
+                          onSubmit={handleCreateSubmit}
+                          className="space-y-4"
+                        >
+                          <div className="form-group">
+                            <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                              <FontAwesomeIcon
+                                icon={faIdCard}
+                                className="text-gray-500"
                               />
-                            </div>
-                            <div className="mb-4">
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Code
-                              </label>
-                              <input
-                                type="text"
-                                name="code"
-                                value={createdDiscount.code}
-                                onChange={handleCreateChange}
-                                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                              ID
+                            </label>
+                            <input
+                              type="text"
+                              name="id"
+                              value={createdDiscount.id}
+                              onChange={handleCreateChange}
+                              className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                              placeholder="Enter discount ID"
+                              required
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                              <FontAwesomeIcon
+                                icon={faTag}
+                                className="text-gray-500"
                               />
-                            </div>
-                            <div className="mb-4">
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Percentage (%)
-                              </label>
+                              Code
+                            </label>
+                            <input
+                              type="text"
+                              name="code"
+                              value={createdDiscount.code}
+                              onChange={handleCreateChange}
+                              className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                              placeholder="e.g. SUMMER2025"
+                              required
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                              <FontAwesomeIcon
+                                icon={faPercent}
+                                className="text-gray-500"
+                              />
+                              Percentage
+                            </label>
+                            <div className="relative">
                               <input
                                 type="number"
                                 name="percentage"
@@ -455,10 +503,21 @@ export default function Discounts() {
                                 className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
                                 min="0"
                                 max="100"
+                                required
                               />
+                              <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
+                                %
+                              </span>
                             </div>
-                            <div className="mb-4">
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="form-group">
+                              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                                <FontAwesomeIcon
+                                  icon={faCalendarAlt}
+                                  className="text-gray-500"
+                                />
                                 Start Date
                               </label>
                               <input
@@ -467,10 +526,16 @@ export default function Discounts() {
                                 value={createdDiscount.startDate}
                                 onChange={handleCreateChange}
                                 className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                                required
                               />
                             </div>
-                            <div className="mb-4">
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
+
+                            <div className="form-group">
+                              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                                <FontAwesomeIcon
+                                  icon={faCalendarAlt}
+                                  className="text-gray-500"
+                                />
                                 End Date
                               </label>
                               <input
@@ -479,43 +544,51 @@ export default function Discounts() {
                                 value={createdDiscount.endDate}
                                 onChange={handleCreateChange}
                                 className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                                required
                               />
                             </div>
-                            <div className="mb-4">
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Status
-                              </label>
-                              <select
-                                name="status"
-                                value={createdDiscount.status}
-                                onChange={handleCreateChange}
-                                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-                              >
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                              </select>
-                            </div>
-                            <div className="flex justify-end gap-2 mt-6">
-                              <button
-                                type="button"
-                                onClick={() => setShowCreateForm(false)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-                              >
-                                Cancel
-                              </button>
-                              <button
-                                type="submit"
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                              >
-                                Save Changes
-                              </button>
-                            </div>
-                          </form>
-                        </motion.div>
+                          </div>
+
+                          <div className="form-group">
+                            <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                              <FontAwesomeIcon
+                                icon={faToggleOn}
+                                className="text-gray-500"
+                              />
+                              Status
+                            </label>
+                            <select
+                              name="status"
+                              value={createdDiscount.status}
+                              onChange={handleCreateChange}
+                              className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white"
+                            >
+                              <option value="Active">Active</option>
+                              <option value="Inactive">Inactive</option>
+                            </select>
+                          </div>
+
+                          {/* Form Actions */}
+                          <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 mt-6 pt-4 border-t border-gray-100">
+                            <button
+                              type="button"
+                              onClick={() => setShowCreateForm(false)}
+                              className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="submit"
+                              className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            >
+                              Create Discount
+                            </button>
+                          </div>
+                        </form>
                       </motion.div>
-                    )}
-                  </div>
-                </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
 
@@ -653,14 +726,127 @@ export default function Discounts() {
                               "aria-labelledby": "basic-button",
                             }}
                           >
-                            <MenuItem onClick={handleMenuClose} disableRipple>
+                            <MenuItem
+                              onClick={() => handleEditClick(discount)}
+                              disableRipple
+                            >
                               <EditIcon />
                               Edit
                             </MenuItem>
+                            {showEditForm && selectedDiscount && (
+                              <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+                              >
+                                <motion.div
+                                  initial={{ scale: 0.8, opacity: 0 }}
+                                  animate={{ scale: 1, opacity: 1 }}
+                                  exit={{ scale: 0.8, opacity: 0 }}
+                                  transition={{ type: "spring", duration: 0.5 }}
+                                  className="bg-white p-6 rounded-lg shadow-lg w-96"
+                                >
+                                  <h3 className="text-xl font-semibold mb-4 text-gray-800 flex items-center gap-2">
+                                    <FontAwesomeIcon
+                                      icon={faEdit}
+                                      className="text-gray-600"
+                                    />
+                                    Edit Discount
+                                  </h3>
+                                  <form onSubmit={handleEditSubmit}>
+                                    <div className="mb-4">
+                                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Code
+                                      </label>
+                                      <input
+                                        type="text"
+                                        name="code"
+                                        value={selectedDiscount.code}
+                                        onChange={handleEditChange}
+                                        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                                      />
+                                    </div>
+                                    <div className="mb-4">
+                                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Percentage (%)
+                                      </label>
+                                      <input
+                                        type="number"
+                                        name="percentage"
+                                        value={selectedDiscount.percentage}
+                                        onChange={handleEditChange}
+                                        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                                        min="0"
+                                        max="100"
+                                      />
+                                    </div>
+                                    <div className="mb-4">
+                                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Start Date
+                                      </label>
+                                      <input
+                                        type="date"
+                                        name="startDate"
+                                        value={selectedDiscount.startDate}
+                                        onChange={handleEditChange}
+                                        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                                      />
+                                    </div>
+                                    <div className="mb-4">
+                                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        End Date
+                                      </label>
+                                      <input
+                                        type="date"
+                                        name="endDate"
+                                        value={selectedDiscount.endDate}
+                                        onChange={handleEditChange}
+                                        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                                      />
+                                    </div>
+                                    <div className="mb-4">
+                                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Status
+                                      </label>
+                                      <select
+                                        name="status"
+                                        value={selectedDiscount.status}
+                                        onChange={handleEditChange}
+                                        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                                      >
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">
+                                          Inactive
+                                        </option>
+                                      </select>
+                                    </div>
+                                    <div className="flex justify-end gap-2 mt-6">
+                                      <button
+                                        type="button"
+                                        onClick={() => setShowEditForm(false)}
+                                        className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                                      >
+                                        Cancel
+                                      </button>
+                                      <button
+                                        type="submit"
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                      >
+                                        Save Changes
+                                      </button>
+                                    </div>
+                                  </form>
+                                </motion.div>
+                              </motion.div>
+                            )}
                             <Divider sx={{ my: 0.5 }} />
-                            <MenuItem onClick={handleMenuClose} disableRipple>
+                            <MenuItem
+                              onClick={() => handleDeleteDiscount(discount.id)}
+                              disableRipple
+                            >
                               <DeleteIcon />
-                              Duplicate
+                              Delete
                             </MenuItem>
                           </Menu>
                         </td>
