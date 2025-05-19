@@ -19,10 +19,16 @@ import {
   DialogActions,
   FormControl,
   InputLabel,
+  Menu,
   OutlinedInput,
   Select,
+  MenuItem,
 } from "@mui/material";
 import Box from "@mui/material/Box";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Divider from "@mui/material/Divider";
 
 const mockSubscriptions = [
   {
@@ -135,6 +141,17 @@ export default function Subscriptions() {
     e.preventDefault();
     mockSubscriptions.push(createdSubscription);
     setShowCreateForm(false);
+  };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openMenu = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget); // Anchor the menu to the button
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null); // Close the menu
   };
 
   // Handle Edit Form Open
@@ -504,15 +521,34 @@ export default function Subscriptions() {
                             </span>
                           )}
                         </td>
-                        <td className="py-4 text-gray-900 font-mono text-sm">
-                          <div className="flex flex-row justify-center gap-2">
-                            <button
-                              className="border rounded-md shadow-sm hover:bg-blue-400 p-2 bg-blue-600 text-white font-semibold text-sm flex items-center gap-2"
+                        <td className="py-4 text-gray-900 font-mono text-sm text-center">
+                          <Button
+                            id="basic-button"
+                            aria-controls={open ? "basic-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? "true" : undefined}
+                            onClick={handleClick}
+                            variant="contained"
+                            endIcon={<KeyboardArrowDownIcon />}
+                          >
+                            ACTION
+                          </Button>
+                          <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={openMenu}
+                            onClose={handleMenuClose}
+                            MenuListProps={{
+                              "aria-labelledby": "basic-button",
+                            }}
+                          >
+                            <MenuItem
                               onClick={() => handleEditClick(subscription)}
+                              disableRipple
                             >
-                              <FontAwesomeIcon icon={faEdit} />
+                              <EditIcon />
                               Edit
-                            </button>
+                            </MenuItem>
                             {showEditForm && selectedSubscription && (
                               <motion.div
                                 initial={{ opacity: 0 }}
@@ -578,16 +614,17 @@ export default function Subscriptions() {
                                 </motion.div>
                               </motion.div>
                             )}
-                            <button
-                              className="border rounded-md shadow-sm hover:bg-red-400 p-2 bg-red-600 text-white font-semibold text-sm flex items-center gap-2"
+                            <Divider sx={{ my: 0.5 }} />
+                            <MenuItem
                               onClick={() =>
                                 deleteSubscription(subscription.id)
                               }
+                              disableRipple
                             >
-                              <FontAwesomeIcon icon={faTrash} />
+                              <DeleteIcon />
                               Delete
-                            </button>
-                          </div>
+                            </MenuItem>
+                          </Menu>
                         </td>
                       </tr>
                     ))
