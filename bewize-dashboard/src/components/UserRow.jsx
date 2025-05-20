@@ -31,7 +31,7 @@ export default function UserRow({ user }) {
       <td className="py-4">{user.cne}</td>
       <td className="py-4">{user.gender}</td>
       <td className="py-4">{user.registrationDate}</td>
-      <td className="py-4">
+      <td className="py-4 text-center">
         <button
           onClick={() => handleViewDetails(user)}
           className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
