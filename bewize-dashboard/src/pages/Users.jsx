@@ -14,7 +14,7 @@ export default function Users() {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Pagination 
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const startIndex = page  * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
