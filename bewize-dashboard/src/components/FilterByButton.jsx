@@ -1,61 +1,81 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import * as React from "react";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  OutlinedInput,
+  Chip,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 
-export default function FilterByButton() {
-  const [open, setOpen] = React.useState(false);
-  const [gender, setGender] = React.useState('');
-
+export default function FilterByButton({
+  label,
+  value,
+  onChange,
+  options,
+  onReset,
+}) {
   const handleChange = (event) => {
-    setGender((event.target.value) || '');
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason !== 'backdropClick') {
-      setOpen(false);
-    }
+    onChange(event);
   };
 
   return (
-    <div>
-      <Button onClick={handleClickOpen} className="">Filter By</Button>
-      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-        <DialogTitle>Fill the form</DialogTitle>
-        <DialogContent>
-          <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <FormControl sx={{ m: 1, minWidth: 160 }}>
-              <InputLabel htmlFor="demo-dialog-native">Gender</InputLabel>
-              <Select
-                native
-                value={gender}
-                onChange={handleChange}
-                input={<OutlinedInput label="Gender" id="demo-dialog-native" />}
-              >
-                <option aria-label="None" value="" />
-                <option value={"MALE"}>Male</option>
-                <option value={"FEMALE"}>Female</option>
-              </Select>
-            </FormControl>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Ok</Button>
-        </DialogActions>
-      </Dialog>
+    <div className={`flex items-center gap-2`}>
+      <FormControl
+        fullWidth
+        sx={{
+          m: 1,
+          minWidth: 120,
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "0.75rem",
+            backgroundColor: "white",
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#3b82f6",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#3b82f6",
+              borderWidth: "2px",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "#6b7280",
+            "&.Mui-focused": {
+              color: "#3b82f6",
+            },
+          },
+        }}
+      >
+        <InputLabel id={`${label}-label`}>{label}</InputLabel>
+        <Select
+          labelId={`${label}-label`}
+          id={`${label}-select`}
+          value={value}
+          label={label}
+          onChange={handleChange}
+          input={<OutlinedInput label={label} />}
+          renderValue={(selected) => {
+            return (
+              options.find((opt) => opt.value === selected)?.label || selected
+            );
+          }}
+        >
+          <MenuItem value="">
+            <em>All</em>
+          </MenuItem>
+          {options.map((opt) => (
+            <MenuItem
+              key={opt.value}
+              value={opt.value}
+              className="hover:bg-blue-50"
+            >
+              {opt.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </div>
   );
 }
