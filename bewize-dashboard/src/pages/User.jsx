@@ -8,51 +8,9 @@ import { faMagnifyingGlass, faEye, faHistory, faCreditCard } from "@fortawesome/
 import FilterByButton from "../components/FilterByButton";
 import Pagination from "../components/Pagination";
 import { useNavigate } from "react-router-dom";
-import OrderRow from "../components/OrderRow";
-import SubscriptionRow from "../components/SubscriptionRow";
-
-const orderHistory = [
-  {
-    id: "ORD-001",
-    status: "paid",
-    amount: 99.99,
-    date: "2023-11-15",
-    transactionId: "TXN-789456",
-    planType: "Premium",
-  },
-  {
-    id: "ORD-002",
-    status: "unpaid",
-    amount: 29.99,
-    date: "2023-11-16",
-    transactionId: "TXN-123456",
-    planType: "Basic",
-  },
-  {
-    id: "ORD-003",
-    status: "paid",
-    amount: 149.99,
-    date: "2023-11-17",
-    transactionId: "TXN-456789",
-    planType: "Enterprise",
-  },
-  {
-    id: "ORD-004",
-    status: "unpaid",
-    amount: 19.99,
-    date: "2023-11-18",
-    transactionId: "TXN-987654",
-    planType: "Starter",
-  },
-  {
-    id: "ORD-005",
-    status: "paid",
-    amount: 59.99,
-    date: "2023-11-19",
-    transactionId: "TXN-654321",
-    planType: "Standard",
-  },
-];
+import OrderRow from "../components/Tables/OrderRow";
+import SubscriptionRow from "../components/Tables/SubscriptionRow";
+import mockOrders from "../data/mockOrders";
 
 const subscriptions = [
   {
@@ -337,9 +295,9 @@ export default function User() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {orderHistory.length > 0 ? (
-                    orderHistory.map((order) => (
-                      <OrderRow key={orderHistory.id} order={order} />
+                  {mockOrders.length > 0 ? (
+                    mockOrders.map((order) => (
+                      <OrderRow key={mockOrders.id} order={order} />
                     ))
                   ) : (
                     <tr>

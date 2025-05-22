@@ -2,8 +2,8 @@ import React from "react";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { isDateExpired } from "../utils/subscriptionUtils";
-import EditSubscriptionForm from "./EditSubscriptionForm";
+import { isDateExpired } from "../../utils/subscriptionUtils";
+import EditSubscriptionForm from "../Forms/EditSubscriptionForm";
 
 export default function SubscriptionsTable({
   subscriptions,

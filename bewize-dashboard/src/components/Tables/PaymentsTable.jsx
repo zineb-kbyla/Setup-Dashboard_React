@@ -1,5 +1,5 @@
 import React from "react";
-import { renderPaymentMethod, renderPaymentStatus, renderPaymentDate } from "../utils/paymentUtils";
+import { renderPaymentMethod, renderPaymentStatus, renderPaymentDate } from "../../utils/paymentUtils";
 
 export default function PaymentsTable({ payments }) {
   return (

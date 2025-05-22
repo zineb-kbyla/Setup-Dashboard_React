@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import PowerOffIcon from "@mui/icons-material/PowerOff";
-import EditDiscountForm from "./EditDiscountForm";
+import EditDiscountForm from "../Forms/EditDiscountForm";
 
 export default function DiscountsTable({
   discounts,

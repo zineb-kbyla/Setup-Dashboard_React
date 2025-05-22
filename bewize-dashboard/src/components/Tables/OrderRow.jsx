@@ -16,7 +16,7 @@ export default function OrderRow({ order }) {
             {order.status}
           </span>
         </td>
-        <td className="py-4 text-gray-900">${order.amount.toFixed(2)}</td>
+        <td className="py-4 text-gray-900">${order.amount}</td>
         <td className="py-4 text-gray-600">
           {new Date(order.date).toLocaleDateString()}
         </td>
