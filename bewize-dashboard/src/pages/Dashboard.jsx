@@ -7,6 +7,7 @@ import CategoriesStates from "../components/Charts/CategoriesStates";
 import SubscriptionStates from "../components/Charts/SubscriptionStates";
 import { faClipboardList, faShoppingCart, faTag, faUsers, } from "@fortawesome/free-solid-svg-icons";
 import DashboardLayout from "../layouts/DashboardLayout";
+import { subscriptionData, usersData } from "../data/chartData";
 
 export default function Dashboard() {
   return (
@@ -42,8 +43,8 @@ export default function Dashboard() {
         />
       </div>
       <div className="charts grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4">
-        <UsersStates />
-        <SubscriptionStates />
+        <UsersStates data={usersData} />
+        <SubscriptionStates data={subscriptionData} />
       </div>
       {/* 
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4">
