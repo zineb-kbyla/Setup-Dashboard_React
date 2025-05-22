@@ -5,7 +5,7 @@ import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
 import SubscriptionsTable from "../components/SubscriptionsTable";
-import { faHistory } from "@fortawesome/free-solid-svg-icons";
+import { faBox, faHistory } from "@fortawesome/free-solid-svg-icons";
 import mockSubscriptions from "../data/mockSubscriptions";
 
 export default function Subscriptions() {
@@ -114,8 +114,8 @@ export default function Subscriptions() {
 
   return (
     <DashboardLayout>
-      <PageTitle title={'All Subscriptions'} icon={faHistory} />
-      <div className="flex flex-col items-center md:flex-row gap-4">
+      <PageTitle title={'All Subscriptions'} icon={faBox} />
+      <div className="flex flex-col items-center md:flex-row gap-4 mb-3">
         <div className="w-full md:w-1/3">
           <SearchBar
             searchTerm={searchTerm}
@@ -123,7 +123,8 @@ export default function Subscriptions() {
             placeholder="Search subscriptions by ID or order ID..."
           />
         </div>
-        <div className="flex-1 flex flex-wrap gap-1 items-center">
+        <div className="flex-1 flex flex-wrap gap-1 items-center justify-between">
+          <div className="flex">
           <FilterByButton
             label="Status"
             value={filters.status}
@@ -134,6 +135,8 @@ export default function Subscriptions() {
             ]}
             onReset={() => handleResetFilter("status")}
           />
+          </div>
+      
 
           <Pagination
             page={page}

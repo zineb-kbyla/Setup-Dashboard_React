@@ -13,7 +13,7 @@ export default function Orders() {
   // Searching
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Pagination 
+  // Pagination
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const startIndex = page * rowsPerPage;
@@ -22,7 +22,7 @@ export default function Orders() {
   // Total Orders
   const totalOrders = mockOrders.length;
 
-  // Handle Page Change 
+  // Handle Page Change
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -39,7 +39,7 @@ export default function Orders() {
     payment_method: "",
     plan_type: "",
   });
-  
+
   // Handle Filter Change
   const handleFilterChange = (filterName, value) => {
     setFilters((prev) => ({ ...prev, [filterName]: value }));
@@ -61,7 +61,8 @@ export default function Orders() {
     .filter(
       (order) =>
         (!filters.status || order.status === filters.status) &&
-        (!filters.payment_method || order.payment_method === filters.payment_method) &&
+        (!filters.payment_method ||
+          order.payment_method === filters.payment_method) &&
         (!filters.plan_type || order.plan_type === filters.plan_type)
     );
 
@@ -70,8 +71,8 @@ export default function Orders() {
 
   return (
     <DashboardLayout>
-      <PageTitle title={'All Orders'} icon={faBox} />
-      <div className="flex flex-col items-center md:flex-row gap-4">
+      <PageTitle title={"All Orders"} icon={faBox} />
+      <div className="flex flex-col items-center md:flex-row gap-4 mb-3">
         <div className="w-full md:w-1/3">
           <SearchBar
             searchTerm={searchTerm}
@@ -79,44 +80,33 @@ export default function Orders() {
             placeholder="Search orders by number, customer name or email..."
           />
         </div>
-        <div className="flex-1 flex flex-wrap gap-1 items-center">
-          <FilterByButton
-            label="Status"
-            value={filters.status}
-            onChange={(e) => handleFilterChange("status", e.target.value)}
-            options={[
-              { value: "Completed", label: "Completed" },
-              { value: "Processing", label: "Processing" },
-              { value: "Pending", label: "Pending" },
-              { value: "Cancelled", label: "Cancelled" },
-            ]}
-            onReset={() => handleResetFilter("status")}
-          />
-
-          <FilterByButton
-            label="Payment Method"
-            value={filters.payment_method}
-            onChange={(e) => handleFilterChange("payment_method", e.target.value)}
-            options={[
-              { value: "Credit Card", label: "Credit Card" },
-              { value: "PayPal", label: "PayPal" },
-              { value: "Bank Transfer", label: "Bank Transfer" },
-            ]}
-            onReset={() => handleResetFilter("payment_method")}
-          />
-
-          <FilterByButton
-            label="Plan Type"
-            value={filters.plan_type}
-            onChange={(e) => handleFilterChange("plan_type", e.target.value)}
-            options={[
-              { value: "Basic", label: "Basic" },
-              { value: "Premium", label: "Premium" },
-              { value: "Enterprise", label: "Enterprise" },
-            ]}
-            onReset={() => handleResetFilter("plan_type")}
-          />
-
+        <div className="flex-1 flex flex-wrap gap-1 items-center justify-between">
+          <div className="flex">
+            <FilterByButton
+              label="Status"
+              value={filters.status}
+              onChange={(e) => handleFilterChange("status", e.target.value)}
+              options={[
+                { value: "Completed", label: "Completed" },
+                { value: "Processing", label: "Processing" },
+                { value: "Pending", label: "Pending" },
+                { value: "Cancelled", label: "Cancelled" },
+              ]}
+              onReset={() => handleResetFilter("status")}
+            />
+            <FilterByButton
+              label="Plan Type"
+              value={filters.plan_type}
+              onChange={(e) => handleFilterChange("plan_type", e.target.value)}
+              options={[
+                { value: "Month", label: "Month" },
+                { value: "Quarter", label: "Quarter" },
+                { value: "Semester", label: "Semester" },
+                { value: "Year", label: "Year" },
+              ]}
+              onReset={() => handleResetFilter("plan_type")}
+            />
+          </div>
           <Pagination
             page={page}
             handleChangePage={handleChangePage}
@@ -128,7 +118,7 @@ export default function Orders() {
       </div>
 
       {/* Orders Table */}
-      <OrdersTable orders={paginatedOrders} />
+      <OrdersTable orders={paginatedOrders}  />
     </DashboardLayout>
   );
 }

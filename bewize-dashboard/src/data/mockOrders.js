@@ -10,7 +10,7 @@ const mockOrders = [
     payment_method: "Credit Card",
     date: "2024-03-15",
     items_count: 3,
-    plan_type: "Premium"
+    plan_type: "Year"
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const mockOrders = [
     payment_method: "PayPal",
     date: "2024-03-14",
     items_count: 2,
-    plan_type: "Basic"
+    plan_type: "Month"
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ const mockOrders = [
     payment_method: "Bank Transfer",
     date: "2024-03-13",
     items_count: 5,
-    plan_type: "Enterprise"
+    plan_type: "Semester"
   },
   {
     id: 4,
@@ -49,7 +49,7 @@ const mockOrders = [
     payment_method: "Credit Card",
     date: "2024-03-12",
     items_count: 1,
-    plan_type: "Standard"
+    plan_type: "Quarter"
   },
   {
     id: 5,
@@ -62,7 +62,7 @@ const mockOrders = [
     payment_method: "PayPal",
     date: "2024-03-11",
     items_count: 4,
-    plan_type: "Premium"
+    plan_type: "Year"
   }
 ];
 

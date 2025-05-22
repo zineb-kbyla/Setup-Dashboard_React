@@ -26,12 +26,14 @@ export default function FilterByButton({
     <div className={`flex items-center gap-2`}>
       <FormControl
         fullWidth
+        size="small"
         sx={{
-          m: 1,
-          minWidth: 120,
+          m: 0.5,
+          minWidth: 130,
           "& .MuiOutlinedInput-root": {
-            borderRadius: "0.75rem",
+            borderRadius: "0.5rem",
             backgroundColor: "white",
+            height: "40px",
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: "#3b82f6",
             },
@@ -42,9 +44,14 @@ export default function FilterByButton({
           },
           "& .MuiInputLabel-root": {
             color: "#6b7280",
+            fontSize: "0.875rem",
             "&.Mui-focused": {
               color: "#3b82f6",
             },
+          },
+          "& .MuiSelect-select": {
+            padding: "6px 14px",
+            fontSize: "0.875rem",
           },
         }}
       >
