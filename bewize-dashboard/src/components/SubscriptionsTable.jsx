@@ -16,7 +16,7 @@ export default function SubscriptionsTable({
   setShowEditForm,
 }) {
   return (
-    <div className="mt-4">
+    <div className="">
       <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
         <thead className="bg-gray-50">
           <tr>

@@ -72,7 +72,7 @@ export default function Users() {
   return (
     <DashboardLayout>
        <PageTitle title={'All Users'} icon={faUsers} />
-        <div className="flex flex-col items-center md:flex-row gap-4">
+        <div className="flex flex-col items-center md:flex-row gap-4 mb-3">
           <div className="w-full md:w-1/3">
             <SearchBar
               searchTerm={searchTerm}
@@ -80,7 +80,8 @@ export default function Users() {
               placeholder="Search users by name or email..."
             />
           </div>
-          <div className="flex-1 flex flex-wrap gap-1 items-center">
+          <div className="flex-1 flex flex-wrap gap-1 items-center justify-between">
+            <div className="flex">
             <FilterByButton
               label="Gender"
               value={filters.gender}
@@ -114,6 +115,8 @@ export default function Users() {
               ]}
               onReset={() => handleResetFilter("level")}
             />
+            </div>
+          
             <Pagination
               page={page}
               handleChangePage={handleChangePage}

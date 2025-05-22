@@ -187,8 +187,8 @@ export default function Discounts() {
 
   return (
     <DashboardLayout>
-      <PageTitle title={"All Discounts"} icon={faHistory} />
-      <div className="flex flex-col items-center justify-between md:flex-row gap-4">
+      <PageTitle title={"All Discounts"} icon={faPercent} />
+      <div className="flex flex-col items-center justify-between md:flex-row gap-4 mb-3">
         <div className="w-full md:w-1/3">
           <SearchBar
             searchTerm={searchTerm}
@@ -211,13 +211,15 @@ export default function Discounts() {
           </div>
 
           <div className="flex flex-row">
-            <button
-              className="border rounded-md shadow-sm hover:bg-blue-500 p-2 bg-blue-600 text-white font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="border rounded-md shadow-sm hover:shadow-md hover:bg-blue-500 px-2.5  bg-blue-600 text-white font-medium text-xs flex items-center justify-center gap-1.5 transition-all duration-200 ease-in-out leading-none"
               onClick={handleCreateClick}
             >
-              <FontAwesomeIcon icon={faPlus} />
-              Create Discount
-            </button>
+              <FontAwesomeIcon icon={faPlus} className="text-xs" />
+              <span>Create Discount</span>
+            </motion.button>
             <Pagination
               page={page}
               handleChangePage={handleChangePage}

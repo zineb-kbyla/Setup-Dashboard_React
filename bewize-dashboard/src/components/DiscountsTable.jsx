@@ -44,7 +44,7 @@ export default function DiscountsTable({
 
   return (
     <motion.div
-      className="Discounts-table my-4 overflow-x-auto"
+      className="Discounts-table overflow-x-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
