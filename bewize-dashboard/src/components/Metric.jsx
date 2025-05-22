@@ -1,5 +1,5 @@
 import React from "react";
-import AnimatedNumber from "./Animated/AnimatedNumber";
+import AnimatedNumber from "./AnimatedNumber";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import {

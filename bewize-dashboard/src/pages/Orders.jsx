@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import mockOrders from "../data/mockOrders";
 import PageTitle from "../components/PageTitle";
 import SearchBar from "../components/SearchBar";
-import OrdersTable from "../components/OrdersTable";
+import OrdersTable from "../components/Tables/OrdersTable";
 import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";

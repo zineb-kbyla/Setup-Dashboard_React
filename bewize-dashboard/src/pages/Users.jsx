@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import mockUsers from "../data/mockUsers";
 import PageTitle from "../components/PageTitle";
 import SearchBar from "../components/SearchBar";
-import UsersTable from "../components/UsersTable";
+import UsersTable from "../components/Tables/UsersTable";
 import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";

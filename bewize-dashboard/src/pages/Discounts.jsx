@@ -5,8 +5,8 @@ import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
-import DiscountsTable from "../components/DiscountsTable";
-import CreateDiscountForm from "../components/CreateDiscountForm";
+import DiscountsTable from "../components/Tables/DiscountsTable";
+import CreateDiscountForm from "../components/Forms/CreateDiscountForm";
 import {
   faHistory,
   faEdit,

@@ -5,7 +5,7 @@ import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
-import PaymentsTable from "../components/PaymentsTable";
+import PaymentsTable from "../components/Tables/PaymentsTable";
 import { faCreditCard, faHistory } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mockPayments from "../data/mockPayments";

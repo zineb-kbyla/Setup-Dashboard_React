@@ -4,7 +4,7 @@ import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
-import SubscriptionsTable from "../components/SubscriptionsTable";
+import SubscriptionsTable from "../components/Tables/SubscriptionsTable";
 import { faBox, faHistory } from "@fortawesome/free-solid-svg-icons";
 import mockSubscriptions from "../data/mockSubscriptions";
 
