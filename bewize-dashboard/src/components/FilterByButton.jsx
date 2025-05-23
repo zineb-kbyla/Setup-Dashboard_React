@@ -10,6 +10,8 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
+import { motion } from "framer-motion";
+import { cardVariants } from "../variants/animations";
 
 export default function FilterByButton({
   label,
@@ -23,7 +25,12 @@ export default function FilterByButton({
   };
 
   return (
-    <div className={`flex items-center gap-2`}>
+    <motion.div 
+      className={`flex items-center gap-2`}
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <FormControl
         fullWidth
         size="small"
@@ -73,16 +80,21 @@ export default function FilterByButton({
             <em>All</em>
           </MenuItem>
           {options.map((opt) => (
-            <MenuItem
+            <motion.div
               key={opt.value}
-              value={opt.value}
-              className="hover:bg-blue-50"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              {opt.label}
-            </MenuItem>
+              <MenuItem
+                value={opt.value}
+                className="hover:bg-blue-50"
+              >
+                {opt.label}
+              </MenuItem>
+            </motion.div>
           ))}
         </Select>
       </FormControl>
-    </div>
+    </motion.div>
   );
 }

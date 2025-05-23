@@ -5,7 +5,7 @@ import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
 import SubscriptionsTable from "../components/Tables/SubscriptionsTable";
-import { faBox, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { faBox, faDollarSign, faFileInvoiceDollar, faHistory } from "@fortawesome/free-solid-svg-icons";
 import mockSubscriptions from "../data/mockSubscriptions";
 
 export default function Subscriptions() {
@@ -114,7 +114,7 @@ export default function Subscriptions() {
 
   return (
     <DashboardLayout>
-      <PageTitle title={'All Subscriptions'} icon={faBox} />
+      <PageTitle title={'All Subscriptions'} icon={faDollarSign} />
       <div className="flex flex-col items-center md:flex-row gap-4 mb-3">
         <div className="w-full md:w-1/3">
           <SearchBar

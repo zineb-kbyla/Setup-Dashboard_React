@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { isDateExpired } from "../../utils/subscriptionUtils";
 import EditSubscriptionForm from "../Forms/EditSubscriptionForm";
 import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal";
+import { tableVariants, rowVariants } from "../../variants/animations";
 
 export default function SubscriptionsTable({
   subscriptions,
@@ -33,7 +35,12 @@ export default function SubscriptionsTable({
   };
 
   return (
-    <div className="">
+    <motion.div
+      variants={tableVariants}
+      initial="hidden"
+      animate="visible"
+      className="overflow-hidden"
+    >
       <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
         <thead className="bg-gray-50">
           <tr>
@@ -59,8 +66,16 @@ export default function SubscriptionsTable({
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {subscriptions.length > 0 ? (
-            subscriptions.map((subscription) => (
-              <tr key={subscription.id} className="bg-white border-b hover:bg-gray-50 transition-colors">
+            subscriptions.map((subscription, index) => (
+              <motion.tr
+                key={subscription.id}
+                variants={rowVariants}
+                custom={index}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: index * 0.05 }}
+                className="bg-white border-b hover:bg-gray-50 transition-colors"
+              >
                 <td className="py-4 px-4 text-gray-900 font-medium">
                   {subscription.id}
                 </td>
@@ -102,14 +117,18 @@ export default function SubscriptionsTable({
                     </IconButton>
                   </div>
                 </td>
-              </tr>
+              </motion.tr>
             ))
           ) : (
-            <tr>
+            <motion.tr
+              variants={rowVariants}
+              initial="hidden"
+              animate="visible"
+            >
               <td colSpan="6" className="px-4 py-4 text-left text-gray-500">
                 No subscriptions found
               </td>
-            </tr>
+            </motion.tr>
           )}
         </tbody>
       </table>
@@ -133,6 +152,6 @@ export default function SubscriptionsTable({
         title="Delete Subscription"
         message="Are you sure you want to delete this subscription? This action cannot be undone."
       />
-    </div>
+    </motion.div>
   );
 } 

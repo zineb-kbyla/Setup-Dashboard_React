@@ -1,9 +1,10 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
-export default function UserRow({ user }) {
+export default function UserRow({ user, variants, initial, animate, transition }) {
   // Navigation
   const navigate = useNavigate();
 
@@ -13,7 +14,13 @@ export default function UserRow({ user }) {
   };
 
   return (
-    <tr className="bg-white border-b hover:bg-gray-50 transition-colors">
+    <motion.tr
+      variants={variants}
+      initial={initial}
+      animate={animate}
+      transition={transition}
+      className="bg-white border-b hover:bg-gray-50 transition-colors"
+    >
       <td className="py-4 px-4">
         <div className="flex items-center gap-2">
           <img
@@ -41,6 +48,6 @@ export default function UserRow({ user }) {
           <span>View</span>
         </button>
       </td>
-    </tr>
+    </motion.tr>
   );
 }
