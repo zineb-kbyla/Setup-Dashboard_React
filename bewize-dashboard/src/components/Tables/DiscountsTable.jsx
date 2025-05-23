@@ -8,6 +8,7 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import PowerOffIcon from "@mui/icons-material/PowerOff";
 import EditDiscountForm from "../Forms/EditDiscountForm";
 import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal";
+import { tableVariants, rowVariants } from "../../variants/animations";
 
 export default function DiscountsTable({
   discounts,
@@ -64,9 +65,9 @@ export default function DiscountsTable({
   return (
     <motion.div
       className="Discounts-table overflow-x-auto"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      variants={tableVariants}
+      initial="hidden"
+      animate="visible"
     >
       <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
         <thead className="bg-gray-50">
@@ -117,9 +118,14 @@ export default function DiscountsTable({
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {discounts.length > 0 ? (
-            discounts.map((discount) => (
-              <tr
+            discounts.map((discount, index) => (
+              <motion.tr
                 key={discount.id}
+                variants={rowVariants}
+                custom={index}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: index * 0.05 }}
                 className="bg-white border-b hover:bg-gray-50 transition-colors"
               >
                 <td className="py-4 px-4 text-gray-900 font-medium">
@@ -222,14 +228,18 @@ export default function DiscountsTable({
                     )}
                   </Menu>
                 </td>
-              </tr>
+              </motion.tr>
             ))
           ) : (
-            <tr>
+            <motion.tr
+              variants={rowVariants}
+              initial="hidden"
+              animate="visible"
+            >
               <td colSpan="7" className="px-4 py-4 text-left text-gray-500">
                 No Discounts found
               </td>
-            </tr>
+            </motion.tr>
           )}
         </tbody>
       </table>

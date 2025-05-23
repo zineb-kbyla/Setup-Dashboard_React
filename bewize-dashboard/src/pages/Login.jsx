@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import adminAnimation from "../components/Animations/admin-dashboard.json";
+import adminAnimation from "../components/animations/admin-dashboard.json";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";

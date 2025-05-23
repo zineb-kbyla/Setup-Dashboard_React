@@ -67,4 +67,23 @@ export const cardVariants = {
 export const buttonVariants = {
   hover: { scale: 1.05 },
   tap: { scale: 0.95 }
+};
+
+// Page Title Animations
+export const pageTitleVariants = {
+  container: {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.5, ease: "easeOut" }
+  },
+  icon: {
+    initial: { scale: 0.8, opacity: 0 },
+    animate: { scale: 1, opacity: 1 },
+    transition: { delay: 0.2, duration: 0.3 }
+  },
+  title: {
+    initial: { x: -20, opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    transition: { delay: 0.3, duration: 0.4 }
+  }
 }; 

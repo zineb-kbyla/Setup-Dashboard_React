@@ -7,7 +7,7 @@ import OrdersTable from "../components/Tables/OrdersTable";
 import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
-import { faBox, faBoxes, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { faBox, faBoxes, faCartShopping, faHistory } from "@fortawesome/free-solid-svg-icons";
 
 export default function Orders() {
   // Searching
@@ -71,7 +71,7 @@ export default function Orders() {
 
   return (
     <DashboardLayout>
-      <PageTitle title={"All Orders"} icon={faBox} />
+      <PageTitle title={"All Orders"} icon={faCartShopping} />
       <div className="flex flex-col items-center md:flex-row gap-4 mb-3">
         <div className="w-full md:w-1/3">
           <SearchBar

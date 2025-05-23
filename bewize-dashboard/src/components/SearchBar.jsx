@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { motion } from "framer-motion";
+import { cardVariants, buttonVariants } from "../variants/animations";
 
 export default function SearchBar({
   searchTerm,
@@ -8,7 +10,12 @@ export default function SearchBar({
   placeholder = "Search...",
 }) {
   return (
-    <div className="relative w-full">
+    <motion.div 
+      className="relative w-full"
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="relative w-full">
         <input
           type="text"
@@ -26,15 +33,18 @@ export default function SearchBar({
           size="sm"
         />
         {searchTerm && (
-          <button
+          <motion.button
             onClick={() => onSearchChange({ target: { value: "" } })}
             className="absolute right-3.5 top-1/2 transform -translate-y-1/2 
               text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
           >
             <FontAwesomeIcon icon={faTimes} size="sm" />
-          </button>
+          </motion.button>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -8,6 +8,7 @@ import {
   faCreditCard,
   faDollarSign,
   faBox,
+  faPercent,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SidebarItem from "./SidebarItem";
@@ -17,8 +18,8 @@ const menuItems = [
   { icon: faUsers, label: "Users", route: "/users" },
   { icon: faShoppingCart, label: "Orders", route: "/orders" },
   { icon: faCreditCard, label: "Payments", route: "/payments" },
-  { icon: faDollarSign, label: "Discounts", route: "/discounts" },
-  { icon: faBox, label: "Subscriptions", route: "/subscriptions" },
+  { icon: faPercent , label: "Discounts", route: "/discounts" },
+  { icon: faDollarSign, label: "Subscriptions", route: "/subscriptions" },
 ];
 
 export default function Sidebar() {
