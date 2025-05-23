@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   faBars,
@@ -7,11 +6,8 @@ import {
   faUsers,
   faShoppingCart,
   faCreditCard,
-  faPercent,
-  faBoxOpen,
-  faBox,
-  faDollar,
   faDollarSign,
+  faBox,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SidebarItem from "./SidebarItem";
@@ -26,7 +22,17 @@ const menuItems = [
 ];
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    // Get initial state from localStorage
+    const saved = localStorage.getItem("sidebarCollapsed");
+    return saved === "true";
+  });
+
+  useEffect(() => {
+    // Save state to localStorage on change
+    localStorage.setItem("sidebarCollapsed", collapsed);
+  }, [collapsed]);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -42,7 +48,6 @@ export default function Sidebar() {
         collapsed ? "w-20" : "w-64"
       }`}
     >
-      {/* Menu Items */}
       <nav className="flex flex-col gap-2 p-4">
         {menuItems.map((item, index) => (
           <SidebarItem
@@ -55,10 +60,10 @@ export default function Sidebar() {
             onClick={() => handleNavigation(item.route)}
           />
         ))}
-        <button 
+        <button
           onClick={toggleSidebar}
           className={`py-2 px-4 hover:bg-gray-700 rounded-lg transition-colors mt-4 ${
-            collapsed ? 'flex justify-center' : 'text-left'
+            collapsed ? "flex justify-center" : "text-left"
           }`}
         >
           <FontAwesomeIcon icon={faBars} size="lg" />
