@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { isDateExpired } from "../../utils/subscriptionUtils";
 import EditSubscriptionForm from "../Forms/EditSubscriptionForm";
+import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal";
 
 export default function SubscriptionsTable({
   subscriptions,
@@ -15,6 +16,22 @@ export default function SubscriptionsTable({
   handleEditSubmit,
   setShowEditForm,
 }) {
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [subscriptionToDelete, setSubscriptionToDelete] = useState(null);
+
+  const handleDeleteClick = (subscriptionId) => {
+    setSubscriptionToDelete(subscriptionId);
+    setDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (subscriptionToDelete) {
+      onDelete(subscriptionToDelete);
+      setDeleteModalOpen(false);
+      setSubscriptionToDelete(null);
+    }
+  };
+
   return (
     <div className="">
       <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
@@ -77,7 +94,7 @@ export default function SubscriptionsTable({
                       <EditIcon />
                     </IconButton>
                     <IconButton
-                      onClick={() => onDelete(subscription.id)}
+                      onClick={() => handleDeleteClick(subscription.id)}
                       size="small"
                       className="text-red-600 hover:bg-red-50"
                     >
@@ -105,6 +122,17 @@ export default function SubscriptionsTable({
           setShowEditForm={setShowEditForm}
         />
       )}
+
+      <DeleteConfirmationModal
+        isOpen={deleteModalOpen}
+        onClose={() => {
+          setDeleteModalOpen(false);
+          setSubscriptionToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        title="Delete Subscription"
+        message="Are you sure you want to delete this subscription? This action cannot be undone."
+      />
     </div>
   );
 } 

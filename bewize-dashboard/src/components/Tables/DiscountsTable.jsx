@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import PowerOffIcon from "@mui/icons-material/PowerOff";
 import EditDiscountForm from "../Forms/EditDiscountForm";
+import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal";
 
 export default function DiscountsTable({
   discounts,
@@ -22,6 +23,8 @@ export default function DiscountsTable({
   // State for menu per row
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const [activeRowId, setActiveRowId] = useState(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [discountToDelete, setDiscountToDelete] = useState(null);
 
   // Is Discount Expired
   const isDateExpired = (endDate) => {
@@ -40,6 +43,22 @@ export default function DiscountsTable({
   const handleMenuClose = () => {
     setMenuAnchorEl(null);
     setActiveRowId(null);
+  };
+
+  // Handle delete click
+  const handleDeleteClick = (discountId) => {
+    setDiscountToDelete(discountId);
+    setDeleteModalOpen(true);
+    handleMenuClose();
+  };
+
+  // Handle confirm delete
+  const handleConfirmDelete = () => {
+    if (discountToDelete) {
+      onDelete(discountToDelete);
+      setDeleteModalOpen(false);
+      setDiscountToDelete(null);
+    }
   };
 
   return (
@@ -171,10 +190,7 @@ export default function DiscountsTable({
                     </MenuItem>
                     <Divider className="my-1" />
                     <MenuItem
-                      onClick={() => {
-                        onDelete(discount.id);
-                        handleMenuClose();
-                      }}
+                      onClick={() => handleDeleteClick(discount.id)}
                       className="flex items-center gap-2 px-4 py-2 hover:bg-red-50"
                     >
                       <DeleteIcon className="text-red-600" />
@@ -227,6 +243,17 @@ export default function DiscountsTable({
           handleEditSubmit={handleEditSubmit}
         />
       )}
+
+      <DeleteConfirmationModal
+        isOpen={deleteModalOpen}
+        onClose={() => {
+          setDeleteModalOpen(false);
+          setDiscountToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        title="Delete Discount"
+        message="Are you sure you want to delete this discount? This action cannot be undone."
+      />
     </motion.div>
   );
 }

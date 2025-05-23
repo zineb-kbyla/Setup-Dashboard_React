@@ -130,13 +130,7 @@ export default function Users() {
       {/* Users Table */}
       <UsersTable users={paginatedUsers} onUserSelect={setSelectedUser} />
 
-      {/* User Orders Table */}
-      {selectedUser && (
-        <div className="mt-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Order History</h2>
-          <UserOrdersTable orders={selectedUser.orders} />
-        </div>
-      )}
+     
     </DashboardLayout>
   );
 }
