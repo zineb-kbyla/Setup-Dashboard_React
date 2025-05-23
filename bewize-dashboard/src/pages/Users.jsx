@@ -4,6 +4,7 @@ import mockUsers from "../data/mockUsers";
 import PageTitle from "../components/PageTitle";
 import SearchBar from "../components/SearchBar";
 import UsersTable from "../components/Tables/UsersTable";
+import UserOrdersTable from "../components/Tables/UserOrdersTable";
 import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
@@ -12,16 +13,16 @@ import { faUsers } from "@fortawesome/free-solid-svg-icons";
 export default function Users() {
   // Searching
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
 
   // Pagination 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const startIndex = page  * rowsPerPage;
+  const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
 
   // Total Users
   const totalUsers = mockUsers.length;
-
 
   // Handle Page Change 
   const handleChangePage = (event, newPage) => {
@@ -60,28 +61,27 @@ export default function Users() {
     )
     .filter(
       (user) =>
-        (!filters.gender || user.gender              === filters.gender) &&
-        (!filters.level  || user.level_id.toString() === filters.level)  &&
-        (!filters.city   || user.location_city       === filters.city)
+        (!filters.gender || user.gender === filters.gender) &&
+        (!filters.level || user.level_id.toString() === filters.level) &&
+        (!filters.city || user.location_city === filters.city)
     );
 
-    // Displayed User in paginated page
-    const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+  // Displayed User in paginated page
+  const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
 
-  
   return (
     <DashboardLayout>
-       <PageTitle title={'All Users'} icon={faUsers} />
-        <div className="flex flex-col items-center md:flex-row gap-4 mb-3">
-          <div className="w-full md:w-1/3">
-            <SearchBar
-              searchTerm={searchTerm}
-              onSearchChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search users by name or email..."
-            />
-          </div>
-          <div className="flex-1 flex flex-wrap gap-1 items-center justify-between">
-            <div className="flex">
+      <PageTitle title={'All Users'} icon={faUsers} />
+      <div className="flex flex-col items-center md:flex-row gap-4 mb-3">
+        <div className="w-full md:w-1/3">
+          <SearchBar
+            searchTerm={searchTerm}
+            onSearchChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search users by name or email..."
+          />
+        </div>
+        <div className="flex-1 flex flex-wrap gap-1 items-center justify-between">
+          <div className="flex">
             <FilterByButton
               label="Gender"
               value={filters.gender}
@@ -115,21 +115,28 @@ export default function Users() {
               ]}
               onReset={() => handleResetFilter("level")}
             />
-            </div>
-          
-            <Pagination
-              page={page}
-              handleChangePage={handleChangePage}
-              rowsPerPage={rowsPerPage}
-              handleChangeRowsPerPage={handleChangeRowsPerPage}
-              count={totalUsers}
-            />
           </div>
+          
+          <Pagination
+            page={page}
+            handleChangePage={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
+            count={totalUsers}
+          />
         </div>
+      </div>
 
-        {/* Users Table */}
-        <UsersTable users={paginatedUsers} />
-  
+      {/* Users Table */}
+      <UsersTable users={paginatedUsers} onUserSelect={setSelectedUser} />
+
+      {/* User Orders Table */}
+      {selectedUser && (
+        <div className="mt-6">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Order History</h2>
+          <UserOrdersTable orders={selectedUser.orders} />
+        </div>
+      )}
     </DashboardLayout>
   );
 }
