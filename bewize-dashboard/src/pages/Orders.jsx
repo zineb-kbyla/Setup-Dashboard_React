@@ -22,7 +22,7 @@ export default function Orders() {
   // Total Orders
   const totalOrders = mockOrders.length;
 
-  // Handle Page Change
+  // Handle Page Change 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -61,8 +61,7 @@ export default function Orders() {
     .filter(
       (order) =>
         (!filters.status || order.status === filters.status) &&
-        (!filters.payment_method ||
-          order.payment_method === filters.payment_method) &&
+        (!filters.payment_method || order.payment_method === filters.payment_method) &&
         (!filters.plan_type || order.plan_type === filters.plan_type)
     );
 
@@ -118,7 +117,7 @@ export default function Orders() {
       </div>
 
       {/* Orders Table */}
-      <OrdersTable orders={paginatedOrders}  />
+      <OrdersTable orders={paginatedOrders} />
     </DashboardLayout>
   );
 }

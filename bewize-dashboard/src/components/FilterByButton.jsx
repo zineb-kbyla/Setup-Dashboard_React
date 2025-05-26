@@ -80,18 +80,13 @@ export default function FilterByButton({
             <em>All</em>
           </MenuItem>
           {options.map((opt) => (
-            <motion.div
-              key={opt.value}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
+           
               <MenuItem
                 value={opt.value}
                 className="hover:bg-blue-50"
               >
                 {opt.label}
               </MenuItem>
-            </motion.div>
           ))}
         </Select>
       </FormControl>

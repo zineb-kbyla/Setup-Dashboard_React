@@ -62,7 +62,7 @@ export default function Users() {
     .filter(
       (user) =>
         (!filters.gender || user.gender === filters.gender) &&
-        (!filters.level || user.level_id.toString() === filters.level) &&
+        (!filters.level || user.level_id === parseInt(filters.level)) &&
         (!filters.city || user.location_city === filters.city)
     );
 
@@ -112,6 +112,7 @@ export default function Users() {
                 { value: "1", label: "Level 1" },
                 { value: "2", label: "Level 2" },
                 { value: "3", label: "Level 3" },
+                { value: "4", label: "Level 4" },
               ]}
               onReset={() => handleResetFilter("level")}
             />
@@ -129,8 +130,6 @@ export default function Users() {
 
       {/* Users Table */}
       <UsersTable users={paginatedUsers} onUserSelect={setSelectedUser} />
-
-     
     </DashboardLayout>
   );
 }
