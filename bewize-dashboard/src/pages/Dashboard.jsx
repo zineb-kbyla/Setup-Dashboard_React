@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Metric from "../components/Metric";
 import UsersStates from "../components/Charts/UsersStates";
 import OrderTrends from "../components/Charts/OrderTrends";
@@ -7,9 +7,15 @@ import CategoriesStates from "../components/Charts/CategoriesStates";
 import SubscriptionStates from "../components/Charts/SubscriptionStates";
 import { faClipboardList, faShoppingCart, faTag, faUsers } from "@fortawesome/free-solid-svg-icons";
 import DashboardLayout from "../layouts/DashboardLayout";
-import { subscriptionData, usersData } from "../data/chartData";
+import { subscriptionData, usersData , yearlyOrderStats } from "../data/chartData";
 
 export default function Dashboard() {
+
+  // Memoize Chart Data
+  const memoizedUsersData = useMemo(() => usersData, []);
+  const memoizedSubscriptionData = useMemo(() => subscriptionData, []);
+  const memoizedOrdersData = useMemo(() => yearlyOrderStats , []);
+
   return (
     <DashboardLayout>
       <div className="metrics grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -48,16 +54,16 @@ export default function Dashboard() {
       </div>
 
       <div className="charts grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="border rounded-lg shadow-sm my-4">
-          <UsersStates data={usersData} />
+        <div className=" my-4">
+          <UsersStates data={memoizedUsersData} />
         </div>
-        <div className="border rounded-lg shadow-sm my-4">
-          <SubscriptionStates data={subscriptionData} />
+        <div className="my-4">
+          <SubscriptionStates data={memoizedSubscriptionData} />
         </div>
       </div>
 
       <div className="OrderTrends border rounded-lg shadow-sm my-4 bg-gray-50">
-        <OrderTrends className="w-full" />
+        <OrderTrends data={memoizedOrdersData}  className="w-full" />
       </div>
     </DashboardLayout>
   );
