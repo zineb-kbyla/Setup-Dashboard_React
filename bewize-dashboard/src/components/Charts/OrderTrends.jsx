@@ -2,20 +2,10 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { BarChart } from "@mui/x-charts/BarChart";
 
-export default function OrderTrends() {
+export default function OrderTrends( {data} ) {
   const [selectedYear, setSelectedYear] = useState(2025);
 
-  const yearlyOrderStats = {
-    2018: [150, 170, 160, 180, 150, 170, 160, 180, 150, 170, 160, 180],
-    2019: [140, 130, 160, 145, 140, 130, 160, 145, 140, 130, 160, 145],
-    2020: [140, 130, 160, 145, 140, 130, 160, 145, 140, 130, 160, 145],
-    2021: [200, 180, 190, 210, 200, 180, 190, 210, 200, 180, 190, 210],
-    2022: [220, 210, 230, 200, 215, 205, 225, 210, 218, 212, 219, 213],
-    2023: [210, 250, 240, 230, 245, 235, 225, 238, 248, 232, 241, 237],
-    2024: [260, 240, 220, 250, 255, 245, 235, 250, 265, 242, 258, 249],
-    2025: [270, 290, 260, 280, 275, 285, 265, 278, 288, 262, 279, 273],
-  };
-
+ 
   const handleChange = (e) => {
     setSelectedYear(e.target.value);
   };
@@ -75,7 +65,7 @@ export default function OrderTrends() {
           ]}
           series={[
             {
-              data: yearlyOrderStats[selectedYear],
+              data: data[selectedYear],
             },
           ]}
           borderRadius={10}
