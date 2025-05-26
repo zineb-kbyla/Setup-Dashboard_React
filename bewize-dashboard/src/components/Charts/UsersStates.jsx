@@ -1,19 +1,11 @@
 import { LineChart } from "@mui/x-charts/LineChart";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
+import { chartVariants } from "../../variants/dashboardVariants";
 
 export default function UsersStates({ data }) {
   const [selectedYear, setSelectedYear] = useState("2024");
   const [selectedMonth, setSelectedMonth] = useState("jan");
-
-  const chartVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.5, delay: 0.3 },
-    },
-  };
 
   const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
@@ -26,7 +18,7 @@ export default function UsersStates({ data }) {
   return (
     <>
       <motion.div
-        className="border rounded-lg shadow-sm my-4"
+        className="border rounded-lg shadow-sm "
         initial="hidden"
         animate="visible"
         variants={chartVariants}

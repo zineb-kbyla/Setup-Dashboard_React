@@ -38,7 +38,7 @@ export default function Users() {
   // Filter Options
   const [filters, setFilters] = useState({
     gender: "",
-    city: "",
+    device_type: "",
     level: "",
   });
   
@@ -63,7 +63,7 @@ export default function Users() {
       (user) =>
         (!filters.gender || user.gender === filters.gender) &&
         (!filters.level || user.level_id === parseInt(filters.level)) &&
-        (!filters.city || user.location_city === filters.city)
+        (!filters.device_type || user.device_type === filters.device_type)
     );
 
   // Displayed User in paginated page
@@ -94,15 +94,14 @@ export default function Users() {
             />
 
             <FilterByButton
-              label="City"
-              value={filters.city}
-              onChange={(e) => handleFilterChange("city", e.target.value)}
+              label="Device Type"
+              value={filters.device_type}
+              onChange={(e) => handleFilterChange("device_type", e.target.value)}
               options={[
-                { value: "Casablanca", label: "Casablanca" },
-                { value: "Rabat", label: "Rabat" },
-                { value: "Marrakech", label: "Marrakech" },
+                { value: "Android", label: "Android" },
+                { value: "iOS", label: "iOS" },
               ]}
-              onReset={() => handleResetFilter("city")}
+              onReset={() => handleResetFilter("device_type")}
             />
             <FilterByButton
               label="Level"
