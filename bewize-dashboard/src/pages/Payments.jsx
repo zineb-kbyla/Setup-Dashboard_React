@@ -1,26 +1,27 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import mockOrders from "../data/mockOrders";
 import PageTitle from "../components/PageTitle";
 import SearchBar from "../components/SearchBar";
-import OrdersTable from "../components/Tables/OrdersTable";
 import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
-import { faBox, faBoxes, faCartShopping, faHistory } from "@fortawesome/free-solid-svg-icons";
+import PaymentsTable from "../components/Tables/PaymentsTable";
+import { faCreditCard, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import mockPayments from "../data/mockPayments";
 
-export default function Orders() {
+export default function Payments() {
   // Searching
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Pagination
+  // Pagination 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
 
-  // Total Orders
-  const totalOrders = mockOrders.length;
+  // Total Payments
+  const totalPayments = mockPayments.length;
 
   // Handle Page Change 
   const handleChangePage = (event, newPage) => {
@@ -35,11 +36,10 @@ export default function Orders() {
 
   // Filter Options
   const [filters, setFilters] = useState({
-    status: "",
+    payment_status: "",
     payment_method: "",
-    plan_type: "",
   });
-
+  
   // Handle Filter Change
   const handleFilterChange = (filterName, value) => {
     setFilters((prev) => ({ ...prev, [filterName]: value }));
@@ -51,73 +51,76 @@ export default function Orders() {
   };
 
   // Filter & Search Algorithm
-  const filteredOrders = mockOrders
+  const filteredPayments = mockPayments
     .filter(
-      (order) =>
-        order.order_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.customer_email.toLowerCase().includes(searchTerm.toLowerCase())
+      (payment) =>
+        payment.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        payment.user_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        payment.email.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter(
-      (order) =>
-        (!filters.status || order.status === filters.status) &&
-        (!filters.payment_method || order.payment_method === filters.payment_method) &&
-        (!filters.plan_type || order.plan_type === filters.plan_type)
+      (payment) =>
+        (!filters.payment_status || payment.payment_status === filters.payment_status) &&
+        (!filters.payment_method || payment.payment_method === filters.payment_method)
     );
 
-  // Displayed Orders in paginated page
-  const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
+  // Displayed Payments in paginated page
+  const paginatedPayments = filteredPayments.slice(startIndex, endIndex);
 
   return (
     <DashboardLayout>
-      <PageTitle title={"All Orders"} icon={faCartShopping} />
+      <PageTitle title={'All Payments'} icon={faCreditCard} />
       <div className="flex flex-col items-center md:flex-row gap-4 mb-3">
         <div className="w-full md:w-1/3">
           <SearchBar
             searchTerm={searchTerm}
             onSearchChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search orders by number, customer name or email..."
+            placeholder="Search payments by ID, customer name or email..."
           />
         </div>
         <div className="flex-1 flex flex-wrap gap-1 items-center justify-between">
           <div className="flex">
             <FilterByButton
               label="Status"
-              value={filters.status}
-              onChange={(e) => handleFilterChange("status", e.target.value)}
+              value={filters.payment_status}
+              onChange={(e) => handleFilterChange("payment_status", e.target.value)}
               options={[
-                { value: "Completed", label: "Completed" },
-                { value: "Processing", label: "Processing" },
+                { value: "Paid", label: "Paid" },
                 { value: "Pending", label: "Pending" },
-                { value: "Cancelled", label: "Cancelled" },
+                { value: "Failed", label: "Failed" },
+                { value: "Refunded", label: "Refunded" },
               ]}
-              onReset={() => handleResetFilter("status")}
+              onReset={() => handleResetFilter("payment_status")}
             />
+
             <FilterByButton
-              label="Plan Type"
-              value={filters.plan_type}
-              onChange={(e) => handleFilterChange("plan_type", e.target.value)}
+              label="Method"
+              value={filters.payment_method}
+              onChange={(e) => handleFilterChange("payment_method", e.target.value)}
               options={[
-                { value: "Month", label: "Month" },
-                { value: "Quarter", label: "Quarter" },
-                { value: "Semester", label: "Semester" },
-                { value: "Year", label: "Year" },
+                { value: "Visa", label: "Visa" },
+                { value: "PayPal", label: "PayPal" },
+                { value: "MasterCard", label: "MasterCard" },
+                { value: "Apple Pay", label: "Apple Pay" },
               ]}
-              onReset={() => handleResetFilter("plan_type")}
+              onReset={() => handleResetFilter("payment_method")}
             />
           </div>
+
           <Pagination
             page={page}
             handleChangePage={handleChangePage}
             rowsPerPage={rowsPerPage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
-            count={totalOrders}
+            count={totalPayments}
           />
         </div>
       </div>
 
-      {/* Orders Table */}
-      <OrdersTable orders={paginatedOrders} />
+      {/* Payments Table */}
+      <div className="">
+        <PaymentsTable payments={paginatedPayments} />
+      </div>
     </DashboardLayout>
   );
 }

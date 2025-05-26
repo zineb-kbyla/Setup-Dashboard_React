@@ -4,7 +4,11 @@ import Orders from "./pages/Orders";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import User from "./pages/User";
+import Subscriptions from "./pages/Subscriptions";
+import Discounts from "./pages/Discounts";
+import Payments from "./pages/Payments";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 
 function App() {
   return (
@@ -16,6 +20,9 @@ function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/user" element={<User />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/subscriptions" element={<Subscriptions />} />
+          <Route path="/discounts" element={<Discounts />} />
+          <Route path="/payments" element={<Payments />} />
         </Routes>
       </Router>
     </div>

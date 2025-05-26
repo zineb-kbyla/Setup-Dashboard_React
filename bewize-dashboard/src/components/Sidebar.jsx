@@ -1,106 +1,85 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
-  faBox,
+  faBars,
+  faHome,
+  faUsers,
+  faShoppingCart,
   faCreditCard,
-  faDashboard,
   faDollarSign,
+  faBox,
   faPercent,
-  faUser,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { useNavigate } from "react-router";
+import SidebarItem from "./SidebarItem";
+
+const menuItems = [
+  { icon: faHome, label: "Dashboard", route: "/dashboard" },
+  { icon: faUsers, label: "Users", route: "/users" },
+  { icon: faShoppingCart, label: "Orders", route: "/orders" },
+  { icon: faCreditCard, label: "Payments", route: "/payments" },
+  { icon: faPercent , label: "Discounts", route: "/discounts" },
+  { icon: faDollarSign, label: "Subscriptions", route: "/subscriptions" },
+];
 
 export default function Sidebar({ isOpen }) {
-  let navigate = useNavigate();
+  const [collapsed, setCollapsed] = useState(() => {
+    // Get initial state from localStorage
+    const saved = localStorage.getItem("sidebarCollapsed");
+    return saved === "true";
+  });
+
+  useEffect(() => {
+    // Save state to localStorage on change
+    localStorage.setItem("sidebarCollapsed", collapsed);
+  }, [collapsed]);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const toggleSidebar = () => setCollapsed((prev) => !prev);
+
+  const handleNavigation = (route) => {
+    navigate(route);
+  };
 
   return (
-    <aside
-      className={`fixed sm:relative top-0 left-0 z-40 w-64 h-full bg-white border-r dark:bg-gray-800 transition-transform duration-300 transform ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      } sm:translate-x-0`}
+    <div
+      className={`fixed  sm:relative top-0 h-screen bg-gray-800 text-white transition-all duration-300 flex flex-col
+        ${collapsed ? "w-20" : "w-64"}
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        sm:translate-x-0
+        z-30
+      `}
     >
-      <nav className="p-4">
-        <ul className="space-y-4 font-medium">
-          <li>
-            <a
-              onClick={() => {
-                navigate("/dashboard");
-              }}
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-              <FontAwesomeIcon
-                icon={faDashboard}
-                className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              />
-              <span className="ms-3">Dashboard</span>
-            </a>
-          </li>
-
-          <li>
-            <a
-              onClick={() => {
-                navigate("/users");
-              }}
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-              <FontAwesomeIcon
-                icon={faUser}
-                className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              />
-              <span className="flex-1 ms-3 whitespace-nowrap">Users</span>
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => {
-                navigate("/orders");
-              }}
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-              <FontAwesomeIcon
-                icon={faBox}
-                className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              />
-              <span className="flex-1 ms-3 whitespace-nowrap">Orders</span>
-            </a>
-          </li>
-          <li>
-            <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-              <FontAwesomeIcon
-                icon={faDollarSign}
-                className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              />
-              <span className="flex-1 ms-3 whitespace-nowrap">
-                Subscriptions
-              </span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-              <FontAwesomeIcon
-                icon={faCreditCard}
-                className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              />
-              <span className="flex-1 ms-3 whitespace-nowrap">Payments</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-              <FontAwesomeIcon
-                icon={faPercent}
-                className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              />
-              <span className="flex-1 ms-3 whitespace-nowrap">Discounts</span>
-            </a>
-          </li>
-        </ul>
+      <nav className="flex flex-col gap-2 p-4">
+        {menuItems.map((item, index) => (
+          <SidebarItem
+            key={index}
+            icon={item.icon}
+            label={item.label}
+            collapsed={collapsed}
+            route={item.route}
+            isActive={location.pathname === item.route}
+            onClick={() => handleNavigation(item.route)}
+          />
+        ))}
+        <button
+          onClick={toggleSidebar}
+          className={`py-2 px-4 hover:bg-gray-700 rounded-lg transition-colors mt-4 ${
+            collapsed ? "flex justify-center" : "text-left"
+          }`}
+        >
+          <FontAwesomeIcon icon={faBars} size="lg" />
+        </button>
+        <button
+          onClick={() => document.querySelector('[data-sidebar-toggle]').click()}
+          className="p-2 hover:bg-gray-700 rounded-lg transition-colors sm:hidden"
+        >
+          <FontAwesomeIcon icon={faTimes} size="lg" />
+        </button>
       </nav>
-    </aside>
+    </div>
   );
 }
