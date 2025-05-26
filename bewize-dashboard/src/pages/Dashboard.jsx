@@ -12,7 +12,7 @@ import { subscriptionData, usersData } from "../data/chartData";
 export default function Dashboard() {
   return (
     <DashboardLayout>
-      <div className="metrics grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="metrics grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4  ">
         <Metric
           title={"Total Utilisateurs"}
           icon={faUsers}

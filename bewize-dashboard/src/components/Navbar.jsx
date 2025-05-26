@@ -8,6 +8,7 @@ export default function Navbar({ onToggleSidebar }) {
     <header className="w-full shadow px-4 py-3 flex justify-between items-center bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       <button
         onClick={onToggleSidebar}
+        data-sidebar-toggle
         className="sm:hidden text-gray-600 text-2xl"
       >
         ☰
