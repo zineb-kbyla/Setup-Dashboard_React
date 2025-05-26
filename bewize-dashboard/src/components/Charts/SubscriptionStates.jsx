@@ -26,7 +26,7 @@ export default function SubscriptionStates({ data }) {
   return (
     <>
       <motion.div
-        className="border rounded-lg shadow-sm my-4"
+        className="border rounded-lg shadow-sm "
         initial="hidden"
         animate="visible"
         variants={chartVariants}
@@ -81,7 +81,7 @@ export default function SubscriptionStates({ data }) {
               ]}
               series={[
                 {
-                  label: "Subscriptions",
+                  label: "Users",
                   data: data[selectedYear][selectedMonth],
                   area: true,
                   color: "#10b981",

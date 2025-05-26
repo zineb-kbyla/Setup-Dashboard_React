@@ -6,21 +6,9 @@ import {
   faArrowTrendDown,
   faArrowTrendUp,
 } from "@fortawesome/free-solid-svg-icons";
+import { metricVariants } from "../variants/dashboardVariants";
 
 export default function Metric(probs) {
-  // Animation Variant
-  const metricVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: (index) => ({
-      y: 0,
-      opacity: 1,
-      transition: {
-        delay: 0.1 * index,
-        duration: 0.4,
-      },
-    }),
-  };
-
   return (
     <>
       <motion.div initial="hidden" animate="visible" variants={metricVariants}>

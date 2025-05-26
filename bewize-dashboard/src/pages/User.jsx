@@ -2,18 +2,48 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faCreditCard } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartShopping,
+  faCreditCard,
+  faMobileScreen,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faAndroid as faAndroidBrand,
+  faApple as faAppleBrand,
+} from "@fortawesome/free-brands-svg-icons";
 import UserOrdersTable from "../components/Tables/UserOrdersTable";
 import UserSubscriptionsTable from "../components/Tables/UserSubscriptionsTable";
 import mockOrders from "../data/mockOrders";
 import mockSubscriptions from "../data/mockSubscriptions";
-import { containerVariants, itemVariants, cardVariants } from "../variants/animations";
+import {
+  containerVariants,
+  itemVariants,
+  cardVariants,
+} from "../variants/animations";
 import DashboardLayout from "../layouts/DashboardLayout";
 import { formatDate } from "../utils/dateUtils";
 
 export default function User() {
   const location = useLocation();
   const user = location.state?.user;
+
+  const getDeviceTypeStyle = (deviceType) => {
+    if (deviceType === "Android") {
+      return {
+        icon: faAndroidBrand,
+        color: "text-green-600",
+        bgColor: "bg-gray-50",
+        borderColor: "border-gray-200",
+      };
+    } else if (deviceType === "iOS") {
+      return {
+        icon: faAppleBrand,
+        color: "text-gray-800",
+        bgColor: "bg-gray-50",
+        borderColor: "border-gray-200",
+      };
+    }
+  };
 
   if (!user) {
     return (
@@ -23,18 +53,25 @@ export default function User() {
     );
   }
 
+  const deviceStyle = getDeviceTypeStyle(user.device_type);
+
   return (
     <DashboardLayout>
-      <motion.div 
+      <motion.div
         className="main flex flex-col gap-4"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <motion.h1 variants={itemVariants} className="text-xl font-semibold">User Details</motion.h1>
-        <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <motion.h1 variants={itemVariants} className="text-xl font-semibold">
+          User Details
+        </motion.h1>
+        <motion.div
+          variants={itemVariants}
+          className="grid grid-cols-1 md:grid-cols-3 gap-4"
+        >
           <div className="md:col-span-1">
-            <motion.div 
+            <motion.div
               className="card border rounded-lg shadow-sm bg-white p-4 h-full"
               variants={cardVariants}
             >
@@ -50,44 +87,46 @@ export default function User() {
             </motion.div>
           </div>
           <div className="md:col-span-2">
-            <motion.div 
+            <motion.div
               className="card border rounded-lg shadow-sm bg-white p-4 h-full"
               variants={cardVariants}
             >
-              <h2 className="font-semibold text-lg pb-4">
-                User Information
-              </h2>
+              <h2 className="font-semibold text-lg pb-4">User Information</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Personal Information */}
-                <motion.div variants={itemVariants} className="form-input flex flex-col gap-1">
-                  <label className="font-semibold text-sm">
-                    First Name
-                  </label>
+                <motion.div
+                  variants={itemVariants}
+                  className="form-input flex flex-col gap-1"
+                >
+                  <label className="font-semibold text-sm">First Name</label>
                   <input
                     type="text"
                     className="w-full border shadow-sm rounded-lg py-2 px-3 outline-blue-500 text-sm disabled:bg-gray-50 text-gray-700"
                     disabled
-                    value={
-                      user.first_name || user.name.split(" ")[0]
-                    }
+                    value={user.first_name || user.name.split(" ")[0]}
                   />
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="form-input flex flex-col gap-1">
+                <motion.div
+                  variants={itemVariants}
+                  className="form-input flex flex-col gap-1"
+                >
                   <label className="font-semibold text-sm">Last Name</label>
                   <input
                     type="text"
                     className="w-full border shadow-sm rounded-lg py-2 px-3 outline-blue-500 text-sm disabled:bg-gray-50 text-gray-700"
                     disabled
                     value={
-                      user.last_name ||
-                      user.name.split(" ").slice(1).join(" ")
+                      user.last_name || user.name.split(" ").slice(1).join(" ")
                     }
                   />
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="form-input flex flex-col gap-1">
+                <motion.div
+                  variants={itemVariants}
+                  className="form-input flex flex-col gap-1"
+                >
                   <label className="font-semibold text-sm">Email</label>
                   <input
                     type="email"
@@ -97,7 +136,10 @@ export default function User() {
                   />
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="form-input flex flex-col gap-1">
+                <motion.div
+                  variants={itemVariants}
+                  className="form-input flex flex-col gap-1"
+                >
                   <label className="font-semibold text-sm">Phone</label>
                   <input
                     type="tel"
@@ -107,7 +149,10 @@ export default function User() {
                   />
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="form-input flex flex-col gap-1">
+                <motion.div
+                  variants={itemVariants}
+                  className="form-input flex flex-col gap-1"
+                >
                   <label className="font-semibold text-sm">Gender</label>
                   <input
                     type="text"
@@ -117,7 +162,10 @@ export default function User() {
                   />
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="form-input flex flex-col gap-1">
+                <motion.div
+                  variants={itemVariants}
+                  className="form-input flex flex-col gap-1"
+                >
                   <label className="font-semibold text-sm">Birthday</label>
                   <input
                     type="text"
@@ -127,29 +175,38 @@ export default function User() {
                   />
                 </motion.div>
 
-                {/* Location Information */}
-                <motion.div variants={itemVariants} className="form-input flex flex-col gap-1">
+                {/* Location and Device Information */}
+                <motion.div
+                  variants={itemVariants}
+                  className="form-input flex flex-col gap-1"
+                >
                   <label className="font-semibold text-sm">Country</label>
                   <input
                     type="text"
                     className="w-full border shadow-sm rounded-lg py-2 px-3 outline-blue-500 text-sm disabled:bg-gray-50 text-gray-700"
                     disabled
-                    value={
-                      user.location_country ||
-                      user.store_country ||
-                      "N/A"
-                    }
+                    value={user.location_country || user.store_country || "N/A"}
                   />
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="form-input flex flex-col gap-1">
-                  <label className="font-semibold text-sm">City</label>
-                  <input
-                    type="text"
-                    className="w-full border shadow-sm rounded-lg py-2 px-3 outline-blue-500 text-sm disabled:bg-gray-50 text-gray-700"
-                    disabled
-                    value={user.location_city || "N/A"}
-                  />
+                <motion.div
+                  variants={itemVariants}
+                  className="form-input flex flex-col gap-1"
+                >
+                  <label className="font-semibold text-sm flex items-center gap-2">
+                    Device Type
+                  </label>
+                  <div
+                    className={`flex items-center gap-2 border ${deviceStyle.borderColor} rounded-lg py-2 px-3 ${deviceStyle.bgColor}`}
+                  >
+                    <FontAwesomeIcon
+                      icon={deviceStyle.icon}
+                      className={`${deviceStyle.color} text-lg`}
+                    />
+                    <span className={`font-medium ${deviceStyle.color}`}>
+                      {user.device_type || "N/A"}
+                    </span>
+                  </div>
                 </motion.div>
               </div>
             </motion.div>

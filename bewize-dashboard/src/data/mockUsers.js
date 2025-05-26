@@ -1,3 +1,7 @@
+import Avatar1 from '../images/Avatars/Avatar1.png';
+import Avatar2 from '../images/Avatars/Avatar2.png';
+import Avatar3 from '../images/Avatars/Avatar3.png';
+
 const mockUsers = [
     {
       id: 1,
@@ -9,8 +13,7 @@ const mockUsers = [
       cne: "J130040565",
       gender: "Male",
       registrationDate: "10, Sep, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-young-student-smiling_23-2148586534.jpg?ga=GA1.1.1153541554.1745938474&w=740",
+      avatar: Avatar1,
       birthday: "2000-05-15",
       last_login: "2025-10-05T14:30:00Z",
       parent_id: 101,
@@ -20,7 +23,7 @@ const mockUsers = [
       level_school_id: 35,
       classroom_id: 7,
       location_country: "Morocco",
-      location_city: "Casablanca",
+      device_type: "Android",
       last_visit: "2025-10-03T09:15:00Z",
     },
     {
@@ -33,8 +36,7 @@ const mockUsers = [
       cne: "J130040566",
       gender: "Female",
       registrationDate: "12, Sep, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-teenager-happy-be-back-university_23-2148586575.jpg?t=st=1746466528~exp=1746470128~hmac=b53e06093fc5dc5a51fd197d040d25b88be701f2846e21fc108bfe49aad0250c&w=900",
+      avatar: Avatar2,
       birthday: "2001-07-22",
       last_login: "2025-10-04T11:20:00Z",
       parent_id: 102,
@@ -44,7 +46,7 @@ const mockUsers = [
       level_school_id: 23,
       classroom_id: 4,
       location_country: "Morocco",
-      location_city: "Rabat",
+      device_type: "iOS",
       last_visit: "2025-10-02T10:45:00Z",
     },
     {
@@ -57,8 +59,7 @@ const mockUsers = [
       cne: "J130040567",
       gender: "Male",
       registrationDate: "15, Aug, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/side-view-smiley-man-carrying-books_23-2149659095.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
+      avatar: Avatar3,
       birthday: "1999-11-30",
       last_login: "2025-10-06T08:15:00Z",
       parent_id: 103,
@@ -68,7 +69,7 @@ const mockUsers = [
       level_school_id: 42,
       classroom_id: 9,
       location_country: "Morocco",
-      location_city: "Marrakech",
+      device_type: "Android",
       last_visit: "2025-10-04T16:30:00Z",
     },
     {
@@ -81,8 +82,7 @@ const mockUsers = [
       cne: "J130040568",
       gender: "Female",
       registrationDate: "20, Jul, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-young-student-happy-be-back-university_23-2148586553.jpg?ga=GA1.1.1153541554.1745938474&w=740",
+      avatar: Avatar1,
       birthday: "2002-02-14",
       last_login: "2025-10-05T13:45:00Z",
       parent_id: 104,
@@ -92,7 +92,7 @@ const mockUsers = [
       level_school_id: 17,
       classroom_id: 2,
       location_country: "Morocco",
-      location_city: "Tangier",
+      device_type: "iOS",
       last_visit: "2025-10-03T14:20:00Z",
     },
     {
@@ -105,8 +105,7 @@ const mockUsers = [
       cne: "J130040569",
       gender: "Male",
       registrationDate: "05, Sep, 2025",
-      avatar:
-        "https://img.freepik.com/premium-photo/student-with-backpack-book-back_1165863-38251.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
+      avatar: Avatar2,
       birthday: "2000-09-05",
       last_login: "2025-10-07T10:10:00Z",
       parent_id: 105,
@@ -116,7 +115,7 @@ const mockUsers = [
       level_school_id: 34,
       classroom_id: 5,
       location_country: "Morocco",
-      location_city: "Fes",
+      device_type: "Android",
       last_visit: "2025-10-05T11:45:00Z",
     },
     {
@@ -129,8 +128,7 @@ const mockUsers = [
       cne: "J130040570",
       gender: "Female",
       registrationDate: "18, Aug, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-school-girl-with-books-park_23-2148199228.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
+      avatar: Avatar3,
       birthday: "2001-04-18",
       last_login: "2025-10-06T09:30:00Z",
       parent_id: 106,
@@ -140,7 +138,7 @@ const mockUsers = [
       level_school_id: 21,
       classroom_id: 3,
       location_country: "Morocco",
-      location_city: "Agadir",
+      device_type: "iOS",
       last_visit: "2025-10-04T15:10:00Z",
     },
     {
@@ -153,8 +151,7 @@ const mockUsers = [
       cne: "J130040571",
       gender: "Male",
       registrationDate: "22, Jul, 2025",
-      avatar:
-        "https://img.freepik.com/premium-photo/student-with-backpack-book_1165863-38162.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740",
+      avatar: Avatar1,
       birthday: "1999-12-25",
       last_login: "2025-10-07T14:20:00Z",
       parent_id: 107,
@@ -164,7 +161,7 @@ const mockUsers = [
       level_school_id: 46,
       classroom_id: 8,
       location_country: "Morocco",
-      location_city: "Meknes",
+      device_type: "Android",
       last_visit: "2025-10-05T17:30:00Z",
     },
     {
@@ -177,8 +174,7 @@ const mockUsers = [
       cne: "J130040572",
       gender: "Female",
       registrationDate: "30, Aug, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-young-student-smiling_23-2148586534.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats first image
+      avatar: Avatar2,
       birthday: "2002-03-08",
       last_login: "2025-10-04T12:45:00Z",
       parent_id: 108,
@@ -188,7 +184,7 @@ const mockUsers = [
       level_school_id: 12,
       classroom_id: 1,
       location_country: "Morocco",
-      location_city: "Oujda",
+      device_type: "iOS",
       last_visit: "2025-10-02T10:15:00Z",
     },
     {
@@ -201,8 +197,7 @@ const mockUsers = [
       cne: "J130040573",
       gender: "Male",
       registrationDate: "14, Sep, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-teenager-happy-be-back-university_23-2148586575.jpg?t=st=1746466528~exp=1746470128~hmac=b53e06093fc5dc5a51fd197d040d25b88be701f2846e21fc108bfe49aad0250c&w=900", // Repeats second image
+      avatar: Avatar3,
       birthday: "2000-08-12",
       last_login: "2025-10-06T16:40:00Z",
       parent_id: 109,
@@ -212,7 +207,7 @@ const mockUsers = [
       level_school_id: 33,
       classroom_id: 6,
       location_country: "Morocco",
-      location_city: "Kenitra",
+      device_type: "Android",
       last_visit: "2025-10-04T18:20:00Z",
     },
     {
@@ -225,8 +220,7 @@ const mockUsers = [
       cne: "J130040574",
       gender: "Female",
       registrationDate: "25, Jul, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/side-view-smiley-man-carrying-books_23-2149659095.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats third image
+      avatar: Avatar1,
       birthday: "2001-01-30",
       last_login: "2025-10-05T15:55:00Z",
       parent_id: 110,
@@ -236,7 +230,7 @@ const mockUsers = [
       level_school_id: 25,
       classroom_id: 4,
       location_country: "Morocco",
-      location_city: "Tetouan",
+      device_type: "iOS",
       last_visit: "2025-10-03T13:40:00Z",
     },
     {
@@ -249,8 +243,7 @@ const mockUsers = [
       cne: "J130040575",
       gender: "Male",
       registrationDate: "08, Aug, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-young-student-happy-be-back-university_23-2148586553.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats fourth image
+      avatar: Avatar2,
       birthday: "1999-10-17",
       last_login: "2025-10-07T11:25:00Z",
       parent_id: 111,
@@ -260,7 +253,7 @@ const mockUsers = [
       level_school_id: 41,
       classroom_id: 7,
       location_country: "Morocco",
-      location_city: "Safi",
+      device_type: "Android",
       last_visit: "2025-10-05T14:15:00Z",
     },
     {
@@ -273,8 +266,7 @@ const mockUsers = [
       cne: "J130040576",
       gender: "Female",
       registrationDate: "17, Sep, 2025",
-      avatar:
-        "https://img.freepik.com/premium-photo/student-with-backpack-book-back_1165863-38251.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats fifth image
+      avatar: Avatar3,
       birthday: "2002-05-22",
       last_login: "2025-10-04T10:05:00Z",
       parent_id: 112,
@@ -284,7 +276,7 @@ const mockUsers = [
       level_school_id: 14,
       classroom_id: 2,
       location_country: "Morocco",
-      location_city: "El Jadida",
+      device_type: "iOS",
       last_visit: "2025-10-02T09:30:00Z",
     },
     {
@@ -297,8 +289,7 @@ const mockUsers = [
       cne: "J130040577",
       gender: "Male",
       registrationDate: "03, Oct, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-school-girl-with-books-park_23-2148199228.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats sixth image
+      avatar: Avatar1,
       birthday: "2000-07-07",
       last_login: "2025-10-08T13:15:00Z",
       parent_id: 113,
@@ -308,7 +299,7 @@ const mockUsers = [
       level_school_id: 36,
       classroom_id: 5,
       location_country: "Morocco",
-      location_city: "Nador",
+      device_type: "Android",
       last_visit: "2025-10-06T16:45:00Z",
     },
     {
@@ -321,8 +312,7 @@ const mockUsers = [
       cne: "J130040578",
       gender: "Female",
       registrationDate: "19, Aug, 2025",
-      avatar:
-        "https://img.freepik.com/premium-photo/student-with-backpack-book_1165863-38162.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats seventh image
+      avatar: Avatar2,
       birthday: "2001-09-14",
       last_login: "2025-10-05T09:40:00Z",
       parent_id: 114,
@@ -332,7 +322,7 @@ const mockUsers = [
       level_school_id: 27,
       classroom_id: 3,
       location_country: "Morocco",
-      location_city: "Larache",
+      device_type: "iOS",
       last_visit: "2025-10-03T11:20:00Z",
     },
     // Continuing the pattern (cycle through first 7 images)
@@ -346,8 +336,7 @@ const mockUsers = [
       cne: "J130040579",
       gender: "Male",
       registrationDate: "11, Jul, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-young-student-smiling_23-2148586534.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats first image again
+      avatar: Avatar3,
       birthday: "1999-04-01",
       last_login: "2025-10-07T17:30:00Z",
       parent_id: 115,
@@ -357,7 +346,7 @@ const mockUsers = [
       level_school_id: 43,
       classroom_id: 9,
       location_country: "Morocco",
-      location_city: "Khouribga",
+      device_type: "Android",
       last_visit: "2025-10-05T19:10:00Z",
     },
     {
@@ -370,8 +359,7 @@ const mockUsers = [
       cne: "J130040580",
       gender: "Female",
       registrationDate: "28, Sep, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-teenager-happy-be-back-university_23-2148586575.jpg?t=st=1746466528~exp=1746470128~hmac=b53e06093fc5dc5a51fd197d040d25b88be701f2846e21fc108bfe49aad0250c&w=900", // Repeats second image again
+      avatar: Avatar1,
       birthday: "2002-06-09",
       last_login: "2025-10-04T08:20:00Z",
       parent_id: 116,
@@ -381,7 +369,7 @@ const mockUsers = [
       level_school_id: 15,
       classroom_id: 1,
       location_country: "Morocco",
-      location_city: "Beni Mellal",
+      device_type: "iOS",
       last_visit: "2025-10-02T08:45:00Z",
     },
     {
@@ -394,8 +382,7 @@ const mockUsers = [
       cne: "J130040581",
       gender: "Male",
       registrationDate: "07, Oct, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/side-view-smiley-man-carrying-books_23-2149659095.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats third image again
+      avatar: Avatar2,
       birthday: "2000-03-12",
       last_login: "2025-10-08T15:45:00Z",
       parent_id: 117,
@@ -405,7 +392,7 @@ const mockUsers = [
       level_school_id: 32,
       classroom_id: 4,
       location_country: "Morocco",
-      location_city: "Taza",
+      device_type: "Android",
       last_visit: "2025-10-06T17:30:00Z",
     },
     {
@@ -418,8 +405,7 @@ const mockUsers = [
       cne: "J130040582",
       gender: "Female",
       registrationDate: "23, Aug, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-young-student-happy-be-back-university_23-2148586553.jpg?ga=GA1.1.1153541554.1745938474&w=740", // Repeats fourth image again
+      avatar: Avatar3,
       birthday: "2001-08-28",
       last_login: "2025-10-05T12:10:00Z",
       parent_id: 118,
@@ -429,7 +415,7 @@ const mockUsers = [
       level_school_id: 26,
       classroom_id: 3,
       location_country: "Morocco",
-      location_city: "Settat",
+      device_type: "iOS",
       last_visit: "2025-10-03T14:50:00Z",
     },
     {
@@ -442,8 +428,7 @@ const mockUsers = [
       cne: "J130040583",
       gender: "Male",
       registrationDate: "01, Sep, 2025",
-      avatar:
-        "https://img.freepik.com/premium-photo/student-with-backpack-book-back_1165863-38251.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats fifth image again
+      avatar: Avatar1,
       birthday: "1999-05-19",
       last_login: "2025-10-07T10:35:00Z",
       parent_id: 119,
@@ -453,7 +438,7 @@ const mockUsers = [
       level_school_id: 44,
       classroom_id: 8,
       location_country: "Morocco",
-      location_city: "Guelmim",
+      device_type: "Android",
       last_visit: "2025-10-05T12:25:00Z",
     },
     {
@@ -466,8 +451,7 @@ const mockUsers = [
       cne: "J130040584",
       gender: "Female",
       registrationDate: "16, Oct, 2025",
-      avatar:
-        "https://img.freepik.com/free-photo/portrait-school-girl-with-books-park_23-2148199228.jpg?ga=GA1.1.1153541554.1745938474&semt=ais_hybrid&w=740", // Repeats sixth image again
+      avatar: Avatar2,
       birthday: "2002-10-05",
       last_login: "2025-10-04T11:55:00Z",
       parent_id: 120,
@@ -477,7 +461,7 @@ const mockUsers = [
       level_school_id: 11,
       classroom_id: 1,
       location_country: "Morocco",
-      location_city: "Dakhla",
+      device_type: "iOS",
       last_visit: "2025-10-02T10:30:00Z",
     },
   ];
