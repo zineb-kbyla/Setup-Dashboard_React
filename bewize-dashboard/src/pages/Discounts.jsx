@@ -7,17 +7,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
 import DiscountsTable from "../components/Tables/DiscountsTable";
 import CreateDiscountForm from "../components/Forms/CreateDiscountForm";
-import {
-  faHistory,
-  faEdit,
-  faTimes,
-  faPercent,
-  faCalendarAlt,
-  faTag,
-  faIdCard,
-  faToggleOn,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import {faPercent, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mockDiscounts from "../data/mockDiscounts";
 
