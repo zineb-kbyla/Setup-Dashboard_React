@@ -57,6 +57,9 @@ export default function SubscriptionsTable({
               Order ID
             </th>
             <th scope="col" className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+              Plan Type
+            </th>
+            <th scope="col" className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
               Status
             </th>
             <th scope="col" className="py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
@@ -88,6 +91,15 @@ export default function SubscriptionsTable({
                 <td className="py-4 text-gray-900 font-mono text-sm">
                   {subscription.orderId}
                 </td>
+                <td className="py-4">
+                  <span className={`px-2 py-1 text-xs font-medium rounded
+                    ${subscription.planType === "Year" ? "bg-purple-100 text-purple-800" :
+                      subscription.planType === "Semester" ? "bg-blue-100 text-blue-800" :
+                      subscription.planType === "Quarter" ? "bg-green-100 text-green-800" :
+                      "bg-gray-100 text-gray-800"}`}>
+                    {subscription.planType}
+                  </span>
+                </td>
                 <td>
                   {isDateExpired(subscription.endDate) ? (
                     <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">
@@ -104,14 +116,16 @@ export default function SubscriptionsTable({
                     <IconButton
                       onClick={() => onEdit(subscription)}
                       size="small"
-                      className="text-blue-600 hover:bg-blue-50"
+                      color="primary" 
+                      aria-label="edit"
                     >
                       <EditIcon />
                     </IconButton>
                     <IconButton
                       onClick={() => handleDeleteClick(subscription.id)}
                       size="small"
-                      className="text-red-600 hover:bg-red-50"
+                      color="error" 
+                    aria-label="delete"
                     >
                       <DeleteIcon />
                     </IconButton>

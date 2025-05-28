@@ -19,8 +19,8 @@ const menuItems = [
   { icon: faUsers, label: "Users", route: "/users" },
   { icon: faShoppingCart, label: "Orders", route: "/orders" },
   { icon: faCreditCard, label: "Payments", route: "/payments" },
-  { icon: faPercent , label: "Discounts", route: "/discounts" },
   { icon: faDollarSign, label: "Subscriptions", route: "/subscriptions" },
+  { icon: faPercent , label: "Discounts", route: "/discounts" },
 ];
 
 export default function Sidebar({ isOpen }) {

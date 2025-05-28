@@ -49,8 +49,13 @@ export default function PaymentsTable({ payments }) {
                 <td className="py-4 px-4 text-gray-900 font-medium">
                   {payment.id}
                 </td>
-                <td className="py-4 text-gray-900 font-mono text-sm">
-                  {payment.user_name}
+                <td className="py-4">
+                  <div className="flex items-center gap-2">
+                    <div>
+                      <h2 className="font-semibold text-md">{payment.user_name}</h2>
+                      <p className="text-gray-600 text-sm">{payment.email}</p>
+                    </div>
+                  </div>
                 </td>
                 <td className="py-4 text-gray-600">
                   {payment.amount} {payment.currency}
