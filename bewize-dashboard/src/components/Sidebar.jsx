@@ -46,7 +46,7 @@ export default function Sidebar({ isOpen }) {
 
   return (
     <div
-      className={`fixed  sm:relative top-0 h-screen bg-gray-800 text-white transition-all duration-300 flex flex-col
+      className={`fixed sm:sticky top-0 h-screen bg-gray-800 text-white transition-all duration-300 flex flex-col
         ${collapsed ? "w-20" : "w-64"}
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
         sm:translate-x-0

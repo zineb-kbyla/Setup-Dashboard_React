@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Button, Menu, MenuItem, Divider } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
@@ -21,9 +20,6 @@ export default function DiscountsTable({
   handleEditSubmit,
   setShowEditForm,
 }) {
-  // State for menu per row
-  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
-  const [activeRowId, setActiveRowId] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [discountToDelete, setDiscountToDelete] = useState(null);
 
@@ -34,23 +30,10 @@ export default function DiscountsTable({
     return expiry < today;
   };
 
-  // Handle menu open
-  const handleMenuClick = (event, discountId) => {
-    setMenuAnchorEl(event.currentTarget);
-    setActiveRowId(discountId);
-  };
-
-  // Handle menu close
-  const handleMenuClose = () => {
-    setMenuAnchorEl(null);
-    setActiveRowId(null);
-  };
-
   // Handle delete click
   const handleDeleteClick = (discountId) => {
     setDiscountToDelete(discountId);
     setDeleteModalOpen(true);
-    handleMenuClose();
   };
 
   // Handle confirm delete
@@ -74,43 +57,43 @@ export default function DiscountsTable({
           <tr>
             <th
               scope="col"
-              className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+              className="py-4 px-6 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider"
             >
               id
             </th>
             <th
               scope="col"
-              className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+              className="py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider"
             >
               code
             </th>
             <th
               scope="col"
-              className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+              className="py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider"
             >
               percentage (%)
             </th>
             <th
               scope="col"
-              className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+              className="py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider"
             >
               start date
             </th>
             <th
               scope="col"
-              className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+              className="py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider"
             >
               end date
             </th>
             <th
               scope="col"
-              className="py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+              className="py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider"
             >
               status
             </th>
             <th
               scope="col"
-              className="py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
+              className="py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wider"
             >
               action
             </th>
@@ -131,10 +114,14 @@ export default function DiscountsTable({
                 <td className="py-4 px-4 text-gray-900 font-medium">
                   {discount.id}
                 </td>
-                <td className="py-4 text-gray-900 font-mono text-sm">
+                <td className="py-4 text-gray-900 font-mono text-sm px-3 rounded">
                   {discount.code}
                 </td>
-                <td className="py-4 text-gray-600 ">{discount.percentage}%</td>
+                <td className="py-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700">
+                    {discount.percentage}%
+                  </span>
+                </td>
                 <td className="py-4 text-gray-600">
                   {new Date(discount.startDate).toLocaleDateString()}
                 </td>
@@ -156,77 +143,53 @@ export default function DiscountsTable({
                     </span>
                   )}
                 </td>
-                <td className="py-4 text-center text-gray-900 font-mono text-sm">
-                  <Button
-                    id={`action-button-${discount.id}`}
-                    aria-controls={activeRowId === discount.id ? "action-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={activeRowId === discount.id ? "true" : undefined}
-                    onClick={(event) => handleMenuClick(event, discount.id)}
-                    variant="contained"
-                    size="small"
-                    className="bg-gray-100 hover:bg-blue-500 text-gray-700"
-                    endIcon={<KeyboardArrowDownIcon />}
-                  >
-                    Actions
-                  </Button>
-
-                  <Menu
-                    id="action-menu"
-                    anchorEl={menuAnchorEl}
-                    open={activeRowId === discount.id}
-                    onClose={handleMenuClose}
-                    MenuListProps={{
-                      "aria-labelledby": `action-button-${discount.id}`,
-                    }}
-                    PaperProps={{
-                      elevation: 3,
-                      className: "mt-1 rounded-lg shadow-lg"
-                    }}
-                  >
-                    <MenuItem 
-                      onClick={() => {
-                        onEdit(discount);
-                        handleMenuClose();
-                      }} 
-                      className="flex items-center gap-2 px-4 py-2 hover:bg-blue-50"
-                    >
-                      <EditIcon className="text-blue-600" />
-                      <span className="text-gray-700">Edit Discount</span>
-                    </MenuItem>
-                    <Divider className="my-1" />
-                    <MenuItem
-                      onClick={() => handleDeleteClick(discount.id)}
-                      className="flex items-center gap-2 px-4 py-2 hover:bg-red-50"
-                    >
-                      <DeleteIcon className="text-red-600" />
-                      <span className="text-gray-700">Delete Discount</span>
-                    </MenuItem>
-                    {!isDateExpired(discount.endDate) && (
-                      <>
-                        <Divider className="my-1" />
-                        <MenuItem
-                          onClick={() => {
-                            onSwitchStatus(discount.id);
-                            handleMenuClose();
-                          }}
-                          className="flex items-center gap-2 px-4 py-2 hover:bg-green-50"
+                <td className="py-4 text-center">
+                  <div className="flex justify-center gap-1">
+                    <Tooltip title="Edit Discount" arrow placement="top">
+                      <IconButton
+                        onClick={() => onEdit(discount)}
+                        size="small"
+                        color="primary"
+                        aria-label="edit"
+                        className="hover:bg-blue-50 transition-colors duration-200"
+                      >
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete Discount" arrow placement="top">
+                      <IconButton
+                        onClick={() => handleDeleteClick(discount.id)}
+                        size="small"
+                        color="error"
+                        aria-label="delete"
+                        className="hover:bg-red-50 transition-colors duration-200"
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                    <div className="w-8">
+                      {!isDateExpired(discount.endDate) && (
+                        <Tooltip 
+                          title={discount.status === 'Active' ? 'Deactivate Discount' : 'Activate Discount'} 
+                          arrow 
+                          placement="top"
                         >
-                          {discount.status === 'Active' ? (
-                            <>
-                              <PowerOffIcon className="text-orange-600" />
-                              <span className="text-gray-700">Deactivate Discount</span>
-                            </>
-                          ) : (
-                            <>
-                              <PowerSettingsNewIcon className="text-green-600" />
-                              <span className="text-gray-700">Activate Discount</span>
-                            </>
-                          )}
-                        </MenuItem>
-                      </>
-                    )}
-                  </Menu>
+                          <IconButton
+                            onClick={() => onSwitchStatus(discount.id)}
+                            size="small"
+                            color={discount.status === 'Active' ? 'warning' : 'success'}
+                            aria-label={discount.status === 'Active' ? 'deactivate' : 'activate'}
+                            className={`hover:bg-${discount.status === 'Active' ? 'orange' : 'green'}-50 transition-colors duration-200`}
+                          >
+                            {discount.status === 'Active' ? 
+                              <PowerOffIcon fontSize="small" /> : 
+                              <PowerSettingsNewIcon fontSize="small" />
+                            }
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                    </div>
+                  </div>
                 </td>
               </motion.tr>
             ))
@@ -236,8 +199,11 @@ export default function DiscountsTable({
               initial="hidden"
               animate="visible"
             >
-              <td colSpan="7" className="px-4 py-4 text-left text-gray-500">
-                No Discounts found
+              <td colSpan="7" className="px-6 py-8 text-center text-gray-500 bg-gray-50">
+                <div className="flex flex-col items-center justify-center">
+                  <span className="text-lg font-medium">No Discounts found</span>
+                  <span className="text-sm text-gray-400 mt-1">Add a new discount to get started</span>
+                </div>
               </td>
             </motion.tr>
           )}
