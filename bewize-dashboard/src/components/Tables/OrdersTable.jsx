@@ -85,11 +85,10 @@ export default function OrdersTable({ orders }) {
                 </td>
                 <td className="py-4">
                   <span className={`px-2 py-1 text-xs font-medium rounded
-                    ${order.plan_type === "Year" ? "bg-purple-100 text-purple-800" :
-                      order.plan_type === "Semester" ? "bg-blue-100 text-blue-800" :
-                      order.plan_type === "Quarter" ? "bg-green-100 text-green-800" :
-                      "bg-gray-100 text-gray-800"}`}>
-                    {order.plan_type}
+                    ${order.plan_type === "subscription" ? "bg-purple-100 text-purple-800" :
+                      order.plan_type === "bundle" ? "bg-blue-100 text-blue-800" :
+                      "bg-green-100 text-green-800"}`}>
+                    {order.plan_type.charAt(0).toUpperCase() + order.plan_type.slice(1)}
                   </span>
                 </td>
                 <td className="py-4 text-gray-900">

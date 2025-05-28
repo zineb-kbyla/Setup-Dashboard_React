@@ -98,10 +98,9 @@ export default function Orders() {
               value={filters.plan_type}
               onChange={(e) => handleFilterChange("plan_type", e.target.value)}
               options={[
-                { value: "Month", label: "Month" },
-                { value: "Quarter", label: "Quarter" },
-                { value: "Semester", label: "Semester" },
-                { value: "Year", label: "Year" },
+                { value: "subscription", label: "Subscription" },
+                { value: "course", label: "Course" },
+                { value: "bundle", label: "Bundle" },
               ]}
               onReset={() => handleResetFilter("plan_type")}
             />
