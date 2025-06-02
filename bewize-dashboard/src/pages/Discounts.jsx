@@ -7,7 +7,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
 import DiscountsTable from "../components/Tables/DiscountsTable";
 import CreateDiscountForm from "../components/Forms/CreateDiscountForm";
-import {faPercent, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {faPercent, faPlus, faCircleCheck, faCircleXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mockDiscounts from "../data/mockDiscounts";
 
@@ -193,8 +193,8 @@ export default function Discounts() {
               value={filters.status}
               onChange={(e) => handleFilterChange("status", e.target.value)}
               options={[
-                { value: "Active", label: "Active" },
-                { value: "Inactive", label: "Inactive" },
+                { value: "Active", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCircleCheck} className="text-green-500" /> Active</span> },
+                { value: "Inactive", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCircleXmark} className="text-red-500" /> Inactive</span> },
               ]}
               onReset={() => handleResetFilter("status")}
             />
@@ -204,7 +204,7 @@ export default function Discounts() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="border rounded-md shadow-sm hover:shadow-md hover:bg-blue-500 px-2.5  bg-blue-600 text-white font-medium text-xs flex items-center justify-center gap-1.5 transition-all duration-200 ease-in-out leading-none"
+              className="border rounded-md shadow-sm hover:shadow-md hover:bg-blue-500 px-2 py-1.5 bg-blue-600 text-white font-medium text-xs flex items-center justify-center gap-1.5 transition-all duration-200 ease-in-out leading-none"
               onClick={handleCreateClick}
             >
               <FontAwesomeIcon icon={faPlus} className="text-xs" />

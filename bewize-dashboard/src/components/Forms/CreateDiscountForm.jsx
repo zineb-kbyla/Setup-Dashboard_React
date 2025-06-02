@@ -25,10 +25,10 @@ export default function CreateDiscountForm({
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.8, opacity: 0 }}
         transition={{ type: "spring", duration: 0.5 }}
-        className="bg-white p-5 sm:p-6 rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto"
+        className="bg-white p-4 sm:p-5 rounded-lg shadow-lg w-full max-w-md max-h-[80vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
             <FontAwesomeIcon
               icon={faEdit}
@@ -45,9 +45,9 @@ export default function CreateDiscountForm({
           </button>
         </div>
 
-        <form onSubmit={handleCreateSubmit} className="space-y-4">
+        <form onSubmit={handleCreateSubmit} className="space-y-3">
           <div className="form-group">
-            <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+            <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
               <FontAwesomeIcon
                 icon={faTag}
                 className="text-gray-500"
@@ -66,7 +66,7 @@ export default function CreateDiscountForm({
           </div>
 
           <div className="form-group">
-            <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+            <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
               <FontAwesomeIcon
                 icon={faPercent}
                 className="text-gray-500"
@@ -90,9 +90,9 @@ export default function CreateDiscountForm({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="form-group">
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+              <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
                 <FontAwesomeIcon
                   icon={faCalendarAlt}
                   className="text-gray-500"
@@ -110,7 +110,7 @@ export default function CreateDiscountForm({
             </div>
 
             <div className="form-group">
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+              <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
                 <FontAwesomeIcon
                   icon={faCalendarAlt}
                   className="text-gray-500"
@@ -129,7 +129,7 @@ export default function CreateDiscountForm({
           </div>
 
           <div className="form-group">
-            <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+            <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
               <FontAwesomeIcon
                 icon={faToggleOn}
                 className="text-gray-500"
@@ -147,7 +147,7 @@ export default function CreateDiscountForm({
             </select>
           </div>
 
-          <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 mt-6 pt-4 border-t border-gray-100">
+          <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 mt-4 pt-3 border-t border-gray-100">
             <button
               type="button"
               onClick={() => setShowCreateForm(false)}

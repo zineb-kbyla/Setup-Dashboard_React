@@ -52,7 +52,7 @@ const Login = () => {
   return (
     <>
       <ToastContainer position="top-center" theme="colored" autoClose={3000} />
-      <div className="flex flex-col md:flex-row justify-center items-center h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
+      <div className="flex flex-col md:flex-row justify-center items-center h-screen bg-[#0f1c3e] overflow-hidden">
         <AnimatePresence>
           {!isExiting && !isLoggedIn && (
             <>

@@ -8,7 +8,15 @@ import UserOrdersTable from "../components/Tables/UserOrdersTable";
 import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { 
+  faUsers, 
+  faMars, 
+  faVenus, 
+  faStar, 
+  faMobileScreen, 
+  faAppleWhole 
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Users() {
   // Searching
@@ -87,8 +95,8 @@ export default function Users() {
               value={filters.gender}
               onChange={(e) => handleFilterChange("gender", e.target.value)}
               options={[
-                { value: "Male", label: "Male" },
-                { value: "Female", label: "Female" },
+                { value: "Male", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faMars} className="text-blue-500" /> Male</span> },
+                { value: "Female", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faVenus} className="text-pink-500" /> Female</span> },
               ]}
               onReset={() => handleResetFilter("gender")}
             />
@@ -98,8 +106,8 @@ export default function Users() {
               value={filters.device_type}
               onChange={(e) => handleFilterChange("device_type", e.target.value)}
               options={[
-                { value: "Android", label: "Android" },
-                { value: "iOS", label: "iOS" },
+                { value: "Android", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faMobileScreen} className="text-green-500" /> Android</span> },
+                { value: "iOS", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faAppleWhole} className="text-gray-700" /> iOS</span> },
               ]}
               onReset={() => handleResetFilter("device_type")}
             />
@@ -108,10 +116,10 @@ export default function Users() {
               value={filters.level}
               onChange={(e) => handleFilterChange("level", e.target.value)}
               options={[
-                { value: "1", label: "Level 1" },
-                { value: "2", label: "Level 2" },
-                { value: "3", label: "Level 3" },
-                { value: "4", label: "Level 4" },
+                { value: "1", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faStar} className="text-yellow-400" /> Level 1</span> },
+                { value: "2", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faStar} className="text-yellow-500" /> Level 2</span> },
+                { value: "3", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faStar} className="text-orange-500" /> Level 3</span> },
+                { value: "4", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faStar} className="text-red-500" /> Level 4</span> },
               ]}
               onReset={() => handleResetFilter("level")}
             />

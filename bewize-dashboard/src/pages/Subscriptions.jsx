@@ -5,7 +5,19 @@ import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
 import SubscriptionsTable from "../components/Tables/SubscriptionsTable";
-import { faBox, faDollarSign, faFileInvoiceDollar, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { 
+  faBox, 
+  faDollarSign, 
+  faFileInvoiceDollar, 
+  faHistory,
+  faCircleCheck,
+  faCircleXmark,
+  faCalendarDay,
+  faCalendarWeek,
+  faCalendarDays,
+  faCalendar
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mockSubscriptions from "../data/mockSubscriptions";
 
 export default function Subscriptions() {
@@ -35,6 +47,7 @@ export default function Subscriptions() {
   // Filter Options
   const [filters, setFilters] = useState({
     status: "",
+    plan_type: "",
   });
   
   // Handle Filter Change
@@ -65,7 +78,8 @@ export default function Subscriptions() {
       (subscription) =>
         (!filters.status || 
           (filters.status === "Active" && !isDateExpired(subscription.endDate)) ||
-          (filters.status === "Expired" && isDateExpired(subscription.endDate)))
+          (filters.status === "Expired" && isDateExpired(subscription.endDate))) &&
+        (!filters.plan_type || subscription.planType === filters.plan_type)
     );
 
   // Displayed Subscriptions in paginated page
@@ -125,16 +139,28 @@ export default function Subscriptions() {
         </div>
         <div className="flex-1 flex flex-wrap gap-1 items-center justify-between">
           <div className="flex">
-          <FilterByButton
-            label="Status"
-            value={filters.status}
-            onChange={(e) => handleFilterChange("status", e.target.value)}
-            options={[
-              { value: "Active", label: "Active" },
-              { value: "Expired", label: "Expired" },
-            ]}
-            onReset={() => handleResetFilter("status")}
-          />
+            <FilterByButton
+              label="Status"
+              value={filters.status}
+              onChange={(e) => handleFilterChange("status", e.target.value)}
+              options={[
+                { value: "Active", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCircleCheck} className="text-green-500" /> Active</span> },
+                { value: "Expired", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCircleXmark} className="text-red-500" /> Expired</span> },
+              ]}
+              onReset={() => handleResetFilter("status")}
+            />
+            <FilterByButton
+              label="Plan Type"
+              value={filters.plan_type}
+              onChange={(e) => handleFilterChange("plan_type", e.target.value)}
+              options={[
+                { value: "Month", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCalendarDay} className="text-blue-500" /> Monthly</span> },
+                { value: "Quarter", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCalendarWeek} className="text-purple-500" /> Quarterly</span> },
+                { value: "Semester", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCalendarDays} className="text-green-500" /> Semester</span> },
+                { value: "Year", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCalendar} className="text-orange-500" /> Yearly</span> },
+              ]}
+              onReset={() => handleResetFilter("plan_type")}
+            />
           </div>
       
 
