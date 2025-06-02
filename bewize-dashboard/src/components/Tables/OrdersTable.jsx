@@ -119,7 +119,6 @@ export default function OrdersTable({ orders }) {
               <td colSpan="8" className="px-6 py-8 text-center text-gray-500 bg-gray-50">
                 <div className="flex flex-col items-center justify-center">
                   <span className="text-lg font-medium">No Orders found</span>
-                  <span className="text-sm text-gray-400 mt-1">Add a new order to get started</span>
                 </div>
               </td>
             </motion.tr>

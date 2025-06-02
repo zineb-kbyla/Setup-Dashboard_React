@@ -7,7 +7,20 @@ import OrdersTable from "../components/Tables/OrdersTable";
 import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
-import { faBox, faBoxes, faCartShopping, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { 
+  faBox, 
+  faBoxes, 
+  faCartShopping, 
+  faHistory,
+  faCircleCheck,
+  faSpinner,
+  faClock,
+  faCircleXmark,
+  faBook,
+  faBoxOpen,
+  faGift
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Orders() {
   // Searching
@@ -86,10 +99,10 @@ export default function Orders() {
               value={filters.status}
               onChange={(e) => handleFilterChange("status", e.target.value)}
               options={[
-                { value: "Completed", label: "Completed" },
-                { value: "Processing", label: "Processing" },
-                { value: "Pending", label: "Pending" },
-                { value: "Cancelled", label: "Cancelled" },
+                { value: "Completed", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCircleCheck} className="text-green-500" /> Completed</span> },
+                { value: "Processing", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faSpinner} className="text-blue-500" /> Processing</span> },
+                { value: "Pending", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faClock} className="text-yellow-500" /> Pending</span> },
+                { value: "Cancelled", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCircleXmark} className="text-red-500" /> Cancelled</span> },
               ]}
               onReset={() => handleResetFilter("status")}
             />
@@ -98,9 +111,9 @@ export default function Orders() {
               value={filters.plan_type}
               onChange={(e) => handleFilterChange("plan_type", e.target.value)}
               options={[
-                { value: "subscription", label: "Subscription" },
-                { value: "course", label: "Course" },
-                { value: "bundle", label: "Bundle" },
+                { value: "subscription", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faBox} className="text-blue-500" /> Subscription</span> },
+                { value: "course", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faBook} className="text-purple-500" /> Course</span> },
+                { value: "bundle", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faGift} className="text-pink-500" /> Bundle</span> },
               ]}
               onReset={() => handleResetFilter("plan_type")}
             />

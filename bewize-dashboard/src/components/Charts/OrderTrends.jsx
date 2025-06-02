@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { BarChart } from "@mui/x-charts/BarChart";
+import { FormControl, InputLabel, Select, MenuItem, OutlinedInput } from "@mui/material";
 
 export default function OrderTrends( {data} ) {
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -26,22 +27,55 @@ export default function OrderTrends( {data} ) {
           <h2 className="text-lg align-middle font-semibold mb-2 text-gray-800 ms-5">
             Yearly Order Statistics 📈
           </h2>
-          <select
-            name="month"
-            id="month"
-            value={selectedYear}
-            onChange={handleChange}
-            className="font-bold border shadow-sm rounded-lg px-4 py-2 me-2 text-sm outline-none "
+          <FormControl
+            size="small"
+            sx={{
+              minWidth: 120,
+              marginRight: 2,
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "0.5rem",
+                backgroundColor: "white",
+                height: "40px",
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#3b82f6",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#3b82f6",
+                  borderWidth: "2px",
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: "#6b7280",
+                fontSize: "0.875rem",
+                "&.Mui-focused": {
+                  color: "#3b82f6",
+                },
+              },
+              "& .MuiSelect-select": {
+                padding: "6px 14px",
+                fontSize: "0.875rem",
+              },
+            }}
           >
-            <option value="2018">2018</option>
-            <option value="2019">2019</option>
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-            <option value="2023">2023</option>
-            <option value="2024">2024</option>
-            <option value="2025">2025</option>
-          </select>
+            <InputLabel id="year-label">Year</InputLabel>
+            <Select
+              labelId="year-label"
+              id="year-select"
+              value={selectedYear}
+              label="Year"
+              onChange={handleChange}
+              input={<OutlinedInput label="Year" />}
+            >
+              <MenuItem value="2018">2018</MenuItem>
+              <MenuItem value="2019">2019</MenuItem>
+              <MenuItem value="2020">2020</MenuItem>
+              <MenuItem value="2021">2021</MenuItem>
+              <MenuItem value="2022">2022</MenuItem>
+              <MenuItem value="2023">2023</MenuItem>
+              <MenuItem value="2024">2024</MenuItem>
+              <MenuItem value="2025">2025</MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <BarChart
           xAxis={[

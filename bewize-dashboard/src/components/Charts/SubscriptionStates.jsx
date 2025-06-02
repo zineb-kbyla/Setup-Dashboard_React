@@ -1,6 +1,7 @@
 import { LineChart } from "@mui/x-charts/LineChart";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
+import { FormControl, InputLabel, Select, MenuItem, OutlinedInput } from "@mui/material";
 
 export default function SubscriptionStates({ data }) {
   const [selectedYear, setSelectedYear] = useState("2024");
@@ -38,36 +39,101 @@ export default function SubscriptionStates({ data }) {
               Subscriptions by Month
             </h2>
             <div className="flex gap-2">
-              <select
-                name="year"
-                id="year"
-                value={selectedYear}
-                onChange={handleYearChange}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              <FormControl
+                size="small"
+                sx={{
+                  minWidth: 120,
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "0.5rem",
+                    backgroundColor: "white",
+                    height: "40px",
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#3b82f6",
+                    },
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#3b82f6",
+                      borderWidth: "2px",
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#6b7280",
+                    fontSize: "0.875rem",
+                    "&.Mui-focused": {
+                      color: "#3b82f6",
+                    },
+                  },
+                  "& .MuiSelect-select": {
+                    padding: "6px 14px",
+                    fontSize: "0.875rem",
+                  },
+                }}
               >
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
-              </select>
-              <select
-                name="month"
-                id="month"
-                value={selectedMonth}
-                onChange={handleMonthChange}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                <InputLabel id="year-label">Year</InputLabel>
+                <Select
+                  labelId="year-label"
+                  id="year-select"
+                  value={selectedYear}
+                  label="Year"
+                  onChange={handleYearChange}
+                  input={<OutlinedInput label="Year" />}
+                >
+                  <MenuItem value="2023">2023</MenuItem>
+                  <MenuItem value="2024">2024</MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl
+                size="small"
+                sx={{
+                  minWidth: 120,
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "0.5rem",
+                    backgroundColor: "white",
+                    height: "40px",
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#3b82f6",
+                    },
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#3b82f6",
+                      borderWidth: "2px",
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#6b7280",
+                    fontSize: "0.875rem",
+                    "&.Mui-focused": {
+                      color: "#3b82f6",
+                    },
+                  },
+                  "& .MuiSelect-select": {
+                    padding: "6px 14px",
+                    fontSize: "0.875rem",
+                  },
+                }}
               >
-                <option value="jan">Janvier</option>
-                <option value="feb">Février</option>
-                <option value="mar">Mars</option>
-                <option value="apr">Avril</option>
-                <option value="may">Mai</option>
-                <option value="jun">Juin</option>
-                <option value="jul">Juillet</option>
-                <option value="aug">Août</option>
-                <option value="sep">Septembre</option>
-                <option value="oct">Octobre</option>
-                <option value="nov">Novembre</option>
-                <option value="dec">Décembre</option>
-              </select>
+                <InputLabel id="month-label">Month</InputLabel>
+                <Select
+                  labelId="month-label"
+                  id="month-select"
+                  value={selectedMonth}
+                  label="Month"
+                  onChange={handleMonthChange}
+                  input={<OutlinedInput label="Month" />}
+                >
+                  <MenuItem value="jan">Janvier</MenuItem>
+                  <MenuItem value="feb">Février</MenuItem>
+                  <MenuItem value="mar">Mars</MenuItem>
+                  <MenuItem value="apr">Avril</MenuItem>
+                  <MenuItem value="may">Mai</MenuItem>
+                  <MenuItem value="jun">Juin</MenuItem>
+                  <MenuItem value="jul">Juillet</MenuItem>
+                  <MenuItem value="aug">Août</MenuItem>
+                  <MenuItem value="sep">Septembre</MenuItem>
+                  <MenuItem value="oct">Octobre</MenuItem>
+                  <MenuItem value="nov">Novembre</MenuItem>
+                  <MenuItem value="dec">Décembre</MenuItem>
+                </Select>
+              </FormControl>
             </div>
           </div>
           <div className="content">

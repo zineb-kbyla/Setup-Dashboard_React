@@ -28,7 +28,7 @@ export default function Dashboard() {
           index={0}
         />
         <Metric
-          title={"Total Commandes"}
+          title={"Total Orders"}
           icon={faShoppingCart}
           data={1358}
           percentage={0.1}

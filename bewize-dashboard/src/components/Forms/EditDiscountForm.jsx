@@ -22,10 +22,10 @@ export default function EditDiscountForm({
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.8, opacity: 0 }}
         transition={{ type: "spring", duration: 0.5 }}
-        className="bg-white p-8 rounded-xl shadow-2xl w-[500px] max-h-[90vh] overflow-y-auto"
+        className="bg-white p-5 rounded-lg shadow-lg w-[500px] max-h-[80vh] overflow-y-auto"
       >
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-2xl font-semibold text-gray-800 flex items-center gap-2">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
             <FontAwesomeIcon icon={faEdit} className="text-blue-600" />
             Edit Discount
           </h3>
@@ -37,10 +37,10 @@ export default function EditDiscountForm({
           </button>
         </div>
 
-        <form onSubmit={handleEditSubmit} className="space-y-6">
-          <div className="space-y-4">
+        <form onSubmit={handleEditSubmit} className="space-y-4">
+          <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+              <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
                 <FontAwesomeIcon icon={faHashtag} className="text-gray-500" />
                 Code
               </label>
@@ -49,13 +49,13 @@ export default function EditDiscountForm({
                 name="code"
                 value={selectedDiscount.code}
                 onChange={handleEditChange}
-                className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                className="w-full border border-gray-300 px-3 py-1.5 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+              <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
                 <FontAwesomeIcon icon={faPercent} className="text-gray-500" />
                 Percentage (%)
               </label>
@@ -64,7 +64,7 @@ export default function EditDiscountForm({
                 name="percentage"
                 value={selectedDiscount.percentage}
                 onChange={handleEditChange}
-                className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                className="w-full border border-gray-300 px-3 py-1.5 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
                 min="0"
                 max="100"
                 required
@@ -73,7 +73,7 @@ export default function EditDiscountForm({
 
             <div className="flex gap-4">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
                   <FontAwesomeIcon icon={faCalendarAlt} className="text-gray-500" />
                   Start Date
                 </label>
@@ -82,13 +82,13 @@ export default function EditDiscountForm({
                   name="startDate"
                   value={selectedDiscount.startDate}
                   onChange={handleEditChange}
-                  className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                  className="w-full border border-gray-300 px-3 py-1.5 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
                   required
                 />
               </div>
 
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
                   <FontAwesomeIcon icon={faCalendarAlt} className="text-gray-500" />
                   End Date
                 </label>
@@ -97,14 +97,14 @@ export default function EditDiscountForm({
                   name="endDate"
                   value={selectedDiscount.endDate}
                   onChange={handleEditChange}
-                  className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                  className="w-full border border-gray-300 px-3 py-1.5 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+              <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
                 <FontAwesomeIcon icon={faToggleOn} className="text-gray-500" />
                 Status
               </label>
@@ -112,7 +112,7 @@ export default function EditDiscountForm({
                 name="status"
                 value={selectedDiscount.status}
                 onChange={handleEditChange}
-                className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                className="w-full border border-gray-300 px-3 py-1.5 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
                 required
               >
                 <option value="Active">Active</option>
@@ -121,17 +121,17 @@ export default function EditDiscountForm({
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 pt-4">
+          <div className="flex justify-end gap-3 pt-3">
             <button
               type="button"
               onClick={() => setShowEditForm(false)}
-              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 py-1.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-4 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               Save Changes
             </button>

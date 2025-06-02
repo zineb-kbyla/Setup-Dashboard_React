@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import PowerOffIcon from "@mui/icons-material/PowerOff";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import EditDiscountForm from "../Forms/EditDiscountForm";
 import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal";
 import { tableVariants, rowVariants } from "../../variants/animations";
@@ -182,8 +182,8 @@ export default function DiscountsTable({
                             className={`hover:bg-${discount.status === 'Active' ? 'orange' : 'green'}-50 transition-colors duration-200`}
                           >
                             {discount.status === 'Active' ? 
-                              <PowerOffIcon fontSize="small" /> : 
-                              <PowerSettingsNewIcon fontSize="small" />
+                              <ToggleOffIcon fontSize="small" /> : 
+                              <ToggleOnIcon fontSize="small" />
                             }
                           </IconButton>
                         </Tooltip>

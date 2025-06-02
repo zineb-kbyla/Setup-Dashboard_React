@@ -6,7 +6,24 @@ import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
 import PaymentsTable from "../components/Tables/PaymentsTable";
-import { faCreditCard, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { 
+  faCreditCard, 
+  faHistory,
+  faCircleCheck,
+  faClock,
+  faCircleXmark,
+  faMoneyBillTransfer,
+  faCcVisa,
+  faCcPaypal,
+  faCcMastercard,
+  faApplePay
+} from "@fortawesome/free-solid-svg-icons";
+import { 
+  faCcVisa as faCcVisaBrand,
+  faCcPaypal as faCcPaypalBrand,
+  faCcMastercard as faCcMastercardBrand,
+  faApplePay as faApplePayBrand
+} from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mockPayments from "../data/mockPayments";
 
@@ -85,10 +102,10 @@ export default function Payments() {
               value={filters.payment_status}
               onChange={(e) => handleFilterChange("payment_status", e.target.value)}
               options={[
-                { value: "Paid", label: "Paid" },
-                { value: "Pending", label: "Pending" },
-                { value: "Failed", label: "Failed" },
-                { value: "Refunded", label: "Refunded" },
+                { value: "Paid", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCircleCheck} className="text-green-500" /> Paid</span> },
+                { value: "Pending", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faClock} className="text-yellow-500" /> Pending</span> },
+                { value: "Failed", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCircleXmark} className="text-red-500" /> Failed</span> },
+                { value: "Refunded", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faMoneyBillTransfer} className="text-blue-500" /> Refunded</span> },
               ]}
               onReset={() => handleResetFilter("payment_status")}
             />
@@ -98,10 +115,10 @@ export default function Payments() {
               value={filters.payment_method}
               onChange={(e) => handleFilterChange("payment_method", e.target.value)}
               options={[
-                { value: "Visa", label: "Visa" },
-                { value: "PayPal", label: "PayPal" },
-                { value: "MasterCard", label: "MasterCard" },
-                { value: "Apple Pay", label: "Apple Pay" },
+                { value: "Visa", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCcVisaBrand} className="text-blue-600" /> Visa</span> },
+                { value: "PayPal", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCcPaypalBrand} className="text-blue-500" /> PayPal</span> },
+                { value: "MasterCard", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCcMastercardBrand} className="text-red-600" /> MasterCard</span> },
+                { value: "Apple Pay", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faApplePayBrand} className="text-gray-800" /> Apple Pay</span> },
               ]}
               onReset={() => handleResetFilter("payment_method")}
             />
