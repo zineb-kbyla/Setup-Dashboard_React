@@ -6,6 +6,7 @@ const mockDiscounts = [
     startDate: "2024-01-01",
     endDate: "2025-12-31",
     status: "Active",
+    schoolName: "Harvard University"
   },
   {
     id: "DISC-002",
@@ -14,6 +15,7 @@ const mockDiscounts = [
     startDate: "2024-06-01",
     endDate: "2024-08-31",
     status: "Active",
+    schoolName: "MIT"
   },
   {
     id: "DISC-003",
@@ -22,6 +24,7 @@ const mockDiscounts = [
     startDate: "2024-11-25",
     endDate: "2025-11-30",
     status: "Inactive",
+    schoolName: "Stanford University"
   },
   {
     id: "DISC-004",
@@ -30,6 +33,7 @@ const mockDiscounts = [
     startDate: "2024-12-28",
     endDate: "2025-01-05",
     status: "Active",
+    schoolName: "Yale University"
   },
   {
     id: "DISC-005",
@@ -38,6 +42,7 @@ const mockDiscounts = [
     startDate: "2024-03-01",
     endDate: "2024-05-31",
     status: "Inactive",
+    schoolName: "Princeton University"
   },
 ];
 

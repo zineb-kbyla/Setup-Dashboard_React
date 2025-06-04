@@ -7,7 +7,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
 import DiscountsTable from "../components/Tables/DiscountsTable";
 import CreateDiscountForm from "../components/Forms/CreateDiscountForm";
-import {faPercent, faPlus, faCircleCheck, faCircleXmark} from "@fortawesome/free-solid-svg-icons";
+import {faPercent, faPlus, faCircleCheck, faCircleXmark, faSchool} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mockDiscounts from "../data/mockDiscounts";
 
@@ -38,6 +38,7 @@ export default function Discounts() {
   // Filter Options
   const [filters, setFilters] = useState({
     status: "",
+    school: ""
   });
 
   // Handle Filter Change
@@ -49,6 +50,9 @@ export default function Discounts() {
   const handleResetFilter = (filterName) => {
     setFilters((prev) => ({ ...prev, [filterName]: "" }));
   };
+
+  // Get unique schools for filter options
+  const uniqueSchools = [...new Set(mockDiscounts.map(discount => discount.schoolName))];
 
   // Is Discount Expired
   const isDateExpired = (endDate) => {
@@ -100,6 +104,7 @@ export default function Discounts() {
       .toISOString()
       .slice(0, 10),
     status: "Active",
+    schoolName: ""
   });
 
   // Handle Create Form Button
@@ -165,11 +170,13 @@ export default function Discounts() {
   const filteredDiscounts = discounts.filter((discount) => {
     const matchesSearch =
       discount.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      discount.code.toLowerCase().includes(searchTerm.toLowerCase());
+      discount.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      discount.schoolName.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesStatus = !filters.status || discount.status === filters.status;
+    const matchesSchool = !filters.school || discount.schoolName === filters.school;
 
-    return matchesSearch && matchesStatus;
+    return matchesSearch && matchesStatus && matchesSchool;
   });
 
   // Displayed Discounts in paginated page
@@ -197,6 +204,16 @@ export default function Discounts() {
                 { value: "Inactive", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCircleXmark} className="text-red-500" /> Inactive</span> },
               ]}
               onReset={() => handleResetFilter("status")}
+            />
+            <FilterByButton
+              label="School"
+              value={filters.school}
+              onChange={(e) => handleFilterChange("school", e.target.value)}
+              options={uniqueSchools.map(school => ({
+                value: school,
+                label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faSchool} className="text-blue-500" /> {school}</span>
+              }))}
+              onReset={() => handleResetFilter("school")}
             />
           </div>
 

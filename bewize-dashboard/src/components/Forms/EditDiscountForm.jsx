@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTimes, faHashtag, faPercent, faCalendarAlt, faToggleOn } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTimes, faHashtag, faPercent, faCalendarAlt, faToggleOn, faSchool } from "@fortawesome/free-solid-svg-icons";
 
 export default function EditDiscountForm({
   showEditForm,
@@ -48,6 +48,21 @@ export default function EditDiscountForm({
                 type="text"
                 name="code"
                 value={selectedDiscount.code}
+                onChange={handleEditChange}
+                className="w-full border border-gray-300 px-3 py-1.5 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
+                <FontAwesomeIcon icon={faSchool} className="text-gray-500" />
+                School Name
+              </label>
+              <input
+                type="text"
+                name="schoolName"
+                value={selectedDiscount.schoolName}
                 onChange={handleEditChange}
                 className="w-full border border-gray-300 px-3 py-1.5 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
                 required

@@ -71,6 +71,12 @@ export default function DiscountsTable({
               scope="col"
               className="py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider"
             >
+              school
+            </th>
+            <th
+              scope="col"
+              className="py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider"
+            >
               percentage (%)
             </th>
             <th
@@ -116,6 +122,9 @@ export default function DiscountsTable({
                 </td>
                 <td className="py-4 text-gray-900 font-mono text-sm px-3 rounded">
                   {discount.code}
+                </td>
+                <td className="py-4 text-gray-600">
+                  {discount.schoolName}
                 </td>
                 <td className="py-4">
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700">

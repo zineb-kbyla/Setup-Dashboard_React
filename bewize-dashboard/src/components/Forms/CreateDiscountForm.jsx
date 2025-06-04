@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTimes, faPercent, faCalendarAlt, faTag, faIdCard, faToggleOn } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTimes, faPercent, faCalendarAlt, faTag, faIdCard, faToggleOn, faSchool } from "@fortawesome/free-solid-svg-icons";
 
 export default function CreateDiscountForm({
   showCreateForm,
@@ -61,6 +61,25 @@ export default function CreateDiscountForm({
               onChange={handleCreateChange}
               className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
               placeholder="e.g. SUMMER2025"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="block text-sm font-medium text-gray-700 mb-0.5 flex items-center gap-2">
+              <FontAwesomeIcon
+                icon={faSchool}
+                className="text-gray-500"
+              />
+              School Name
+            </label>
+            <input
+              type="text"
+              name="schoolName"
+              value={createdDiscount.schoolName}
+              onChange={handleCreateChange}
+              className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+              placeholder="e.g. Harvard University"
               required
             />
           </div>
