@@ -6,6 +6,7 @@ import Users from "./pages/Users";
 import User from "./pages/User";
 import Subscriptions from "./pages/Subscriptions";
 import Discounts from "./pages/Discounts";
+import DiscountDetails from "./pages/DiscountDetails";
 import Payments from "./pages/Payments";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/discounts" element={<Discounts />} />
+          <Route path="/discounts/:id" element={<DiscountDetails />} />
           <Route path="/payments" element={<Payments />} />
         </Routes>
       </Router>

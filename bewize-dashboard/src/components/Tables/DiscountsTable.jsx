@@ -5,9 +5,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditDiscountForm from "../Forms/EditDiscountForm";
 import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal";
 import { tableVariants, rowVariants } from "../../variants/animations";
+import { useNavigate } from "react-router-dom";
 
 export default function DiscountsTable({
   discounts,
@@ -20,6 +22,7 @@ export default function DiscountsTable({
   handleEditSubmit,
   setShowEditForm,
 }) {
+  const navigate = useNavigate();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [discountToDelete, setDiscountToDelete] = useState(null);
 
@@ -43,6 +46,11 @@ export default function DiscountsTable({
       setDeleteModalOpen(false);
       setDiscountToDelete(null);
     }
+  };
+
+  // Handle row click
+  const handleRowClick = (discountId) => {
+    navigate(`/discounts/${discountId}`);
   };
 
   return (
@@ -115,12 +123,13 @@ export default function DiscountsTable({
                 initial="hidden"
                 animate="visible"
                 transition={{ delay: index * 0.05 }}
-                className="bg-white border-b hover:bg-gray-50 transition-colors"
+                className="bg-white border-b hover:bg-gray-50 transition-colors cursor-pointer"
+                onClick={() => handleRowClick(discount.id)}
               >
-                <td className="py-4 px-4 text-gray-900 font-medium">
+                <td className="py-4 px-4 text-gray-900 font-medium hover:text-blue-600 transition-colors">
                   {discount.id}
                 </td>
-                <td className="py-4 text-gray-900 font-mono text-sm px-3 rounded">
+                <td className="py-4 text-gray-900 font-mono text-sm px-3 rounded hover:text-blue-600 transition-colors">
                   {discount.code}
                 </td>
                 <td className="py-4 text-gray-600">
@@ -152,8 +161,19 @@ export default function DiscountsTable({
                     </span>
                   )}
                 </td>
-                <td className="py-4 text-center">
+                <td className="py-4 text-center" onClick={(e) => e.stopPropagation()}>
                   <div className="flex justify-center gap-1">
+                    <Tooltip title="View Details" arrow placement="top">
+                      <IconButton
+                        onClick={() => handleRowClick(discount.id)}
+                        size="small"
+                        color="info"
+                        aria-label="view details"
+                        className="hover:bg-blue-50 transition-colors duration-200"
+                      >
+                        <VisibilityIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
                     <Tooltip title="Edit Discount" arrow placement="top">
                       <IconButton
                         onClick={() => onEdit(discount)}
