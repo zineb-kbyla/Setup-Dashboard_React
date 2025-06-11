@@ -11,6 +11,18 @@ import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal";
 import { tableVariants, rowVariants } from "../../variants/animations";
 import { useNavigate } from "react-router-dom";
 
+// School logo mapping
+const schoolLogos = {
+  "Groupe Scolaire L'initiale": "/images/schools/initiale.png",
+  "Groupe Scolaire Lavoisier": "/images/schools/lavoisier.png",
+  "Groupe Scolaire Tangerine": "/images/schools/tangerine.png",
+  "Groupe Scolaire Al Jabr": "/images/schools/aljabr.png",
+  "Bewize": "/images/schools/bewize.png"
+};
+
+// Helper function to determine if a discount is from Bewize
+const isBewizeDiscount = (schoolName) => schoolName === "Bewize";
+
 export default function DiscountsTable({
   discounts,
   onEdit,
@@ -109,8 +121,18 @@ export default function DiscountsTable({
               scope="col"
               className="py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wider"
             >
-              action
+              view
             </th>
+            <th
+              scope="col"
+              colSpan="3"
+              className="py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wider"
+            >
+              actions
+            </th>
+          </tr>
+          <tr>
+      
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
@@ -123,17 +145,27 @@ export default function DiscountsTable({
                 initial="hidden"
                 animate="visible"
                 transition={{ delay: index * 0.05 }}
-                className="bg-white border-b hover:bg-gray-50 transition-colors cursor-pointer"
-                onClick={() => handleRowClick(discount.id)}
+                className="bg-white border-b hover:bg-gray-50 transition-colors"
               >
                 <td className="py-4 px-4 text-gray-900 font-medium hover:text-blue-600 transition-colors">
                   {discount.id}
                 </td>
-                <td className="py-4 text-gray-900 font-mono text-sm px-3 rounded hover:text-blue-600 transition-colors">
+                <td className="py-4 text-gray-900 font-mono text-sm pe-2 rounded hover:text-blue-600 transition-colors">
                   {discount.code}
                 </td>
                 <td className="py-4 text-gray-600">
-                  {discount.schoolName}
+                  <div className="flex items-center gap-2">
+                    <img 
+                      src={schoolLogos[discount.schoolName]} 
+                      alt={`${discount.schoolName} logo`}
+                      className="w-6 h-6 rounded-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/images/schools/default.png";
+                      }}
+                    />
+                    {discount.schoolName}
+                  </div>
                 </td>
                 <td className="py-4">
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700">
@@ -161,64 +193,66 @@ export default function DiscountsTable({
                     </span>
                   )}
                 </td>
-                <td className="py-4 text-center" onClick={(e) => e.stopPropagation()}>
-                  <div className="flex justify-center gap-1">
-                    <Tooltip title="View Details" arrow placement="top">
+                <td className="py-4 text-center">
+                  <Tooltip title="View Details" arrow placement="top">
+                    <IconButton
+                      onClick={() => handleRowClick(discount.id)}
+                      size="small"
+                      color="info"
+                      aria-label="view details"
+                      className="hover:bg-blue-50 transition-colors duration-200"
+                    >
+                      <VisibilityIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                </td>
+                <td className="py-4 text-center">
+                  <Tooltip title="Edit Discount" arrow placement="top">
+                    <IconButton
+                      onClick={() => onEdit(discount)}
+                      size="small"
+                      color="primary"
+                      aria-label="edit"
+                      className="hover:bg-blue-50 transition-colors duration-200"
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                </td>
+                <td className="py-4 text-center">
+                  <Tooltip title="Delete Discount" arrow placement="top">
+                    <IconButton
+                      onClick={() => handleDeleteClick(discount.id)}
+                      size="small"
+                      color="error"
+                      aria-label="delete"
+                      className="hover:bg-red-50 transition-colors duration-200"
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                </td>
+                <td className="py-4 text-center">
+                  {!isDateExpired(discount.endDate) && (
+                    <Tooltip 
+                      title={discount.status === 'Active' ? 'Deactivate Discount' : 'Activate Discount'} 
+                      arrow 
+                      placement="top"
+                    >
                       <IconButton
-                        onClick={() => handleRowClick(discount.id)}
+                        onClick={() => onSwitchStatus(discount.id)}
                         size="small"
-                        color="info"
-                        aria-label="view details"
-                        className="hover:bg-blue-50 transition-colors duration-200"
+                        color={discount.status === 'Active' ? 'warning' : 'success'}
+                        aria-label={discount.status === 'Active' ? 'deactivate' : 'activate'}
+                        className={`hover:bg-${discount.status === 'Active' ? 'orange' : 'green'}-50 transition-colors duration-200`}
                       >
-                        <VisibilityIcon fontSize="small" />
+                        {discount.status === 'Active' ? 
+                          <ToggleOffIcon fontSize="small" /> : 
+                          <ToggleOnIcon fontSize="small" />
+                        }
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Edit Discount" arrow placement="top">
-                      <IconButton
-                        onClick={() => onEdit(discount)}
-                        size="small"
-                        color="primary"
-                        aria-label="edit"
-                        className="hover:bg-blue-50 transition-colors duration-200"
-                      >
-                        <EditIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete Discount" arrow placement="top">
-                      <IconButton
-                        onClick={() => handleDeleteClick(discount.id)}
-                        size="small"
-                        color="error"
-                        aria-label="delete"
-                        className="hover:bg-red-50 transition-colors duration-200"
-                      >
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <div className="w-8">
-                      {!isDateExpired(discount.endDate) && (
-                        <Tooltip 
-                          title={discount.status === 'Active' ? 'Deactivate Discount' : 'Activate Discount'} 
-                          arrow 
-                          placement="top"
-                        >
-                          <IconButton
-                            onClick={() => onSwitchStatus(discount.id)}
-                            size="small"
-                            color={discount.status === 'Active' ? 'warning' : 'success'}
-                            aria-label={discount.status === 'Active' ? 'deactivate' : 'activate'}
-                            className={`hover:bg-${discount.status === 'Active' ? 'orange' : 'green'}-50 transition-colors duration-200`}
-                          >
-                            {discount.status === 'Active' ? 
-                              <ToggleOffIcon fontSize="small" /> : 
-                              <ToggleOnIcon fontSize="small" />
-                            }
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                    </div>
-                  </div>
+                  )}
                 </td>
               </motion.tr>
             ))
@@ -228,7 +262,7 @@ export default function DiscountsTable({
               initial="hidden"
               animate="visible"
             >
-              <td colSpan="7" className="px-6 py-8 text-center text-gray-500 bg-gray-50">
+              <td colSpan="11" className="px-6 py-8 text-center text-gray-500 bg-gray-50">
                 <div className="flex flex-col items-center justify-center">
                   <span className="text-lg font-medium">No Discounts found</span>
                   <span className="text-sm text-gray-400 mt-1">Add a new discount to get started</span>

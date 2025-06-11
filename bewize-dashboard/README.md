@@ -1,70 +1,116 @@
-# Getting Started with Create React App
+# Backend Data Requirements
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Page: Dashboard
+- `GET /api/dashboard/metrics`
+  - Response:
+    - `totalUsers` (**number**)
+    - `totalOrders` (**number**)
+    - `totalSubscriptions` (**number**)
+    - `totalDiscounts` (**number**)
+- `GET /api/dashboard/charts`
+  - Response:
+    - `usersData` (**array**)
+    - `subscriptionData` (**array**)
+    - `yearlyOrderStats` (**array**)
 
-## Available Scripts
+#### Page: Users
+- `GET /api/users`
+  - Query Parameters:
+    - `page` (**number**)
+    - `rowsPerPage` (**number**)
+  - Response:
+    - `users` (**array**)
+      - `name` (**string**)
+      - `email` (**string**)
+      - `gender` (**string**)
+      - `device_type` (**string**)
+      - `level_id` (**number**)
+    - `totalUsers` (**number**)
 
-In the project directory, you can run:
+#### Page: Orders
+- `GET /api/orders`
+  - Response:
+    - `orders` (**array**)
+      - `orderId` (**string**)
+      - `customerId` (**string**)
+      - `status` (**string**)
+      - `total` (**number**)
+      - `date` (**string**)
+      - `items` (**array**)
 
-### `npm start`
+#### Page: Payments
+- `GET /api/payments`
+  - Response:
+    - `payments` (**array**)
+      - `paymentId` (**string**)
+      - `orderId` (**string**)
+      - `amount` (**number**)
+      - `status` (**string**)
+      - `date` (**string**)
+      - `method` (**string**)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### Page: Subscriptions
+- `GET /api/subscriptions`
+  - Response:
+    - `subscriptions` (**array**)
+      - `subscriptionId` (**string**)
+      - `userId` (**string**)
+      - `plan` (**string**)
+      - `status` (**string**)
+      - `startDate` (**string**)
+      - `endDate` (**string**)
+      - `renewalDate` (**string**)
+- `PUT /api/subscriptions/:subscriptionId`
+  - Request Body:
+    - `plan` (**string**, optional)
+    - `status` (**string**, optional)
+    - `startDate` (**string**, optional)
+    - `endDate` (**string**, optional)
+  - Response:
+    - `subscription` (**object**)
+      - `subscriptionId` (**string**)
+      - `userId` (**string**)
+      - `plan` (**string**)
+      - `status` (**string**)
+      - `startDate` (**string**)
+      - `endDate` (**string**)
+      - `renewalDate` (**string**)
+- `DELETE /api/subscriptions/:subscriptionId`
+  - Response:
+    - `success` (**boolean**)
+    - `message` (**string**)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### Page: Discounts
+- `GET /api/discounts`
+  - Response:
+    - `discounts` (**array**)
+      - `code` (**string**)
+      - `type` (**string**)
+      - `value` (**number**)
+      - `startDate` (**string**)
+      - `endDate` (**string**)
+      - `usageLimit` (**number**)
+      - `usageCount` (**number**)
+      - `status` (**string**)
+- `PUT /api/discounts/:code`
+  - Request Body:
+    - `type` (**string**, optional)
+    - `value` (**number**, optional)
+    - `startDate` (**string**, optional)
+    - `endDate` (**string**, optional)
+    - `usageLimit` (**number**, optional)
+    - `status` (**string**, optional)
+  - Response:
+    - `discount` (**object**)
+      - `code` (**string**)
+      - `type` (**string**)
+      - `value` (**number**)
+      - `startDate` (**string**)
+      - `endDate` (**string**)
+      - `usageLimit` (**number**)
+      - `usageCount` (**number**)
+      - `status` (**string**)
+- `DELETE /api/discounts/:code`
+  - Response:
+    - `success` (**boolean**)
+    - `message` (**string**)

@@ -1,49 +1,58 @@
 const mockDiscounts = [
   {
     id: "DISC-001",
-    code: "WELCOME10",
+    code: "INITIALE10",
     percentage: 10,
     startDate: "2024-01-01",
     endDate: "2025-12-31",
     status: "Active",
-    schoolName: "Harvard University"
+    schoolName: "Groupe Scolaire L'initiale"
   },
   {
     id: "DISC-002",
-    code: "SUMMER15",
+    code: "LAVOISIER15",
     percentage: 15,
     startDate: "2024-06-01",
     endDate: "2024-08-31",
     status: "Active",
-    schoolName: "MIT"
+    schoolName: "Groupe Scolaire Lavoisier"
   },
   {
     id: "DISC-003",
-    code: "BLACKFRIDAY",
-    percentage: 25,
+    code: "TANGERINE20",
+    percentage: 20,
     startDate: "2024-11-25",
     endDate: "2025-11-30",
     status: "Inactive",
-    schoolName: "Stanford University"
+    schoolName: "Groupe Scolaire Tangerine"
   },
   {
     id: "DISC-004",
-    code: "NEWYEAR20",
-    percentage: 20,
+    code: "ALJABR25",
+    percentage: 25,
     startDate: "2024-12-28",
     endDate: "2025-01-05",
     status: "Active",
-    schoolName: "Yale University"
+    schoolName: "Groupe Scolaire Al Jabr"
   },
   {
     id: "DISC-005",
-    code: "SPRING5",
-    percentage: 5,
+    code: "BEWIZE30",
+    percentage: 30,
     startDate: "2024-03-01",
     endDate: "2024-05-31",
-    status: "Inactive",
-    schoolName: "Princeton University"
+    status: "Active",
+    schoolName: "Bewize"
   },
+  {
+    id: "DISC-006",
+    code: "BEWIZE50",
+    percentage: 50,
+    startDate: "2024-04-01",
+    endDate: "2024-04-30",
+    status: "Active",
+    schoolName: "Bewize"
+  }
 ];
 
 export default mockDiscounts; 

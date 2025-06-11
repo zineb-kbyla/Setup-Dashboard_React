@@ -6,7 +6,7 @@ import { pageTitleVariants } from "../variants/animations";
 export default function PageTitle({ title, icon }) {
   return (
     <motion.div 
-      className="flex items-center gap-2 mb-4"
+      className="flex justify-start items-center gap-2 mb-4"
       variants={pageTitleVariants.container}
       initial="initial"
       animate="animate"
