@@ -11,6 +11,15 @@ import {faPercent, faPlus, faCircleCheck, faCircleXmark, faSchool} from "@fortaw
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mockDiscounts from "../data/mockDiscounts";
 
+// School logo mapping
+const schoolLogos = {
+  "Groupe Scolaire L'initiale": "/images/schools/initiale.png",
+  "Groupe Scolaire Lavoisier": "/images/schools/lavoisier.png",
+  "Groupe Scolaire Tangerine": "/images/schools/tangerine.png",
+  "Groupe Scolaire Al Jabr": "/images/schools/aljabr.png",
+  "Bewize": "/images/schools/bewize.png"
+};
+
 export default function Discounts() {
   // Searching
   const [searchTerm, setSearchTerm] = useState("");
@@ -211,7 +220,20 @@ export default function Discounts() {
               onChange={(e) => handleFilterChange("school", e.target.value)}
               options={uniqueSchools.map(school => ({
                 value: school,
-                label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faSchool} className="text-blue-500" /> {school}</span>
+                label: (
+                  <span className="flex items-center gap-2">
+                    <img 
+                      src={schoolLogos[school]} 
+                      alt={`${school} logo`}
+                      className="w-5 h-5 rounded-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/images/schools/default.png";
+                      }}
+                    />
+                    {school}
+                  </span>
+                )
               }))}
               onReset={() => handleResetFilter("school")}
             />

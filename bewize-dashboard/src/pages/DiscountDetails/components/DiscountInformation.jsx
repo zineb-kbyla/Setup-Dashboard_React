@@ -7,6 +7,15 @@ import {
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
+// School logo mapping
+const schoolLogos = {
+  "Groupe Scolaire L'initiale": "/images/schools/initiale.png",
+  "Groupe Scolaire Lavoisier": "/images/schools/lavoisier.png",
+  "Groupe Scolaire Tangerine": "/images/schools/tangerine.png",
+  "Groupe Scolaire Al Jabr": "/images/schools/aljabr.png",
+  "Bewize": "/images/schools/bewize.png"
+};
+
 const DiscountInformation = ({ discount, statistics }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
@@ -47,7 +56,15 @@ const DiscountInformation = ({ discount, statistics }) => {
         <div className="bg-gray-50 px-3 py-2 rounded-lg">
           <p className="text-xs text-gray-500">School</p>
           <p className="text-sm font-medium text-gray-900 flex items-center gap-2">
-            <FontAwesomeIcon icon={faSchool} className="text-blue-500" />
+            <img 
+              src={schoolLogos[discount.schoolName]} 
+              alt={`${discount.schoolName} logo`}
+              className="w-6 h-6 rounded-full object-cover"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "/images/schools/default.png";
+              }}
+            />
             {discount.schoolName}
           </p>
         </div>

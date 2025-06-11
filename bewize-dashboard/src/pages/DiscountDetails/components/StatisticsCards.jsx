@@ -4,16 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTicketAlt,
   faMoneyBillWave,
-  faUsers,
   faPercent,
   faClock,
   faInfoCircle,
-  faChartLine,
 } from "@fortawesome/free-solid-svg-icons";
 
 const StatisticsCards = ({ statistics }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -60,27 +58,6 @@ const StatisticsCards = ({ statistics }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow"
-      >
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-500">Active Users</p>
-            <p className="text-2xl font-semibold text-gray-900 mt-1">{statistics.activeUsers}</p>
-          </div>
-          <div className="p-3 bg-purple-50 rounded-xl">
-            <FontAwesomeIcon icon={faUsers} className="text-purple-600 text-xl" />
-          </div>
-        </div>
-        <div className="mt-4 flex items-center gap-2 text-sm text-gray-500">
-          <FontAwesomeIcon icon={faChartLine} className="text-gray-400" />
-          <span>Redemption rate: {statistics.redemptionRate}%</span>
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
         className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow"
       >
         <div className="flex items-center justify-between">

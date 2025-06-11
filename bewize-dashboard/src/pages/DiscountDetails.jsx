@@ -119,8 +119,8 @@ export default function DiscountDetails() {
     <DashboardLayout>
       <div className="space-y-6">
         {/* Header Section */}
-        <div className="flex items-center gap-4">
-          <div className="h-6 w-px bg-gray-300" />
+        <div className="flex items-start">
+          <div className="h-6 " />
           <PageTitle title="Discount Details" icon={faPercent} />
         </div>
 
@@ -142,6 +142,10 @@ export default function DiscountDetails() {
             filteredUsers={filteredUsers}
             handleSort={handleSort}
             sortConfig={sortConfig}
+            rowsPerPage={itemsPerPage}
+            handleChangeRowsPerPage={(e) => {
+              setCurrentPage(1);
+            }}
           />
         </div>
       </div>
