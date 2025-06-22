@@ -8,6 +8,8 @@ import Subscriptions from "./pages/Subscriptions";
 import Discounts from "./pages/Discounts";
 import DiscountDetails from "./pages/DiscountDetails";
 import Payments from "./pages/Payments";
+import Complaints from "./pages/Complaints";
+import ComplaintDetails from "./pages/ComplaintDetails";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
@@ -25,6 +27,8 @@ function App() {
           <Route path="/discounts" element={<Discounts />} />
           <Route path="/discounts/:id" element={<DiscountDetails />} />
           <Route path="/payments" element={<Payments />} />
+          <Route path="/complaints" element={<Complaints />} />
+          <Route path="/complaint-details" element={<ComplaintDetails />} />
         </Routes>
       </Router>
     </div>
