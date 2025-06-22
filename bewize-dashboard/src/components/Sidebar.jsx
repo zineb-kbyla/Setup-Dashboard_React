@@ -23,6 +23,7 @@ const menuItems = [
   { icon: faCreditCard, label: "Payments", route: "/payments" },
   { icon: faDollarSign, label: "Subscriptions", route: "/subscriptions" },
   { icon: faPercent , label: "Discounts", route: "/discounts" },
+  { icon: faBox, label: "Complaints", route: "/complaints" },
 ];
 
 export default function Sidebar({ isOpen }) {
