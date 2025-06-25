@@ -30,6 +30,9 @@ export default function UsersTable({ users }) {
               Date d'inscription
             </th>
             <th scope="col" className="py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wider">
+              Level
+            </th>
+            <th scope="col" className="py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wider">
               Actions
             </th>
           </tr>
@@ -52,7 +55,7 @@ export default function UsersTable({ users }) {
               initial="hidden"
               animate="visible"
             >
-              <td colSpan="6" className="px-6 py-8 text-center text-gray-500 bg-gray-50">
+              <td colSpan="7" className="px-6 py-8 text-center text-gray-500 bg-gray-50">
                 <div className="flex flex-col items-center justify-center">
                   <span className="text-lg font-medium">No Users found</span>
                   <span className="text-sm text-gray-400 mt-1">Add a new user to get started</span>

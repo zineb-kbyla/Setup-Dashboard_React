@@ -74,6 +74,7 @@ const LoginForm = ({ onSubmit, loading, showPassword, togglePassword }) => {
           <span
             onClick={togglePassword}
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+            data-testid="toggle-password"
           >
             <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
           </span>

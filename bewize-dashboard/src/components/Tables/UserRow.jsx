@@ -2,7 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faMobileScreen, faAppleWhole } from "@fortawesome/free-solid-svg-icons";
+import { IconButton, Tooltip } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function UserRow({ user, variants, initial, animate, transition }) {
   // Navigation
@@ -50,15 +52,33 @@ export default function UserRow({ user, variants, initial, animate, transition }
         </span>
       </td>
       <td className="py-4 text-gray-600">{user.registrationDate}</td>
+      <td className="py-4 text-gray-600">
+        <span className="flex items-center gap-2">
+          <FontAwesomeIcon 
+            icon={faStar} 
+            className={
+              user.level_id === 1 ? "text-yellow-400" :
+              user.level_id === 2 ? "text-yellow-500" :
+              user.level_id === 3 ? "text-orange-500" :
+              user.level_id === 4 ? "text-red-500" :
+              "text-gray-400"
+            }
+          />
+          {`Level ${user.level_id}`}
+        </span>
+      </td>
       <td className="py-4 text-center">
-        <button
-          onClick={() => handleViewDetails(user)}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors duration-200"
-          aria-label={`View details for ${user.name}`}
-        >
-          <FontAwesomeIcon icon={faEye} size="sm" />
-          <span>View</span>
-        </button>
+        <Tooltip title="View Details" arrow placement="top">
+          <IconButton
+            onClick={() => handleViewDetails(user)}
+            size="small"
+            color="info"
+            aria-label={`View details for ${user.name}`}
+            className="hover:bg-blue-50 transition-colors duration-200"
+          >
+            <VisibilityIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </td>
     </motion.tr>
   );
