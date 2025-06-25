@@ -7,7 +7,7 @@ import CategoriesStates from "../components/Charts/CategoriesStates";
 import SubscriptionStates from "../components/Charts/SubscriptionStates";
 import { faClipboardList, faShoppingCart, faTag, faUsers } from "@fortawesome/free-solid-svg-icons";
 import DashboardLayout from "../layouts/DashboardLayout";
-import { subscriptionData, usersData , yearlyOrderStats } from "../data/chartData";
+import { subscriptionData, usersData , yearlyOrderStats, yearlySubscriptionStats } from "../data/chartData";
 
 export default function Dashboard() {
 
@@ -15,6 +15,12 @@ export default function Dashboard() {
   const memoizedUsersData = useMemo(() => usersData, []);
   const memoizedSubscriptionData = useMemo(() => subscriptionData, []);
   const memoizedOrdersData = useMemo(() => yearlyOrderStats , []);
+  const memoizedYearlySubscriptionData = useMemo(() => yearlySubscriptionStats, []);
+
+  const trendsData = useMemo(() => ({
+    orders: memoizedOrdersData,
+    subscriptions: memoizedYearlySubscriptionData,
+  }), [memoizedOrdersData, memoizedYearlySubscriptionData]);
 
   return (
     <DashboardLayout>
@@ -63,7 +69,7 @@ export default function Dashboard() {
       </div>
 
       <div className="OrderTrends border rounded-lg shadow-sm my-4 bg-gray-50">
-        <OrderTrends data={memoizedOrdersData}  className="w-full" />
+        <OrderTrends data={trendsData}  className="w-full" />
       </div>
     </DashboardLayout>
   );
