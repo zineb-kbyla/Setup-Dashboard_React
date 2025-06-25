@@ -1,8 +1,12 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
+
+jest.mock('lottie-react', () => () => <div>Lottie Animation</div>);
+
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders login button', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+
 });
