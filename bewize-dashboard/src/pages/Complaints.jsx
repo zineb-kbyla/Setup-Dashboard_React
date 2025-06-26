@@ -1,207 +1,258 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faExclamationTriangle,
+  faFilter,
+  faSearch,
+  faSort,
+  faSortUp,
+  faSortDown,
+} from "@fortawesome/free-solid-svg-icons";
 import DashboardLayout from "../layouts/DashboardLayout";
-import ComplaintsTable from "../components/Tables/ComplaintsTable";
+import PageTitle from "../components/PageTitle";
 import SearchBar from "../components/SearchBar";
 import FilterByButton from "../components/FilterByButton";
 import Pagination from "../components/Pagination";
-import PageTitle from "../components/PageTitle";
-import { faBox, faBug, faCreditCard, faUser, faCheckCircle, faCircleXmark, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ComplaintActionModal from "../components/Modals/ComplaintActionModal";
-
-const mockComplaints = [
-  {
-    id: 1,
-    userName: "John Doe",
-    userEmail: "john@example.com",
-    userAvatar: require("../images/Avatars/Avatar1.png"),
-    type: "Technical",
-    status: "Open",
-    originalMessage: "L'application se ferme de manière inattendue lorsque j'essaie de soumettre un formulaire.",
-    reply: "Nous avons bien reçu votre réclamation et travaillons à la résolution du problème.",
-    resolutionComment: "Le bug a été corrigé dans la dernière mise à jour.",
-  },
-  {
-    id: 2,
-    userName: "Jane Smith",
-    userEmail: "jane@example.com",
-    userAvatar: require("../images/Avatars/Avatar2.png"),
-    type: "Billing",
-    status: "Resolved",
-    originalMessage: "J'ai été facturée deux fois pour mon abonnement ce mois-ci.",
-    reply: "Nous sommes désolés pour la gêne occasionnée. Un remboursement a été effectué.",
-    resolutionComment: "Double facturation remboursée le 12/05/2024.",
-  },
-  {
-    id: 3,
-    userName: "Alice Brown",
-    userEmail: "alice@example.com",
-    userAvatar: require("../images/Avatars/Avatar3.png"),
-    type: "Account",
-    status: "Resolved",
-    originalMessage: "Je n'arrive pas à réinitialiser mon mot de passe malgré plusieurs tentatives.",
-    reply: "Votre mot de passe a été réinitialisé avec succès. Veuillez vérifier votre email.",
-    resolutionComment: "Réinitialisation effectuée et confirmée par l'utilisateur.",
-  },
-  {
-    id: 4,
-    userName: "Bob White",
-    userEmail: "bob@example.com",
-    userAvatar: require("../images/Avatars/Avatar1.png"),
-    type: "Technical",
-    status: "Resolved",
-    originalMessage: "La fonctionnalité de recherche ne retourne aucun résultat même pour des termes courants.",
-    reply: "Merci pour votre retour. Nous avons corrigé la recherche, merci de réessayer.",
-    resolutionComment: "Recherche optimisée et validée par l'équipe technique.",
-  },
-  {
-    id: 5,
-    userName: "Sara Black",
-    userEmail: "sara@example.com",
-    userAvatar: require("../images/Avatars/Avatar2.png"),
-    type: "Billing",
-    status: "Open",
-    originalMessage: "Je souhaite obtenir une facture détaillée pour mon dernier paiement.",
-    reply: "Votre facture détaillée a été envoyée à votre adresse email.",
-    resolutionComment: "Facture générée et envoyée le 10/05/2024.",
-  }
-];
-
-const typeOptions = [
-  { value: "Technical", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faBug} className="text-blue-500" /> Technique</span> },
-  { value: "Billing", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCreditCard} className="text-purple-500" /> Facturation</span> },
-  { value: "Account", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faUser} className="text-green-500" /> Compte</span> },
-];
-
-const statusOptions = [
-  { value: "Open", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faExclamationTriangle} className="text-yellow-500" /> Ouverte</span> },
-  { value: "Resolved", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCheckCircle} className="text-green-600" /> Résolue</span> },
-];
+import ComplaintsTable from "../components/Tables/ComplaintsTable";
+import { mockComplaints, complaintCategories, complaintPriorities, complaintStatuses } from "../data/mockComplaints";
 
 export default function Complaints() {
-  // Search, filter, and pagination state
+  // Search and filter states
   const [searchTerm, setSearchTerm] = useState("");
-  const [typeFilter, setTypeFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedComplaint, setSelectedComplaint] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [priorityFilter, setPriorityFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
 
-  // Filtering and searching logic
-  const filteredComplaints = useMemo(() => {
-    return mockComplaints
-      .filter(
-        (c) =>
-          (!typeFilter || c.type === typeFilter) &&
-          (!statusFilter || c.status === statusFilter)
-      )
-      .filter(
-        (c) =>
-          c.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          c.userEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          c.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          c.status.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-  }, [searchTerm, typeFilter, statusFilter]);
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
-  // Pagination logic
-  const startIndex = page * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const paginatedComplaints = filteredComplaints.slice(startIndex, endIndex);
+  // Sorting states
+  const [sortConfig, setSortConfig] = useState({ key: "createdAt", direction: "desc" });
 
+  // Filter complaints based on search and filters
+  const filteredComplaints = mockComplaints
+    .filter((complaint) => {
+      const matchesSearch = 
+        complaint.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        complaint.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        complaint.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        complaint.user.email.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const matchesStatus = statusFilter === "all" || complaint.status === statusFilter;
+      const matchesPriority = priorityFilter === "all" || complaint.priority === priorityFilter;
+      const matchesCategory = categoryFilter === "all" || complaint.category === categoryFilter;
+      
+      return matchesSearch && matchesStatus && matchesPriority && matchesCategory;
+    })
+    .sort((a, b) => {
+      if (sortConfig.key === "createdAt") {
+        return sortConfig.direction === "asc"
+          ? new Date(a.createdAt) - new Date(b.createdAt)
+          : new Date(b.createdAt) - new Date(a.createdAt);
+      }
+      if (sortConfig.key === "updatedAt") {
+        return sortConfig.direction === "asc"
+          ? new Date(a.updatedAt) - new Date(b.updatedAt)
+          : new Date(b.updatedAt) - new Date(a.updatedAt);
+      }
+      if (sortConfig.key === "title") {
+        return sortConfig.direction === "asc"
+          ? a.title.localeCompare(b.title)
+          : b.title.localeCompare(a.title);
+      }
+      if (sortConfig.key === "user") {
+        return sortConfig.direction === "asc"
+          ? a.user.name.localeCompare(b.user.name)
+          : b.user.name.localeCompare(a.user.name);
+      }
+      return sortConfig.direction === "asc"
+        ? a[sortConfig.key]?.localeCompare?.(b[sortConfig.key]) || 0
+        : b[sortConfig.key]?.localeCompare?.(a[sortConfig.key]) || 0;
+    });
+
+  // Pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredComplaints.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredComplaints.length / itemsPerPage);
+
+  // Handle sorting
+  const handleSort = (key) => {
+    setSortConfig({
+      key,
+      direction:
+        sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc",
+    });
+  };
+
+  // Handle page change
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setCurrentPage(newPage + 1);
   };
 
+  // Handle rows per page change
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setCurrentPage(1);
   };
 
-  // Handler for opening modal
-  const handleOpenModal = (complaint) => {
-    setSelectedComplaint(complaint);
-    setModalOpen(true);
+  // Get sort icon
+  const getSortIcon = (key) => {
+    if (sortConfig.key !== key) return faSort;
+    return sortConfig.direction === "asc" ? faSortUp : faSortDown;
   };
 
-  // Handler for closing modal
-  const handleCloseModal = () => {
-    setModalOpen(false);
-    setSelectedComplaint(null);
-  };
-
-  // Handler for reply
-  const handleReply = (replyText) => {
-    // Implement reply logic here (API call, etc.)
-    alert(`Réponse envoyée: ${replyText}`);
-    setModalOpen(false);
-  };
-
-  // Handler for resolve
-  const handleResolve = (resolutionComment) => {
-    // Implement resolve logic here (API call, etc.)
-    alert(`Réclamation marquée comme résolue. Commentaire: ${resolutionComment}`);
-    setModalOpen(false);
-  };
+  // Statistics
+  const totalComplaints = mockComplaints.length;
+  const openComplaints = mockComplaints.filter(c => c.status === "Open").length;
+  const inProgressComplaints = mockComplaints.filter(c => c.status === "In Progress").length;
+  const resolvedComplaints = mockComplaints.filter(c => c.status === "Resolved").length;
 
   return (
     <DashboardLayout>
-      <PageTitle title={"All Complaints"} icon={faBox} />
-      <div className="flex flex-col items-center justify-between md:flex-row gap-4 mb-3">
-        <div className="w-full md:w-1/3">
-          <SearchBar
-            searchTerm={searchTerm}
-            onSearchChange={(e) => {
-              setSearchTerm(e.target.value);
-              setPage(0);
-            }}
-            placeholder="Search complaints by user, type, or status..."
-          />
+      <div className="space-y-6">
+        {/* Header */}
+        <PageTitle title="Complaints" icon={faExclamationTriangle} />
+
+        {/* Statistics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-500">Total Complaints</p>
+                <p className="text-2xl font-semibold text-gray-900 mt-1">{totalComplaints}</p>
+              </div>
+              <div className="p-3 bg-blue-50 rounded-xl">
+                <FontAwesomeIcon icon={faExclamationTriangle} className="text-blue-600 text-xl" />
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-500">Open</p>
+                <p className="text-2xl font-semibold text-orange-600 mt-1">{openComplaints}</p>
+              </div>
+              <div className="p-3 bg-orange-50 rounded-xl">
+                <FontAwesomeIcon icon={faExclamationTriangle} className="text-orange-600 text-xl" />
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-500">In Progress</p>
+                <p className="text-2xl font-semibold text-blue-600 mt-1">{inProgressComplaints}</p>
+              </div>
+              <div className="p-3 bg-blue-50 rounded-xl">
+                <FontAwesomeIcon icon={faExclamationTriangle} className="text-blue-600 text-xl" />
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-500">Resolved</p>
+                <p className="text-2xl font-semibold text-green-600 mt-1">{resolvedComplaints}</p>
+              </div>
+              <div className="p-3 bg-green-50 rounded-xl">
+                <FontAwesomeIcon icon={faExclamationTriangle} className="text-green-600 text-xl" />
+              </div>
+            </div>
+          </motion.div>
         </div>
-        <div className="flex-1 flex flex-wrap gap-1 items-center justify-between">
-          <div className="flex flex-wrap gap-1 items-center">
-            <FilterByButton
-              label="Type"
-              value={typeFilter}
-              onChange={(e) => {
-                setTypeFilter(e.target.value);
-                setPage(0);
-              }}
-              options={typeOptions}
-              onReset={() => setTypeFilter("")}
-            />
-            <FilterByButton
-              label="Status"
-              value={statusFilter}
-              onChange={(e) => {
-                setStatusFilter(e.target.value);
-                setPage(0);
-              }}
-              options={statusOptions}
-              onReset={() => setStatusFilter("")}
+
+        {/* Filters and Search */}
+        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+            {/* Search */}
+            <div className="flex-1 min-w-0">
+              <SearchBar
+                searchTerm={searchTerm}
+                onSearchChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search complaints by title, description, or user..."
+              />
+            </div>
+
+            {/* Filters */}
+            <div className="flex flex-wrap gap-3">
+              <FilterByButton
+                label="Status"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                options={[
+                  { value: "all", label: "All Statuses" },
+                  ...complaintStatuses.map(status => ({ value: status, label: status }))
+                ]}
+                icon={faFilter}
+              />
+
+              <FilterByButton
+                label="Priority"
+                value={priorityFilter}
+                onChange={(e) => setPriorityFilter(e.target.value)}
+                options={[
+                  { value: "all", label: "All Priorities" },
+                  ...complaintPriorities.map(priority => ({ value: priority, label: priority }))
+                ]}
+                icon={faFilter}
+              />
+
+              <FilterByButton
+                label="Category"
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                options={[
+                  { value: "all", label: "All Categories" },
+                  ...complaintCategories.map(category => ({ value: category, label: category }))
+                ]}
+                icon={faFilter}
+              />
+            </div>
+          </div>
+
+          {/* Results Info */}
+          <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
+            <span>
+              Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, filteredComplaints.length)} of {filteredComplaints.length} complaints
+            </span>
+            <Pagination
+              page={currentPage - 1}
+              handleChangePage={handleChangePage}
+              rowsPerPage={itemsPerPage}
+              handleChangeRowsPerPage={handleChangeRowsPerPage}
+              count={filteredComplaints.length}
             />
           </div>
-          <Pagination
-            page={page}
-            handleChangePage={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-            count={filteredComplaints.length}
-          />
         </div>
+
+        {/* Complaints Table */}
+        <ComplaintsTable complaints={currentItems} />
       </div>
-      <ComplaintsTable 
-        complaints={paginatedComplaints} 
-        onAction={handleOpenModal}
-      />
-      <ComplaintActionModal
-        isOpen={modalOpen}
-        onClose={handleCloseModal}
-        onReply={handleReply}
-        onResolve={handleResolve}
-        complaint={selectedComplaint}
-      />
     </DashboardLayout>
   );
 } 

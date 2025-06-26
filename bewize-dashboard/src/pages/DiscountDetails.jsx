@@ -10,10 +10,10 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import PageTitle from "../components/PageTitle";
 import mockDiscounts from "../data/mockDiscounts";
 import { mockUserUsage, mockStatistics } from "../data/mockUserUsage";
-import StatisticsCards from "./DiscountDetails/components/StatisticsCards";
-import DiscountInformation from "./DiscountDetails/components/DiscountInformation";
-import UserUsageTable from "./DiscountDetails/components/UserUsageTable";
-import EditDiscountModal from "./DiscountDetails/components/EditDiscountModal";
+import StatisticsCards from "../components/StatisticsCards";
+import DiscountInformation from "../pages/DiscountInformation";
+import UserUsageTable from "../components/Tables/UserUsageTable";
+import EditDiscountModal from "../components/Modals/EditDiscountModal";
 
 export default function DiscountDetails() {
   const { id } = useParams();

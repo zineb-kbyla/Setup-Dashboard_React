@@ -1,20 +1,81 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { tableVariants, rowVariants } from "../../variants/animations";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEye,
+  faSort,
+  faSortUp,
+  faSortDown,
+  faExclamationTriangle,
+  faClock,
+  faCheckCircle,
+  faTimesCircle,
+  faSpinner,
+  faPaperclip,
+} from "@fortawesome/free-solid-svg-icons";
+import { tableVariants, rowVariants } from "../../variants/animations";
 
-export default function ComplaintsTable({ complaints, onViewDetails, onAction }) {
+const ComplaintsTable = ({ complaints, onComplaintSelect }) => {
   const navigate = useNavigate();
 
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "Open":
+        return <FontAwesomeIcon icon={faExclamationTriangle} className="text-orange-500" />;
+      case "In Progress":
+        return <FontAwesomeIcon icon={faSpinner} className="text-blue-500" />;
+      case "Resolved":
+        return <FontAwesomeIcon icon={faCheckCircle} className="text-green-500" />;
+      case "Closed":
+        return <FontAwesomeIcon icon={faTimesCircle} className="text-gray-500" />;
+      default:
+        return <FontAwesomeIcon icon={faClock} className="text-gray-400" />;
+    }
+  };
+
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case "Critical":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "High":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "Medium":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "Low":
+        return "bg-green-100 text-green-800 border-green-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Open":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "In Progress":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "Resolved":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "Closed":
+        return "bg-gray-100 text-gray-800 border-gray-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
+    }
+  };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   const handleViewDetails = (complaint) => {
-    // Add a mock originalMessage if not present
-    const complaintWithMessage = {
-      ...complaint,
-      originalMessage: complaint.originalMessage || "Ceci est un message original d'exemple pour la réclamation." 
-    };
-    navigate("/complaint-details", { state: { complaint: complaintWithMessage } });
+    navigate(`/complaints/${complaint.id}`, { state: { complaint } });
   };
 
   return (
@@ -22,81 +83,137 @@ export default function ComplaintsTable({ complaints, onViewDetails, onAction })
       variants={tableVariants}
       initial="hidden"
       animate="visible"
-      className="overflow-hidden"
+      className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
     >
-      <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="py-4 px-6 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">User</th>
-            <th className="py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Type</th>
-            <th className="py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-            <th className="py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wider">View</th>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {complaints.length > 0 ? (
-            complaints.map((complaint, index) => (
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Complaint
+              </th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                User
+              </th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Status
+              </th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Priority
+              </th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Category
+              </th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Assigned To
+              </th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Created
+              </th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {complaints.map((complaint, index) => (
               <motion.tr
                 key={complaint.id}
                 variants={rowVariants}
-                custom={index}
                 initial="hidden"
                 animate="visible"
-                transition={{ delay: index * 0.05 }}
-                className="bg-white border-b hover:bg-gray-50 transition-colors duration-200"
+                transition={{ delay: index * 0.1 }}
+                className="hover:bg-gray-50 transition-colors duration-200"
               >
-                <td className="py-4 px-6">
-                  <div className="flex items-center gap-3">
-                    {complaint.userAvatar && (
-                      <img
-                        className="rounded-full w-8 h-8 object-cover border-2 border-gray-100"
-                        src={complaint.userAvatar}
-                        alt={complaint.userName + " avatar"}
-                      />
-                    )}
-                    <div>
-                      <h2 className="font-medium text-md text-gray-900">{complaint.userName}</h2>
-                      <p className="text-gray-600 text-sm">{complaint.userEmail}</p>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0">
+                      {getStatusIcon(complaint.status)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {complaint.title}
+                      </p>
+                      <p className="text-sm text-gray-500 truncate max-w-xs">
+                        {complaint.description}
+                      </p>
+                      {complaint.attachments && complaint.attachments.length > 0 && (
+                        <div className="flex items-center mt-1">
+                          <FontAwesomeIcon icon={faPaperclip} className="text-gray-400 text-xs mr-1" />
+                          <span className="text-xs text-gray-500">
+                            {complaint.attachments.length} attachment{complaint.attachments.length !== 1 ? 's' : ''}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </td>
-                <td className="py-4">{complaint.type}</td>
-                <td className="py-4">
-                  <span className={`px-3 py-1 inline-flex text-xs leading-5 font-medium rounded-full ${
-                    complaint.status === 'Open' ? 'bg-yellow-100 text-yellow-800' :
-                    complaint.status === 'In Progress' ? 'bg-blue-100 text-blue-800' :
-                    complaint.status === 'Resolved' ? 'bg-green-100 text-green-800' :
-                    'bg-gray-100 text-gray-800'
-                  }`}>
-                    {complaint.status}
-                  </span>
-                </td>
-                <td className="py-4 text-center">
-                  <div className="flex justify-center">
-                    <button
-                      onClick={() => handleViewDetails(complaint)}
-                      className="flex items-center text-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors duration-200"
-                      aria-label={`View details for complaint ${complaint.id}`}
-                    >
-                      <FontAwesomeIcon icon={faEye} size="sm" />
-                      <span>View</span>
-                    </button>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0 h-10 w-10">
+                      <img
+                        className="h-10 w-10 rounded-full object-cover"
+                        src={complaint.user.avatar}
+                        alt={complaint.user.name}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(complaint.user.name)}&background=random`;
+                        }}
+                      />
+                    </div>
+                    <div className="ml-4">
+                      <div className="text-sm font-medium text-gray-900">
+                        {complaint.user.name}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {complaint.user.email}
+                      </div>
+                    </div>
                   </div>
                 </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(complaint.status)}`}>
+                    {getStatusIcon(complaint.status)}
+                    <span className="ml-1">{complaint.status}</span>
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getPriorityColor(complaint.priority)}`}>
+                    {complaint.priority}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {complaint.category}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {complaint.assignedTo}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {formatDate(complaint.createdAt)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <button
+                    onClick={() => handleViewDetails(complaint)}
+                    className="text-blue-600 hover:text-blue-900 transition-colors duration-200"
+                  >
+                    <FontAwesomeIcon icon={faEye} className="mr-1" />
+                    View
+                  </button>
+                </td>
               </motion.tr>
-            ))
-          ) : (
-            <motion.tr variants={rowVariants} initial="hidden" animate="visible">
-              <td colSpan="4" className="px-6 py-8 text-center text-gray-500 bg-gray-50">
-                <div className="flex flex-col items-center justify-center">
-                  <span className="text-lg font-medium">No complaints found</span>
-                  <span className="text-sm text-gray-400 mt-1">No complaints to display</span>
-                </div>
-              </td>
-            </motion.tr>
-          )}
-        </tbody>
-      </table>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+      {complaints.length === 0 && (
+        <div className="text-center py-12">
+          <div className="text-gray-400 text-lg font-medium">No complaints found</div>
+          <div className="text-gray-400 text-sm mt-2">Try adjusting your search or filter criteria</div>
+        </div>
+      )}
     </motion.div>
   );
-} 
+};
+
+export default ComplaintsTable; 

@@ -13,10 +13,10 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { tableVariants, rowVariants } from "../../../variants/animations";
-import FilterByButton from "../../../components/FilterByButton";
-import Pagination from "../../../components/Pagination";
-import SearchBar from "../../../components/SearchBar";
+import { tableVariants, rowVariants } from "../../variants/animations";
+import FilterByButton from "../FilterByButton";
+import Pagination from "../Pagination";
+import SearchBar from "../SearchBar";
 
 // School logo mapping
 const schoolLogos = {
