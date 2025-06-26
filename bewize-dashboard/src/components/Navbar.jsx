@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar({ onToggleSidebar }) {
+  // Navigate to dashboard
+  const navigate = useNavigate();
+
   // User Profile DropDown
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -14,7 +18,7 @@ export default function Navbar({ onToggleSidebar }) {
         ☰
       </button>
 
-      <a href="https://bewize.ma" className="flex ms-2 md:me-24">
+      <a onClick={() => navigate("/dashboard")} className="flex ms-2 md:me-24">
         <img
           src="https://cdn.prod.website-files.com/61241693df6a919162546d4e/612d214b1c0a550f86c31148_Frame%20223.png"
           className="h-8 me-2"

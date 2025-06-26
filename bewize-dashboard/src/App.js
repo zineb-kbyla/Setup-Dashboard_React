@@ -28,7 +28,7 @@ function App() {
           <Route path="/discounts/:id" element={<DiscountDetails />} />
           <Route path="/payments" element={<Payments />} />
           <Route path="/complaints" element={<Complaints />} />
-          <Route path="/complaint-details" element={<ComplaintDetails />} />
+          <Route path="/complaints/:id" element={<ComplaintDetails />} />
         </Routes>
       </Router>
     </div>
