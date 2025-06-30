@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
-  faBars,
   faHome,
   faUsers,
   faShoppingCart,
@@ -9,32 +8,30 @@ import {
   faDollarSign,
   faBox,
   faPercent,
-  faTimes,
   faChevronLeft,
   faChevronRight,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SidebarItem from "./SidebarItem";
 
+// Menu config (can be extracted to a separate file)
 const menuItems = [
   { icon: faHome, label: "Dashboard", route: "/dashboard" },
   { icon: faUsers, label: "Users", route: "/users" },
   { icon: faShoppingCart, label: "Orders", route: "/orders" },
   { icon: faCreditCard, label: "Payments", route: "/payments" },
   { icon: faDollarSign, label: "Subscriptions", route: "/subscriptions" },
-  { icon: faPercent , label: "Discounts", route: "/discounts" },
+  { icon: faPercent, label: "Discounts", route: "/discounts" },
   { icon: faBox, label: "Complaints", route: "/complaints" },
 ];
 
 export default function Sidebar({ isOpen }) {
   const [collapsed, setCollapsed] = useState(() => {
-    // Get initial state from localStorage
-    const saved = localStorage.getItem("sidebarCollapsed");
-    return saved === "true";
+    return localStorage.getItem("sidebarCollapsed") === "true";
   });
 
   useEffect(() => {
-    // Save state to localStorage on change
     localStorage.setItem("sidebarCollapsed", collapsed);
   }, [collapsed]);
 
@@ -43,62 +40,66 @@ export default function Sidebar({ isOpen }) {
 
   const toggleSidebar = () => setCollapsed((prev) => !prev);
 
-  const handleNavigation = (route) => {
-    navigate(route);
-  };
-
   return (
-    <div
+    <aside
       className={`fixed sm:sticky top-0 h-screen bg-white dark:bg-[#0f1c3e] text-gray-800 dark:text-white transition-all duration-300 flex flex-col
         ${collapsed ? "w-20" : "w-64"}
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
         sm:translate-x-0
-        z-30
+        z-50
       `}
+      role="navigation"
+      aria-label="Main navigation"
     >
-      <nav className="flex flex-col h-full">
-        <div className="flex-1 p-4">
-          <div className="flex flex-col gap-2">
-            {menuItems.map((item, index) => (
+      <nav className="flex flex-col h-full" tabIndex={0}>
+        {/* Top section: Logo + Collapse Button */}
+        <div className="flex items-center justify-between px-6 pt-2 pb-2 border-b border-gray-200 dark:border-gray-700 relative">
+          <div className="flex items-center">
+            <img
+              className="w-8 h-8"
+              src="https://cdn.prod.website-files.com/61241693df6a919162546d4e/612d214b1c0a550f86c31148_Frame%20223.png"
+              alt="Logo"
+              loading="lazy"
+            />
+            <button
+              onClick={toggleSidebar}
+              className="p-2 ml-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            >
+              <FontAwesomeIcon
+                icon={collapsed ? faChevronRight : faChevronLeft}
+                className="text-gray-500 dark:text-gray-400"
+              />
+            </button>
+          </div>
+          {/* Mobile Close Button */}
+          <button
+            onClick={() =>
+              document.querySelector("[data-sidebar-toggle]")?.click()
+            }
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors sm:hidden absolute top-4 right-4"
+            aria-label="Close sidebar"
+          >
+            <FontAwesomeIcon icon={faTimes} size="lg" />
+          </button>
+        </div>
+        {/* Sidebar Items (scrollable) */}
+        <div className="flex-1 overflow-y-auto p-4">
+          <ul className="flex flex-col gap-2">
+            {menuItems.map((item) => (
               <SidebarItem
-                key={index}
+                key={item.route}
                 icon={item.icon}
                 label={item.label}
                 collapsed={collapsed}
                 route={item.route}
                 isActive={location.pathname === item.route}
-                onClick={() => handleNavigation(item.route)}
+                onClick={() => navigate(item.route)}
               />
             ))}
-          </div>
+          </ul>
         </div>
-        
-        <div className="border-t border-gray-200 dark:border-gray-700 p-4">
-          <button
-            onClick={toggleSidebar}
-            className={`w-full flex items-center gap-3 py-2 px-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors ${
-              collapsed ? "justify-center" : ""
-            }`}
-          >
-            <FontAwesomeIcon 
-              icon={collapsed ? faChevronRight : faChevronLeft} 
-              className="text-gray-500 dark:text-gray-400"
-            />
-            {!collapsed && (
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
-                Collapse Sidebar
-              </span>
-            )}
-          </button>
-        </div>
-
-        <button
-          onClick={() => document.querySelector('[data-sidebar-toggle]').click()}
-          className="p-2 hover:bg-gray-700 rounded-lg transition-colors sm:hidden absolute top-4 right-4"
-        >
-          <FontAwesomeIcon icon={faTimes} size="lg" />
-        </button>
       </nav>
-    </div>
+    </aside>
   );
 }
