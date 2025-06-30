@@ -6,11 +6,11 @@ const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex flex-col h-screen">
-      <Navbar onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
-      <div className="flex flex-1">
-        <Sidebar isOpen={isSidebarOpen} />
-        <main className="flex-1 p-4 overflow-y-auto bg-gray-100">
+    <div className="flex h-screen bg-gray-100">
+      <Sidebar isOpen={isSidebarOpen} />
+      <div className="flex-1 flex flex-col">
+        <Navbar onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+        <main className="flex-1 p-4 overflow-y-auto">
           {children}
         </main>
       </div>
