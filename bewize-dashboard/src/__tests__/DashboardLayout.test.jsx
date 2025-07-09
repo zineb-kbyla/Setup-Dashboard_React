@@ -69,8 +69,8 @@ describe('DashboardLayout', () => {
       );
 
       // Check if the main container has the correct classes
-      const mainContainer = screen.getByTestId('sidebar').parentElement.parentElement;
-      expect(mainContainer).toHaveClass('flex', 'flex-col', 'h-screen');
+      const mainContainer = screen.getByTestId('sidebar').parentElement;
+      expect(mainContainer).toHaveClass('flex', 'h-screen', 'bg-gray-100');
     });
   });
 
@@ -160,7 +160,7 @@ describe('DashboardLayout', () => {
       );
 
       const mainContent = screen.getByTestId('main-content').parentElement;
-      expect(mainContent).toHaveClass('flex-1', 'p-4', 'overflow-y-auto', 'bg-gray-100');
+      expect(mainContent).toHaveClass('flex-1', 'p-4', 'overflow-y-auto');
     });
   });
 
@@ -172,13 +172,13 @@ describe('DashboardLayout', () => {
         </DashboardLayout>
       );
 
-      // The main container should have flex-col and h-screen
-      const mainContainer = screen.getByTestId('sidebar').parentElement.parentElement;
-      expect(mainContainer).toHaveClass('flex', 'flex-col', 'h-screen');
+      // The main container should have flex and h-screen
+      const mainContainer = screen.getByTestId('sidebar').parentElement;
+      expect(mainContainer).toHaveClass('flex', 'h-screen', 'bg-gray-100');
 
-      // The content area should have flex-1
-      const contentArea = screen.getByTestId('sidebar').parentElement;
-      expect(contentArea).toHaveClass('flex', 'flex-1');
+      // The content area should have flex-1 and flex
+      const contentArea = screen.getByTestId('sidebar').nextElementSibling;
+      expect(contentArea).toHaveClass('flex-1', 'flex', 'flex-col');
     });
 
     it('renders all required sections', () => {
