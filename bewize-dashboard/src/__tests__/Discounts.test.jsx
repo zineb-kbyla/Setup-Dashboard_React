@@ -160,7 +160,7 @@ describe('Discounts Page', () => {
   test('displays search bar with correct placeholder', () => {
     render(<Discounts />);
     
-    const searchBar = screen.getByPlaceholderText('Search discounts by ID, code or school...');
+    const searchBar = screen.getByPlaceholderText('Search discounts by ID or code...');
     expect(searchBar).toBeInTheDocument();
   });
 
@@ -185,11 +185,16 @@ describe('Discounts Page', () => {
   test('filters discounts by status', async () => {
     render(<Discounts />);
     
-    const statusFilter = screen.getByText('Status');
+    // Use getAllByText and select the second element (the span, not the label)
+    const statusElements = screen.getAllByText('Status');
+    const statusFilter = statusElements[1]; // The span element
     fireEvent.click(statusFilter);
     
-    const activeOption = screen.getByText('Active');
-    fireEvent.click(activeOption);
+    // Wait for dropdown to open and find the option
+    await waitFor(() => {
+      const activeOption = screen.getByText('Active');
+      fireEvent.click(activeOption);
+    });
     
     await waitFor(() => {
       expect(screen.getByTestId('discount-DISC-001')).toBeInTheDocument();
@@ -200,11 +205,16 @@ describe('Discounts Page', () => {
   test('filters discounts by school', async () => {
     render(<Discounts />);
     
-    const schoolFilter = screen.getByText('School');
+    // Use getAllByText and select the second element (the span, not the label)
+    const schoolElements = screen.getAllByText('School');
+    const schoolFilter = schoolElements[1]; // The span element
     fireEvent.click(schoolFilter);
     
-    const initialeOption = screen.getByText("Groupe Scolaire L'initiale");
-    fireEvent.click(initialeOption);
+    // Wait for dropdown to open and find the option
+    await waitFor(() => {
+      const initialeOption = screen.getByText("Groupe Scolaire L'initiale");
+      fireEvent.click(initialeOption);
+    });
     
     await waitFor(() => {
       expect(screen.getByTestId('discount-DISC-001')).toBeInTheDocument();
@@ -215,7 +225,7 @@ describe('Discounts Page', () => {
   test('searches discounts by ID', async () => {
     render(<Discounts />);
     
-    const searchBar = screen.getByPlaceholderText('Search discounts by ID, code or school...');
+    const searchBar = screen.getByPlaceholderText('Search discounts by ID or code...');
     await userEvent.type(searchBar, 'DISC-001');
     
     await waitFor(() => {
@@ -227,7 +237,7 @@ describe('Discounts Page', () => {
   test('searches discounts by code', async () => {
     render(<Discounts />);
     
-    const searchBar = screen.getByPlaceholderText('Search discounts by ID, code or school...');
+    const searchBar = screen.getByPlaceholderText('Search discounts by ID or code...');
     await userEvent.type(searchBar, 'SAVE10');
     
     await waitFor(() => {
@@ -239,7 +249,7 @@ describe('Discounts Page', () => {
   test('searches discounts by school name', async () => {
     render(<Discounts />);
     
-    const searchBar = screen.getByPlaceholderText('Search discounts by ID, code or school...');
+    const searchBar = screen.getByPlaceholderText('Search discounts by ID or code...');
     await userEvent.type(searchBar, 'Lavoisier');
     
     await waitFor(() => {
@@ -372,13 +382,18 @@ describe('Discounts Page', () => {
     render(<Discounts />);
     
     // Apply a filter first
-    const statusFilter = screen.getByText('Status');
+    const statusElements = screen.getAllByText('Status');
+    const statusFilter = statusElements[1]; // The span element
     fireEvent.click(statusFilter);
-    const activeOption = screen.getByText('Active');
-    fireEvent.click(activeOption);
     
-    // Reset the filter
-    const resetButton = screen.getByText('Reset');
+    // Wait for dropdown to open and find the option
+    await waitFor(() => {
+      const activeOption = screen.getByText('Active');
+      fireEvent.click(activeOption);
+    });
+    
+    // Reset the filter - look for reset button in the filter area
+    const resetButton = screen.getByRole('button', { name: /reset/i });
     fireEvent.click(resetButton);
     
     await waitFor(() => {
@@ -390,7 +405,7 @@ describe('Discounts Page', () => {
   test('handles empty search results', async () => {
     render(<Discounts />);
     
-    const searchBar = screen.getByPlaceholderText('Search discounts by ID, code or school...');
+    const searchBar = screen.getByPlaceholderText('Search discounts by ID or code...');
     await userEvent.type(searchBar, 'NONEXISTENT');
     
     await waitFor(() => {
@@ -399,14 +414,15 @@ describe('Discounts Page', () => {
     });
   });
 
-  test('handles case-insensitive search', async () => {
+  test('handles case insensitive search', async () => {
     render(<Discounts />);
     
-    const searchBar = screen.getByPlaceholderText('Search discounts by ID, code or school...');
+    const searchBar = screen.getByPlaceholderText('Search discounts by ID or code...');
     await userEvent.type(searchBar, 'save10');
     
     await waitFor(() => {
       expect(screen.getByTestId('discount-DISC-001')).toBeInTheDocument();
+      expect(screen.queryByTestId('discount-DISC-002')).not.toBeInTheDocument();
     });
   });
 

@@ -108,6 +108,7 @@ export default function Payments() {
                 { value: "Refunded", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faMoneyBillTransfer} className="text-blue-500" /> Refunded</span> },
               ]}
               onReset={() => handleResetFilter("payment_status")}
+              data-testid="status-filter-trigger"
             />
 
             <FilterByButton
@@ -121,6 +122,7 @@ export default function Payments() {
                 { value: "Apple Pay", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faApplePayBrand} className="text-gray-800" /> Apple Pay</span> },
               ]}
               onReset={() => handleResetFilter("payment_method")}
+              data-testid="method-filter-trigger"
             />
           </div>
 

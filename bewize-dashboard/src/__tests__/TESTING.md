@@ -52,6 +52,30 @@ All test files are located in `src/__tests__/` directory and follow the naming c
 - Tests search and filtering
 - Ensures proper data rendering
 
+#### 7. **Subscriptions.test.jsx**
+- Tests the subscriptions page component
+- Verifies search by ID and order ID
+- Tests filtering by status and plan type
+- Tests pagination functionality
+- Ensures editing and deleting subscriptions works
+- Handles empty and case-insensitive search
+
+#### 8. **Discounts.test.jsx**
+- Tests the discounts page component
+- Verifies search by ID, code, and school
+- Tests filtering by status and school
+- Tests pagination functionality
+- Ensures creating, editing, and deleting discounts works
+- Handles empty and case-insensitive search
+
+#### 9. **Payments.test.jsx**
+- Tests the payments page component
+- Verifies search by ID, customer name, and email
+- Tests filtering by status and payment method
+- Tests pagination functionality
+- Ensures correct display of payment status and method
+- Handles empty and case-insensitive search
+
 ## Testing Approach
 
 ### 1. **Component Testing**

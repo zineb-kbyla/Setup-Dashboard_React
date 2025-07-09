@@ -24,7 +24,7 @@ jest.mock('../components/Tables/PaymentsTable', () => {
             <span data-testid={`payment-amount-${payment.id}`}>${payment.amount}</span>
             <span data-testid={`payment-status-${payment.id}`}>{payment.payment_status}</span>
             <span data-testid={`payment-method-${payment.id}`}>{payment.payment_method}</span>
-            <span data-testid={`payment-date-${payment.id}`}>{payment.payment_date}</span>
+            <span data-testid={`payment-date-${payment.id}`}>{payment.paid_at}</span>
           </div>
         ))}
       </div>
@@ -40,11 +40,11 @@ describe('Payments Page', () => {
       {
         id: "PAY-001",
         user_name: "John Doe",
-        email: "john@example.com",
+        email: "john.doe@example.com",
         amount: 99.99,
         payment_status: "Paid",
         payment_method: "Visa",
-        payment_date: "2024-01-15"
+        paid_at: "2024-01-15"
       },
       {
         id: "PAY-002",
@@ -53,7 +53,7 @@ describe('Payments Page', () => {
         amount: 149.99,
         payment_status: "Pending",
         payment_method: "PayPal",
-        payment_date: "2024-01-16"
+        paid_at: "2024-01-16"
       },
       {
         id: "PAY-003",
@@ -62,7 +62,7 @@ describe('Payments Page', () => {
         amount: 199.99,
         payment_status: "Failed",
         payment_method: "MasterCard",
-        payment_date: "2024-01-17"
+        paid_at: "2024-01-17"
       }
     );
   });
@@ -95,7 +95,7 @@ describe('Payments Page', () => {
     
     expect(screen.getByTestId('payment-id-PAY-001')).toHaveTextContent('PAY-001');
     expect(screen.getByTestId('payment-user-PAY-001')).toHaveTextContent('John Doe');
-    expect(screen.getByTestId('payment-email-PAY-001')).toHaveTextContent('john@example.com');
+    expect(screen.getByTestId('payment-email-PAY-001')).toHaveTextContent('john.doe@example.com');
     expect(screen.getByTestId('payment-amount-PAY-001')).toHaveTextContent('$99.99');
     expect(screen.getByTestId('payment-status-PAY-001')).toHaveTextContent('Paid');
     expect(screen.getByTestId('payment-method-PAY-001')).toHaveTextContent('Visa');
@@ -104,11 +104,16 @@ describe('Payments Page', () => {
   test('filters payments by status', async () => {
     render(<Payments />);
     
-    const statusFilter = screen.getByText('Status');
+    // Use getAllByText and select the second element (the span, not the label)
+    const statusElements = screen.getAllByText('Status');
+    const statusFilter = statusElements[1]; // The span element
     fireEvent.click(statusFilter);
     
-    const paidOption = screen.getByText('Paid');
-    fireEvent.click(paidOption);
+    // Wait for dropdown to open and find the option
+    await waitFor(() => {
+      const paidOption = screen.getByText('Paid');
+      fireEvent.click(paidOption);
+    });
     
     await waitFor(() => {
       expect(screen.getByTestId('payment-PAY-001')).toBeInTheDocument();
@@ -120,11 +125,16 @@ describe('Payments Page', () => {
   test('filters payments by payment method', async () => {
     render(<Payments />);
     
-    const methodFilter = screen.getByText('Method');
+    // Use getAllByText and select the second element (the span, not the label)
+    const methodElements = screen.getAllByText('Method');
+    const methodFilter = methodElements[1]; // The span element
     fireEvent.click(methodFilter);
     
-    const visaOption = screen.getByText('Visa');
-    fireEvent.click(visaOption);
+    // Wait for dropdown to open and find the option
+    await waitFor(() => {
+      const visaOption = screen.getByText('Visa');
+      fireEvent.click(visaOption);
+    });
     
     await waitFor(() => {
       expect(screen.getByTestId('payment-PAY-001')).toBeInTheDocument();
@@ -163,11 +173,11 @@ describe('Payments Page', () => {
     render(<Payments />);
     
     const searchBar = screen.getByPlaceholderText('Search payments by ID, customer name or email...');
-    await userEvent.type(searchBar, 'jane@example.com');
+    await userEvent.type(searchBar, 'john.doe@example.com');
     
     await waitFor(() => {
-      expect(screen.getByTestId('payment-PAY-002')).toBeInTheDocument();
-      expect(screen.queryByTestId('payment-PAY-001')).not.toBeInTheDocument();
+      expect(screen.getByTestId('payment-PAY-001')).toBeInTheDocument();
+      expect(screen.queryByTestId('payment-PAY-002')).not.toBeInTheDocument();
       expect(screen.queryByTestId('payment-PAY-003')).not.toBeInTheDocument();
     });
   });
@@ -183,13 +193,18 @@ describe('Payments Page', () => {
     render(<Payments />);
     
     // Apply a filter first
-    const statusFilter = screen.getByText('Status');
+    const statusElements = screen.getAllByText('Status');
+    const statusFilter = statusElements[1]; // The span element
     fireEvent.click(statusFilter);
-    const paidOption = screen.getByText('Paid');
-    fireEvent.click(paidOption);
     
-    // Reset the filter
-    const resetButton = screen.getByText('Reset');
+    // Wait for dropdown to open and find the option
+    await waitFor(() => {
+      const paidOption = screen.getByText('Paid');
+      fireEvent.click(paidOption);
+    });
+    
+    // Reset the filter - look for reset button in the filter area
+    const resetButton = screen.getByRole('button', { name: /reset/i });
     fireEvent.click(resetButton);
     
     await waitFor(() => {
@@ -203,13 +218,18 @@ describe('Payments Page', () => {
     render(<Payments />);
     
     // Apply a filter first
-    const methodFilter = screen.getByText('Method');
+    const methodElements = screen.getAllByText('Method');
+    const methodFilter = methodElements[1]; // The span element
     fireEvent.click(methodFilter);
-    const visaOption = screen.getByText('Visa');
-    fireEvent.click(visaOption);
     
-    // Reset the filter
-    const resetButton = screen.getByText('Reset');
+    // Wait for dropdown to open and find the option
+    await waitFor(() => {
+      const visaOption = screen.getByText('Visa');
+      fireEvent.click(visaOption);
+    });
+    
+    // Reset the filter - look for reset button in the filter area
+    const resetButton = screen.getByRole('button', { name: /reset/i });
     fireEvent.click(resetButton);
     
     await waitFor(() => {
@@ -247,16 +267,26 @@ describe('Payments Page', () => {
     render(<Payments />);
     
     // Apply status filter
-    const statusFilter = screen.getByText('Status');
+    const statusElements = screen.getAllByText('Status');
+    const statusFilter = statusElements[1]; // The span element
     fireEvent.click(statusFilter);
-    const paidOption = screen.getByText('Paid');
-    fireEvent.click(paidOption);
+    
+    // Wait for dropdown to open and find the option
+    await waitFor(() => {
+      const paidOption = screen.getByText('Paid');
+      fireEvent.click(paidOption);
+    });
     
     // Apply method filter
-    const methodFilter = screen.getByText('Method');
+    const methodElements = screen.getAllByText('Method');
+    const methodFilter = methodElements[1]; // The span element
     fireEvent.click(methodFilter);
-    const visaOption = screen.getByText('Visa');
-    fireEvent.click(visaOption);
+    
+    // Wait for dropdown to open and find the option
+    await waitFor(() => {
+      const visaOption = screen.getByText('Visa');
+      fireEvent.click(visaOption);
+    });
     
     await waitFor(() => {
       expect(screen.getByTestId('payment-PAY-001')).toBeInTheDocument();

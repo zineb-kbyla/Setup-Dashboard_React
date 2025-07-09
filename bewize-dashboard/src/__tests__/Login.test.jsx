@@ -1,4 +1,9 @@
-jest.mock('lottie-react');
+// Mock lottie-react before any imports
+jest.mock('lottie-react', () => {
+  return function MockLottie() {
+    return <div data-testid="mock-lottie">Lottie Mock</div>;
+  };
+});
 
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
