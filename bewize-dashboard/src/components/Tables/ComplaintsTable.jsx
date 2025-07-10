@@ -13,6 +13,12 @@ import {
   faTimesCircle,
   faSpinner,
   faPaperclip,
+  faBug,
+  faTools,
+  faCreditCard,
+  faUserCog,
+  faExclamationCircle,
+  faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { tableVariants, rowVariants } from "../../variants/animations";
 
@@ -64,6 +70,44 @@ const ComplaintsTable = ({ complaints, onComplaintSelect }) => {
     }
   };
 
+  const getCategoryIcon = (category) => {
+    switch (category.toLowerCase()) {
+      case "technical":
+        return <FontAwesomeIcon icon={faBug} className="text-red-500" />;
+      case "billing":
+        return <FontAwesomeIcon icon={faCreditCard} className="text-blue-500" />;
+      case "account":
+        return <FontAwesomeIcon icon={faUserCog} className="text-purple-500" />;
+      case "feature request":
+        return <FontAwesomeIcon icon={faTools} className="text-green-500" />;
+      case "bug report":
+        return <FontAwesomeIcon icon={faExclamationCircle} className="text-red-600" />;
+      case "general":
+        return <FontAwesomeIcon icon={faQuestionCircle} className="text-gray-500" />;
+      default:
+        return <FontAwesomeIcon icon={faQuestionCircle} className="text-gray-400" />;
+    }
+  };
+
+  const getCategoryColor = (category) => {
+    switch (category.toLowerCase()) {
+      case "technical":
+        return "bg-red-50 text-red-700 border-red-200";
+      case "billing":
+        return "bg-blue-50 text-blue-700 border-blue-200";
+      case "account":
+        return "bg-purple-50 text-purple-700 border-purple-200";
+      case "feature request":
+        return "bg-green-50 text-green-700 border-green-200";
+      case "bug report":
+        return "bg-red-50 text-red-700 border-red-200";
+      case "general":
+        return "bg-gray-50 text-gray-700 border-gray-200";
+      default:
+        return "bg-gray-50 text-gray-700 border-gray-200";
+    }
+  };
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -89,9 +133,7 @@ const ComplaintsTable = ({ complaints, onComplaintSelect }) => {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Complaint
-              </th>
+
               <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 User
               </th>
@@ -99,14 +141,9 @@ const ComplaintsTable = ({ complaints, onComplaintSelect }) => {
                 Status
               </th>
               <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Priority
-              </th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Category
               </th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Assigned To
-              </th>
+    
               <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Created
               </th>
@@ -125,29 +162,7 @@ const ComplaintsTable = ({ complaints, onComplaintSelect }) => {
                 transition={{ delay: index * 0.1 }}
                 className="hover:bg-gray-50 transition-colors duration-200"
               >
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-start space-x-3">
-                    <div className="flex-shrink-0">
-                      {getStatusIcon(complaint.status)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
-                        {complaint.title}
-                      </p>
-                      <p className="text-sm text-gray-500 truncate max-w-xs">
-                        {complaint.description}
-                      </p>
-                      {complaint.attachments && complaint.attachments.length > 0 && (
-                        <div className="flex items-center mt-1">
-                          <FontAwesomeIcon icon={faPaperclip} className="text-gray-400 text-xs mr-1" />
-                          <span className="text-xs text-gray-500">
-                            {complaint.attachments.length} attachment{complaint.attachments.length !== 1 ? 's' : ''}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </td>
+                
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10">
@@ -178,16 +193,12 @@ const ComplaintsTable = ({ complaints, onComplaintSelect }) => {
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getPriorityColor(complaint.priority)}`}>
-                    {complaint.priority}
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getCategoryColor(complaint.category)}`}>
+                    {getCategoryIcon(complaint.category)}
+                    <span className="ml-1">{complaint.category}</span>
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {complaint.category}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {complaint.assignedTo}
-                </td>
+       
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {formatDate(complaint.createdAt)}
                 </td>
