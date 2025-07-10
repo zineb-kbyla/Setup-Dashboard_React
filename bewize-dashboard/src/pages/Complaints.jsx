@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faExclamationTriangle,
@@ -15,6 +14,7 @@ import SearchBar from "../components/SearchBar";
 import FilterByButton from "../components/FilterByButton";
 import Pagination from "../components/Pagination";
 import ComplaintsTable from "../components/Tables/ComplaintsTable";
+import ComplaintStatisticsCards from "../components/ComplaintStatisticsCards";
 import { mockComplaints, complaintCategories, complaintPriorities, complaintStatuses } from "../data/mockComplaints";
 
 export default function Complaints() {
@@ -116,75 +116,13 @@ export default function Complaints() {
         <PageTitle title="Complaints" icon={faExclamationTriangle} />
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-500">Total Complaints</p>
-                <p className="text-2xl font-semibold text-gray-900 mt-1">{totalComplaints}</p>
-              </div>
-              <div className="p-3 bg-blue-50 rounded-xl">
-                <FontAwesomeIcon icon={faExclamationTriangle} className="text-blue-600 text-xl" />
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-500">Open</p>
-                <p className="text-2xl font-semibold text-orange-600 mt-1">{openComplaints}</p>
-              </div>
-              <div className="p-3 bg-orange-50 rounded-xl">
-                <FontAwesomeIcon icon={faExclamationTriangle} className="text-orange-600 text-xl" />
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-500">In Progress</p>
-                <p className="text-2xl font-semibold text-blue-600 mt-1">{inProgressComplaints}</p>
-              </div>
-              <div className="p-3 bg-blue-50 rounded-xl">
-                <FontAwesomeIcon icon={faExclamationTriangle} className="text-blue-600 text-xl" />
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-500">Resolved</p>
-                <p className="text-2xl font-semibold text-green-600 mt-1">{resolvedComplaints}</p>
-              </div>
-              <div className="p-3 bg-green-50 rounded-xl">
-                <FontAwesomeIcon icon={faExclamationTriangle} className="text-green-600 text-xl" />
-              </div>
-            </div>
-          </motion.div>
-        </div>
+        <ComplaintStatisticsCards 
+          statistics={{
+            totalComplaints,
+            openComplaints,
+            resolvedComplaints
+          }}
+        />
 
         {/* Filters and Search */}
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
@@ -198,8 +136,8 @@ export default function Complaints() {
               />
             </div>
 
-            {/* Filters */}
-            <div className="flex flex-wrap gap-3">
+            {/* Filters and Pagination */}
+            <div className="flex flex-wrap gap-3 items-center">
               <FilterByButton
                 label="Status"
                 value={statusFilter}
@@ -207,17 +145,6 @@ export default function Complaints() {
                 options={[
                   { value: "all", label: "All Statuses" },
                   ...complaintStatuses.map(status => ({ value: status, label: status }))
-                ]}
-                icon={faFilter}
-              />
-
-              <FilterByButton
-                label="Priority"
-                value={priorityFilter}
-                onChange={(e) => setPriorityFilter(e.target.value)}
-                options={[
-                  { value: "all", label: "All Priorities" },
-                  ...complaintPriorities.map(priority => ({ value: priority, label: priority }))
                 ]}
                 icon={faFilter}
               />
@@ -232,21 +159,17 @@ export default function Complaints() {
                 ]}
                 icon={faFilter}
               />
-            </div>
-          </div>
 
-          {/* Results Info */}
-          <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
-            <span>
-              Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, filteredComplaints.length)} of {filteredComplaints.length} complaints
-            </span>
-            <Pagination
-              page={currentPage - 1}
-              handleChangePage={handleChangePage}
-              rowsPerPage={itemsPerPage}
-              handleChangeRowsPerPage={handleChangeRowsPerPage}
-              count={filteredComplaints.length}
-            />
+              <div className="ml-auto">
+                <Pagination
+                  page={currentPage - 1}
+                  handleChangePage={handleChangePage}
+                  rowsPerPage={itemsPerPage}
+                  handleChangeRowsPerPage={handleChangeRowsPerPage}
+                  count={filteredComplaints.length}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
