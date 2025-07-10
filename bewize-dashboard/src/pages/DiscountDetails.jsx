@@ -126,7 +126,6 @@ export default function DiscountDetails() {
 
         {/* Main Content */}
         <div className="grid grid-cols-1 gap-6">
-          <StatisticsCards statistics={statistics} />
           <DiscountInformation discount={discount} statistics={statistics} />
           <UserUsageTable
             currentItems={currentItems}

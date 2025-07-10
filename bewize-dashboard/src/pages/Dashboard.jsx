@@ -24,7 +24,7 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="metrics grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="metrics grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4">
         <Metric
           title={"Total Utilisateurs"}
           icon={faUsers}
@@ -48,14 +48,6 @@ export default function Dashboard() {
           percentage={-0.7}
           className="h-48"
           index={2}
-        />
-        <Metric
-          title={"Total Remises"}
-          icon={faTag}
-          data={54879}
-          percentage={-0.3}
-          className="h-48"
-          index={3}
         />
       </div>
 

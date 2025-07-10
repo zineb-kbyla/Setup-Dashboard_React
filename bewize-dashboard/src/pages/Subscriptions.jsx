@@ -1,21 +1,23 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import PageTitle from "../components/PageTitle";
 import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FilterByButton from "../components/FilterByButton";
 import SubscriptionsTable from "../components/Tables/SubscriptionsTable";
-import { 
-  faBox, 
-  faDollarSign, 
-  faFileInvoiceDollar, 
+import {
+  faBox,
+  faDollarSign,
+  faFileInvoiceDollar,
   faHistory,
   faCircleCheck,
   faCircleXmark,
   faCalendarDay,
   faCalendarWeek,
+  faPlus,
   faCalendarDays,
-  faCalendar
+  faCalendar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mockSubscriptions from "../data/mockSubscriptions";
@@ -24,16 +26,22 @@ export default function Subscriptions() {
   // Searching
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Pagination 
+  // Pagination
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
 
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  // Handle Create Form Button
+  const handleCreateClick = () => {
+    setShowCreateForm(true);
+  };
+
   // Total Subscriptions
   const totalSubscriptions = mockSubscriptions.length;
 
-  // Handle Page Change 
+  // Handle Page Change
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -49,7 +57,7 @@ export default function Subscriptions() {
     status: "",
     plan_type: "",
   });
-  
+
   // Handle Filter Change
   const handleFilterChange = (filterName, value) => {
     setFilters((prev) => ({ ...prev, [filterName]: value }));
@@ -76,14 +84,19 @@ export default function Subscriptions() {
     )
     .filter(
       (subscription) =>
-        (!filters.status || 
-          (filters.status === "Active" && !isDateExpired(subscription.endDate)) ||
-          (filters.status === "Expired" && isDateExpired(subscription.endDate))) &&
+        (!filters.status ||
+          (filters.status === "Active" &&
+            !isDateExpired(subscription.endDate)) ||
+          (filters.status === "Expired" &&
+            isDateExpired(subscription.endDate))) &&
         (!filters.plan_type || subscription.planType === filters.plan_type)
     );
 
   // Displayed Subscriptions in paginated page
-  const paginatedSubscriptions = filteredSubscriptions.slice(startIndex, endIndex);
+  const paginatedSubscriptions = filteredSubscriptions.slice(
+    startIndex,
+    endIndex
+  );
 
   // Edit Subscription Form
   const [showEditForm, setShowEditForm] = useState(false);
@@ -128,7 +141,7 @@ export default function Subscriptions() {
 
   return (
     <DashboardLayout>
-      <PageTitle title={'All Subscriptions'} icon={faDollarSign} />
+      <PageTitle title={"All Subscriptions"} icon={faDollarSign} />
       <div className="flex flex-col items-center md:flex-row gap-4 mb-3">
         <div className="w-full md:w-1/3">
           <SearchBar
@@ -144,8 +157,30 @@ export default function Subscriptions() {
               value={filters.status}
               onChange={(e) => handleFilterChange("status", e.target.value)}
               options={[
-                { value: "Active", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCircleCheck} className="text-green-500" /> Active</span> },
-                { value: "Expired", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCircleXmark} className="text-red-500" /> Expired</span> },
+                {
+                  value: "Active",
+                  label: (
+                    <span className="flex items-center gap-2">
+                      <FontAwesomeIcon
+                        icon={faCircleCheck}
+                        className="text-green-500"
+                      />{" "}
+                      Active
+                    </span>
+                  ),
+                },
+                {
+                  value: "Expired",
+                  label: (
+                    <span className="flex items-center gap-2">
+                      <FontAwesomeIcon
+                        icon={faCircleXmark}
+                        className="text-red-500"
+                      />{" "}
+                      Expired
+                    </span>
+                  ),
+                },
               ]}
               onReset={() => handleResetFilter("status")}
             />
@@ -154,23 +189,78 @@ export default function Subscriptions() {
               value={filters.plan_type}
               onChange={(e) => handleFilterChange("plan_type", e.target.value)}
               options={[
-                { value: "Month", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCalendarDay} className="text-blue-500" /> Monthly</span> },
-                { value: "Quarter", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCalendarWeek} className="text-purple-500" /> Quarterly</span> },
-                { value: "Semester", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCalendarDays} className="text-green-500" /> Semester</span> },
-                { value: "Year", label: <span className="flex items-center gap-2"><FontAwesomeIcon icon={faCalendar} className="text-orange-500" /> Yearly</span> },
+                {
+                  value: "Month",
+                  label: (
+                    <span className="flex items-center gap-2">
+                      <FontAwesomeIcon
+                        icon={faCalendarDay}
+                        className="text-blue-500"
+                      />{" "}
+                      Monthly
+                    </span>
+                  ),
+                },
+                {
+                  value: "Quarter",
+                  label: (
+                    <span className="flex items-center gap-2">
+                      <FontAwesomeIcon
+                        icon={faCalendarWeek}
+                        className="text-purple-500"
+                      />{" "}
+                      Quarterly
+                    </span>
+                  ),
+                },
+                {
+                  value: "Semester",
+                  label: (
+                    <span className="flex items-center gap-2">
+                      <FontAwesomeIcon
+                        icon={faCalendarDays}
+                        className="text-green-500"
+                      />{" "}
+                      Semester
+                    </span>
+                  ),
+                },
+                {
+                  value: "Year",
+                  label: (
+                    <span className="flex items-center gap-2">
+                      <FontAwesomeIcon
+                        icon={faCalendar}
+                        className="text-orange-500"
+                      />{" "}
+                      Yearly
+                    </span>
+                  ),
+                },
               ]}
               onReset={() => handleResetFilter("plan_type")}
             />
           </div>
-      
 
-          <Pagination
-            page={page}
-            handleChangePage={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-            count={totalSubscriptions}
-          />
+          <div className="flex flex-row">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="border rounded-md shadow-sm hover:shadow-md hover:bg-blue-500 px-2 py-1.5 bg-blue-600 text-white font-medium text-xs flex items-center justify-center gap-1.5 transition-all duration-200 ease-in-out leading-none"
+              onClick={handleCreateClick}
+            >
+              <FontAwesomeIcon icon={faPlus} className="text-xs" />
+              <span>Create Subscription</span>
+            </motion.button>
+
+            <Pagination
+              page={page}
+              handleChangePage={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              handleChangeRowsPerPage={handleChangeRowsPerPage}
+              count={totalSubscriptions}
+            />
+          </div>
         </div>
       </div>
 
